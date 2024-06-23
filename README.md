@@ -48,3 +48,27 @@ Optional
 - User can view and manage their bookings
 - User can book appointments
 - User can view exclusive deals and offers
+
+
+Screen Archetypes
+![1](https://github.com/Iamogeee/BusinessConnect/assets/126437546/c024b6a7-3c2d-46e3-a34f-72f8907b40cc)
+
+![2](https://github.com/Iamogeee/BusinessConnect/assets/126437546/01419f8a-e194-4286-9cfa-3fa187a36739)
+
+![3](https://github.com/Iamogeee/BusinessConnect/assets/126437546/5de3aee9-f9b9-483b-94a3-d0cdcdf5596b)
+
+![4](https://github.com/Iamogeee/BusinessConnect/assets/126437546/eafc1d7a-d390-4c65-956d-0ca7b1e62ee1)
+
+![BizConnect](https://github.com/Iamogeee/BusinessConnect/assets/126437546/4d841a3c-0d16-4cb3-a0f8-b922083d5c8e)
+
+![6](https://github.com/Iamogeee/BusinessConnect/assets/126437546/68908dfc-6604-43ef-b640-95c663755462)
+
+![7](https://github.com/Iamogeee/BusinessConnect/assets/126437546/d2b95a03-107c-4788-a60a-88e9f41895f5)
+
+![8](https://github.com/Iamogeee/BusinessConnect/assets/126437546/11d53b6c-7b04-4f7e-bbdd-eb54e8efbc82)
+
+![9](https://github.com/Iamogeee/BusinessConnect/assets/126437546/92ff6859-c927-460b-ad05-07801397156b)
+
+![10](https://github.com/Iamogeee/BusinessConnect/assets/126437546/3b49fea1-7383-4ea4-a8c0-31405b68a286)
+
+
