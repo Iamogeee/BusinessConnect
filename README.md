@@ -37,14 +37,14 @@ Required
 - User can search for businesses by location
 - User can view business profiles
 - User can read and write reviews
-- User can book appointments
-- User can view and manage their bookings
+- User can save favorite businesses
+- User can create multimedia reviews
 - User can receive personalized recommendations
 - User can see business hours and contact information
-- User can view exclusive deals and offers
+- User can edit their profile information
 
 Optional
 
-- User can create multimedia reviews
-- User can save favorite businesses
-- User can edit their profile information
+- User can view and manage their bookings
+- User can book appointments
+- User can view exclusive deals and offers
