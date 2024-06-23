@@ -75,61 +75,77 @@ Screen Archetypes
 
 
 Data Model
+
 [Describe the data you’re going to need to back your application. This can include database models (like tables), or external data you’ll require from some API.]
 
 User
-ID (Primary Key)
-Name
-Email
-Password
-Profile Information
-Interests
+
+- ID (Primary Key)
+- Name
+- Email
+- Password
+- Profile Information
+- Interests
+
 Business
-ID (Primary Key)
-Name
-Location
-Contact Information
-Business Hours
-Services Offered
-Ratings and Reviews(avg)
-Business type/category
+
+- ID (Primary Key)
+- Name
+- Location
+- Contact Information
+- Business Hours
+- Services Offered
+- Ratings and Reviews(avg)
+- Business type/category
+- 
 Review
-ID (Primary Key)
-User ID (Foreign Key)
-Business ID (Foreign Key)
-Rating
-Review Text
-Multimedia (optional)
+
+- ID (Primary Key)
+- User ID (Foreign Key)
+- Business ID (Foreign Key)
+- Rating
+- Review Text
+- Multimedia (optional)
+  
 Deal
-ID (Primary Key)
-Business ID (Foreign Key)
-Description
-Validity Period
+
+- ID (Primary Key)
+- Business ID (Foreign Key)
+- Description
+- Validity Period
+  
 Recommendation
-ID (Primary Key)
-User ID (Foreign Key)
-Business ID (Foreign Key)
+
+- ID (Primary Key)
+- User ID (Foreign Key)
+- Business ID (Foreign Key)
 
 
 Server Endpoints
+
 [Describe the endpoints that your application is going to consume from your server. If you’re using REST, then you’ll probably want to include the method (GET/POST/etc) and the expected parameters (query parameters, body parameters, etc.)]
 
+
 User Endpoints
-POST /login: User login
-POST /signup: Create a new user account
-GET /users/{id}: Get user profile information
-PUT /users/{id}: Edit user profile information (optional)
+
+- POST /login: User login
+- POST /signup: Create a new user account
+- GET /users/{id}: Get user profile information
+- PUT /users/{id}: Edit user profile information (optional)
 
 Business Endpoints
-GET /businesses: Search for businesses by location and other filters
-GET /businesses/{id}: View business profile
-GET /businesses/{id}/reviews: Get reviews for a business
-GET /businesses/{id}/deals: View exclusive deals and offers
+
+- GET /businesses: Search for businesses by location and other filters
+- GET /businesses/{id}: View business profile
+- GET /businesses/{id}/reviews: Get reviews for a business
+- GET /businesses/{id}/deals: View exclusive deals and offers
 
 Review Endpoints
-POST /reviews: Write a new review
-GET /reviews/{id}: Get a specific review
-POST /reviews/{id}/multimedia: Add multimedia to a review (optional)
+
+- POST /reviews: Write a new review
+- GET /reviews/{id}: Get a specific review
+- POST /reviews/{id}/multimedia: Add multimedia to a review (optional)
 
 Recommendation Endpoints
-GET /recommendations: Get personalized recommendations for a user
+
+- GET /recommendations: Get personalized recommendations for a user
