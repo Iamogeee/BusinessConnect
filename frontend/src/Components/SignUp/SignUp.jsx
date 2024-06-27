@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 import "./SignUp.css";
 
 function SignUp() {
@@ -14,7 +16,7 @@ function SignUp() {
               type="text"
               id="fullName"
               name="fullName"
-              placeholder="Type your full name"
+              placeholder="Enter your full name"
             />
           </div>
           <div className="input-group">
@@ -23,7 +25,7 @@ function SignUp() {
               type="email"
               id="email"
               name="email"
-              placeholder="Type your email"
+              placeholder="Enter your email"
             />
           </div>
           <div className="input-group">
@@ -32,7 +34,7 @@ function SignUp() {
               type="password"
               id="password"
               name="password"
-              placeholder="Type your password"
+              placeholder="Enter your password"
             />
           </div>
           <button type="submit" className="signup-button">
