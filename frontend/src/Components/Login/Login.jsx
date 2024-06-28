@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import "./Login.css";
 
 function Login() {
@@ -10,12 +9,12 @@ function Login() {
         <h1>Login</h1>
         <form>
           <div className="input-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Type your username"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
             />
           </div>
           <div className="input-group">
@@ -24,7 +23,7 @@ function Login() {
               type="password"
               id="password"
               name="password"
-              placeholder="Type your password"
+              placeholder="Enter your password"
             />
           </div>
 
@@ -34,7 +33,7 @@ function Login() {
         </form>
         <div className="sign-up-link">
           <p>
-            Or Sign Up Using <Link to="/signup">SIGN UP</Link>
+            New User? <Link to="/signup">SIGN UP</Link>
           </p>
         </div>
       </div>

@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.landing-page {
+  text-align: center;
+}
+
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.landing-page-content {
+  margin-top: 80px;
+}
+
+.landing-page h1,
+.landing-page p,
+.landing-page-buttons .signup-button {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.landing-page h1 {
+  font-size: 3rem;
+  color: #fff;
+  animation-delay: 0.5s;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.landing-page p {
+  font-size: 1.2rem;
+  color: #f0f0f0;
+  margin: 20px 0;
+  animation-delay: 1.5s;
+  line-height: 1.6;
+}
+
+.landing-page-buttons .signup-button {
+  color: #764ba2;
+  background: #fff;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: background 0.3s, transform 0.3s;
+  animation-delay: 2.5s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.landing-page-buttons .signup-button:hover {
+  background: #f0f0f0;
+  transform: translateY(-3px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
