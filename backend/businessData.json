@@ -1,0 +1,124 @@
+{
+  "places": [
+    {
+      "displayName": {
+        "text": "City Clock",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Starbucks",
+        "languageCode": "usa"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Robert Frost Memorial Plaque",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "OTJ Architects",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Blink - UX Research & Design",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Drumm Liquor & Deli",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Spectocor LLC",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Cafe Terminus",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Archipelago Analytics",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Astronomer",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Paravision",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Witbe",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Financial District",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Station Agent Assistance Phone",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "PHYSICS INTELCOM",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "Drumm St & California St",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "California St & Drumm St",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "solveITz",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "wee-dig",
+        "languageCode": "en"
+      }
+    },
+    {
+      "displayName": {
+        "text": "DR.DINESH GASTRO",
+        "languageCode": "hi"
+      }
+    }
+  ]
+}

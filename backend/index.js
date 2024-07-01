@@ -96,19 +96,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Protected route example
-app.get("/protected", authenticateToken, async (req, res) => {
-  try {
-    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(401).json({ message: "Token is not valid" });
-  }
-});
-
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 
