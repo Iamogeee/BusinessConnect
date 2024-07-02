@@ -1,0 +1,53 @@
+.business-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.business-category {
+  width: 100%;
+}
+
+.category-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: left;
+  padding-left: 10px;
+  color: white;
+}
+
+.business-cards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.business-card {
+  width: 200px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 10px;
+}
+
+.business-photo {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.business-name {
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: black;
+}
+
+.business-rating {
+  font-size: 1em;
+  color: black;
+}

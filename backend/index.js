@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -94,6 +95,30 @@ app.post("/login", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
+});
+
+//Endpoint for fethcing businesses
+app.get("/api/businesses", (req, res) => {
+  const jsonFilePath = path.join(
+    __dirname,
+    "public",
+    "businessApiResponse.json"
+  );
+
+  fs.readFile(jsonFilePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading JSON file:", err);
+      return res.status(500).json({ error: "Failed to read JSON file" });
+    }
+
+    try {
+      const jsonData = JSON.parse(data);
+      res.json(jsonData);
+    } catch (parseErr) {
+      console.error("Error parsing JSON data:", parseErr);
+      res.status(500).json({ error: "Failed to parse JSON data" });
+    }
+  });
 });
 
 // Serve static files from the React app

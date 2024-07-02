@@ -1,0 +1,17 @@
+.search-input {
+  padding: 5px;
+  margin-right: 5px;
+  width: 200px;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.search-button i {
+  font-size: 17px;
+  color: purple;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import "./MainHeader.css";
+import SearchBar from "../SearchBar/SearchBar";
 
 const MainHeader = () => {
   return (
@@ -16,13 +17,10 @@ const MainHeader = () => {
             Filter
             <span className="dropdown-icon">▼</span>
           </div>
-          <input type="text" placeholder="Search" className="search-input" />
-          <button className="search-button">
-            <img src="" alt="search" />
-          </button>
+          <SearchBar />
         </div>
         <div className="user-icon">
-          <img src="" alt="user" />
+          <i className="fa-regular fa-user"></i>
         </div>
       </nav>
     </header>
