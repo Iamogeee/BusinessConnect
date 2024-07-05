@@ -19,21 +19,30 @@ model User {
   email             String    @unique
   password          String
   interests         String?
-  reviews           Review[]  
   recommendations   Recommendation[]
 }
 
 model Business {
   id                Int       @id @default(autoincrement())
+  placeId           String             @unique
   name              String
   location          String
   contactInformation String
-  businessHours     String
+  overview          String             @default("")
+  businessHours     String[]
   services          BusinessService[]
   averageRating     Float?
   businessType      String
-  reviews           Review[]
+  photoReference    String 
+  photos            String[]   
   recommendations   Recommendation[]
+  categories        Category[]         @relation("BusinessCategories")
+}
+
+model Category {
+  id                Int                @id @default(autoincrement())
+  name              String             @unique
+  businesses        Business[]         @relation("BusinessCategories")
 }
 
 model Service {
@@ -52,12 +61,10 @@ model BusinessService {
 
 model Review {
   id                Int       @id @default(autoincrement())
-  userId            Int
   businessId        Int
   rating            Int
   reviewText        String
-  user              User      @relation(fields: [userId], references: [id])
-  business          Business  @relation(fields: [businessId], references: [id])
+  name              String    @unique
 }
 
 model Recommendation {

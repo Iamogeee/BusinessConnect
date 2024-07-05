@@ -1,0 +1,20 @@
+.business-reviews {
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.business-reviews h2 {
+  margin-bottom: 10px;
+}
+
+.review {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.review p {
+  margin: 5px 0;
+}

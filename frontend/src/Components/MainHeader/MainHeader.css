@@ -5,6 +5,7 @@
   padding: 10px 20px;
   background-color: #f8f8f8;
   border-bottom: 2px solid #000;
+  position: inherit;
 }
 
 .logo h1 {
