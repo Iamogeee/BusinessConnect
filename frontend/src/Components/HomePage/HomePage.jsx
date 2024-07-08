@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MainHeader from "../MainHeader/MainHeader";
 import "./HomePage.css";
-import BusinessCard from "../BusinessCard/BusinessCard";
+import BusinessList from "../BusinessList/BusinessList";
 
 const HomePage = () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   return (
     <div className="home-page">
-      <MainHeader />
+      <MainHeader onCategoryChange={setSelectedCategory} />
       <main>
         <h2>Discover Local Businesses</h2>
         <p>Find the best services and businesses in your area.</p>
-        <BusinessCard />
+        <BusinessList selectedCategory={selectedCategory} />
       </main>
     </div>
   );

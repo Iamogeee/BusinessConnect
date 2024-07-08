@@ -36,13 +36,7 @@ model Business {
   photoReference    String 
   photos            String[]   
   recommendations   Recommendation[]
-  categories        Category[]         @relation("BusinessCategories")
-}
-
-model Category {
-  id                Int                @id @default(autoincrement())
-  name              String             @unique
-  businesses        Business[]         @relation("BusinessCategories")
+  category          String             @default("")     
 }
 
 model Service {

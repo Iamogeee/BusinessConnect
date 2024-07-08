@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const FilterButton = ({ categories, onFilter }) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+const FilterButton = ({ onCategoryChange }) => {
+  const [categories, setCategories] = useState([]);
 
-  const handleFilterChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch("http://localhost:3000/api/categories");
+      const data = await response.json();
+      setCategories(data);
+    };
 
-  const handleFilterClick = () => {
-    onFilter(selectedCategory);
-  };
+    fetchCategories();
+  }, []);
 
   return (
-    <div className="filter-container">
-      <select value={selectedCategory} onChange={handleFilterChange}>
-        <option value="">Filter</option>
+    <div>
+      <select onChange={(e) => onCategoryChange(e.target.value)}>
+        <option value="">All Categories</option>
         {categories.map((category, index) => (
           <option key={index} value={category}>
             {category}

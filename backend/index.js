@@ -142,8 +142,6 @@ app.get("/api/businesses/:id", async (req, res) => {
       where: { id: parseInt(id) },
       include: {
         recommendations: true,
-
-        categories: true,
       },
     });
     if (!business) {
@@ -178,6 +176,25 @@ app.get("/api/reviews/:businessId", async (req, res) => {
   }
 });
 
+app.get("/api/categories", async (req, res) => {
+  try {
+    const categories = await prisma.business.findMany({
+      select: {
+        category: true,
+      },
+      distinct: ["category"],
+    });
+
+    const categoryList = categories.map((c) => c.category);
+    res.json(categoryList);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Failed to fetch categories" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
 const jsonFilePath = path.join(__dirname, "public", "businessApiResponse.json");
 
 fs.readFile(jsonFilePath, "utf8", (err, data) => {
@@ -198,6 +215,9 @@ fs.readFile(jsonFilePath, "utf8", (err, data) => {
       for (const business of jsonData.results) {
         const location = `${business.geometry.location.lat}, ${business.geometry.location.lng}`;
         const businessType = business.types.join(", ");
+        const firstType = business.types[0]
+          ? business.types[0].trim()
+          : "Uncategorized";
         const businessHours = business.opening_hours
           ? business.opening_hours.weekday_text || ["Unknown"]
           : ["Unknown"];
@@ -226,6 +246,7 @@ fs.readFile(jsonFilePath, "utf8", (err, data) => {
             photos: placeDetails.photos
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
+            category: firstType, // Set the category field
           },
           create: {
             placeId: business.place_id,
@@ -247,9 +268,8 @@ fs.readFile(jsonFilePath, "utf8", (err, data) => {
             photos: placeDetails.photos
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
+            category: firstType, // Set the category field
             recommendations: { create: [] },
-            services: { create: [] },
-            categories: { connect: [] },
           },
         });
 
@@ -286,18 +306,6 @@ fs.readFile(jsonFilePath, "utf8", (err, data) => {
       });
   } catch (parseErr) {
     console.error("Error parsing JSON data:", parseErr);
-  }
-});
-
-app.get("/api/categories", async (req, res) => {
-  try {
-    const categories = await prisma.category.findMany();
-    res.json(categories);
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    res.status(500).json({ error: "Failed to fetch categories" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
