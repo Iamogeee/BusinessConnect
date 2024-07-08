@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MainHeader.css";
+import SearchBar from "../SearchBar/SearchBar";
+import BusinessCard from "../BusinessCard/BusinessCard";
 
 const MainHeader = () => {
+  const [selectedBusiness, setSelectedBusiness] = useState(null);
+
+  const handleSelectBusiness = (business) => {
+    setSelectedBusiness(business);
+  };
+
   return (
     <header className="header">
       <div className="logo">
         <h1>
-          BUSINESS <span>Connect</span>
+          Business <span>Connect</span>
         </h1>
       </div>
       <nav>
@@ -16,13 +24,10 @@ const MainHeader = () => {
             Filter
             <span className="dropdown-icon">▼</span>
           </div>
-          <input type="text" placeholder="Search" className="search-input" />
-          <button className="search-button">
-            <img src="" alt="search" />
-          </button>
+          <SearchBar onSelect={handleSelectBusiness} />
         </div>
         <div className="user-icon">
-          <img src="" alt="user" />
+          <i className="fa-regular fa-user"></i>
         </div>
       </nav>
     </header>

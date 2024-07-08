@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -96,16 +97,103 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Protected route example
-app.get("/protected", authenticateToken, async (req, res) => {
+//Endpoint for fethcing businesses
+app.get("/api/businesses", async (req, res) => {
   try {
-    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
-    res.status(200).json(user);
+    const businesses = await prisma.business.findMany();
+    res.json(businesses);
   } catch (error) {
-    res.status(401).json({ message: "Token is not valid" });
+    console.error("Error fetching businesses:", error);
+    res.status(500).json({ error: "Failed to fetch businesses" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
+// Load and process business data from JSON file
+const jsonFilePath = path.join(__dirname, "public", "businessApiResponse.json");
+
+fs.readFile(jsonFilePath, "utf8", (err, data) => {
+  if (err) {
+    console.error("Error reading JSON file:", err);
+    return;
+  }
+  try {
+    const jsonData = JSON.parse(data);
+    async function main() {
+      for (const business of jsonData.results) {
+        const location = `${business.geometry.location.lat}, ${business.geometry.location.lng}`;
+        const businessType = business.types.join(", ");
+        const businessHours =
+          business.opening_hours &&
+          business.opening_hours.open_now !== undefined
+            ? business.opening_hours.open_now
+              ? "Open"
+              : "Closed"
+            : "Unknown";
+
+        await prisma.business.upsert({
+          where: { placeId: business.place_id },
+          update: {
+            name: business.name,
+            location,
+            contactInformation: "Unknown",
+            businessHours,
+            averageRating: business.rating,
+            businessType,
+            photoReference: business.photos[0].photo_reference,
+          },
+          create: {
+            placeId: business.place_id,
+            name: business.name,
+            location,
+            contactInformation: "Unknown",
+            businessHours,
+            averageRating: business.rating,
+            businessType,
+            photoReference: business.photos[0].photo_reference,
+            reviews: { create: [] },
+            recommendations: { create: [] },
+            services: { create: [] },
+          },
+        });
+      }
+    }
+
+    main()
+      .catch((e) => {
+        console.error(e);
+        process.exit(1);
+      })
+      .finally(async () => {
+        await prisma.$disconnect();
+      });
+  } catch (parseErr) {
+    console.error("Error parsing JSON data:", parseErr);
+    res.status(500).json({ error: "Failed to parse JSON data" });
+  }
+});
+
+app.get("/api/businesses/search", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const businesses = await prisma.business.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { location: { contains: query, mode: "insensitive" } },
+          { businessType: { contains: query, mode: "insensitive" } },
+        ],
+      },
+    });
+
+    res.json(businesses);
+  } catch (error) {
+    console.error("Error searching businesses:", error);
+    res.status(500).json({ error: "Failed to search businesses" });
+  } finally {
+    await prisma.$disconnect();
   }
 });
 

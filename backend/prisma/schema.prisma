@@ -25,15 +25,31 @@ model User {
 
 model Business {
   id                Int       @id @default(autoincrement())
+  placeId           String             @unique
   name              String
   location          String
   contactInformation String
   businessHours     String
-  servicesOffered   String
-  averageRating     Float     @default(0.0)
+  services          BusinessService[]
+  averageRating     Float?
   businessType      String
+  photoReference    String    
   reviews           Review[]
   recommendations   Recommendation[]
+}
+
+model Service {
+  id                Int       @id @default(autoincrement())
+  name              String    @unique
+  businesses        BusinessService[]
+}
+
+model BusinessService {
+  businessId        Int
+  serviceId         Int
+  business          Business  @relation(fields: [businessId], references: [id])
+  service           Service   @relation(fields: [serviceId], references: [id])
+  @@id([businessId, serviceId])
 }
 
 model Review {
