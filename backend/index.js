@@ -8,12 +8,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const axios = require("axios");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
 const app = express();
 const PORT = process.env.PORT || 3000;
+const API_KEY = process.env.API_KEY;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -110,7 +112,72 @@ app.get("/api/businesses", async (req, res) => {
   }
 });
 
-// Load and process business data from JSON file
+app.get("/api/businesses/search", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const businesses = await prisma.business.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { location: { contains: query, mode: "insensitive" } },
+          { businessType: { contains: query, mode: "insensitive" } },
+        ],
+      },
+    });
+
+    res.json(businesses);
+  } catch (error) {
+    console.error("Error searching businesses:", error);
+    res.status(500).json({ error: "Failed to search businesses" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
+app.get("/api/businesses/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const business = await prisma.business.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        recommendations: true,
+
+        categories: true,
+      },
+    });
+    if (!business) {
+      return res.status(404).json({ error: "Business not found" });
+    }
+    res.json(business);
+  } catch (error) {
+    console.error("Error fetching business:", error);
+    res.status(500).json({ error: "Failed to fetch business" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
+app.get("/api/reviews/:businessId", async (req, res) => {
+  const { businessId } = req.params;
+  try {
+    const reviews = await prisma.review.findMany({
+      where: { businessId: parseInt(businessId) },
+    });
+    if (!reviews.length) {
+      return res
+        .status(404)
+        .json({ error: "No reviews found for this business" });
+    }
+    res.json(reviews);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    res.status(500).json({ error: "Failed to fetch reviews" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
 const jsonFilePath = path.join(__dirname, "public", "businessApiResponse.json");
 
 fs.readFile(jsonFilePath, "utf8", (err, data) => {
@@ -120,43 +187,92 @@ fs.readFile(jsonFilePath, "utf8", (err, data) => {
   }
   try {
     const jsonData = JSON.parse(data);
+
+    async function fetchPlaceDetails(placeId) {
+      const url = `https://maps.googleapis.com/maps/api/place/details/json?fields=name,rating,formatted_phone_number,photos,reviews,current_opening_hours,editorial_summary&place_id=${placeId}&key=${API_KEY}`;
+      const response = await axios.get(url);
+      return response.data.result;
+    }
+
     async function main() {
       for (const business of jsonData.results) {
         const location = `${business.geometry.location.lat}, ${business.geometry.location.lng}`;
         const businessType = business.types.join(", ");
-        const businessHours =
-          business.opening_hours &&
-          business.opening_hours.open_now !== undefined
-            ? business.opening_hours.open_now
-              ? "Open"
-              : "Closed"
-            : "Unknown";
+        const businessHours = business.opening_hours
+          ? business.opening_hours.weekday_text || ["Unknown"]
+          : ["Unknown"];
 
-        await prisma.business.upsert({
+        // Fetch additional details from Google Places API
+        const placeDetails = await fetchPlaceDetails(business.place_id);
+
+        const upsertedBusiness = await prisma.business.upsert({
           where: { placeId: business.place_id },
           update: {
-            name: business.name,
+            name: placeDetails.name || business.name,
             location,
-            contactInformation: "Unknown",
-            businessHours,
-            averageRating: business.rating,
+            contactInformation:
+              placeDetails.formatted_phone_number || "Unknown",
+            overview: placeDetails.editorial_summary
+              ? placeDetails.editorial_summary.overview
+              : "Overview not provided",
+            businessHours: placeDetails.current_opening_hours
+              ? placeDetails.current_opening_hours.weekday_text
+              : [],
+            averageRating: placeDetails.rating || business.rating,
             businessType,
-            photoReference: business.photos[0].photo_reference,
+            photoReference: placeDetails.photos
+              ? placeDetails.photos[0].photo_reference
+              : null,
+            photos: placeDetails.photos
+              ? placeDetails.photos.map((photo) => photo.photo_reference)
+              : [],
           },
           create: {
             placeId: business.place_id,
-            name: business.name,
+            name: placeDetails.name || business.name,
             location,
-            contactInformation: "Unknown",
-            businessHours,
-            averageRating: business.rating,
+            contactInformation:
+              placeDetails.formatted_phone_number || "Unknown",
+            overview: placeDetails.editorial_summary
+              ? placeDetails.editorial_summary.overview
+              : "Overview not provided",
+            businessHours: placeDetails.current_opening_hours
+              ? placeDetails.current_opening_hours.weekday_text
+              : [],
+            averageRating: placeDetails.rating || business.rating,
             businessType,
-            photoReference: business.photos[0].photo_reference,
-            reviews: { create: [] },
+            photoReference: placeDetails.photos
+              ? placeDetails.photos[0].photo_reference
+              : null,
+            photos: placeDetails.photos
+              ? placeDetails.photos.map((photo) => photo.photo_reference)
+              : [],
             recommendations: { create: [] },
             services: { create: [] },
+            categories: { connect: [] },
           },
         });
+
+        if (placeDetails.reviews) {
+          for (const review of placeDetails.reviews) {
+            const existingReview = await prisma.review.findFirst({
+              where: {
+                name: review.author_name,
+              },
+            });
+
+            if (!existingReview) {
+              await prisma.review.create({
+                data: {
+                  rating: review.rating,
+                  reviewText: review.text,
+                  name: review.author_name,
+                  businessId: upsertedBusiness.id,
+                },
+              });
+            }
+          }
+        }
       }
     }
 
@@ -170,7 +286,16 @@ fs.readFile(jsonFilePath, "utf8", (err, data) => {
       });
   } catch (parseErr) {
     console.error("Error parsing JSON data:", parseErr);
-    res.status(500).json({ error: "Failed to parse JSON data" });
+  }
+});
+
+app.get("/api/categories", async (req, res) => {
+  try {
+    const categories = await prisma.category.findMany();
+    res.json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Failed to fetch categories" });
   }
 });
 

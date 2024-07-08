@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./MainHeader.css";
 import SearchBar from "../SearchBar/SearchBar";
-import BusinessCard from "../BusinessCard/BusinessCard";
+import FilterButton from "../FilterButton/FilterButton";
 
 const MainHeader = () => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
@@ -21,8 +21,9 @@ const MainHeader = () => {
         <button className="discover-button">Discover</button>
         <div className="filter-search">
           <div className="filter">
-            Filter
-            <span className="dropdown-icon">▼</span>
+            <FilterButton
+              categories={["Restaurants", "Cafes", "Bars", "Hotels"]}
+            />
           </div>
           <SearchBar onSelect={handleSelectBusiness} />
         </div>
