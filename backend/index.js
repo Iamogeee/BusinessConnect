@@ -296,6 +296,27 @@ app.get("/api/categories", async (req, res) => {
   } catch (error) {
     console.error("Error fetching categories:", error);
     res.status(500).json({ error: "Failed to fetch categories" });
+  }
+});
+
+app.get("/api/businesses/search", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const businesses = await prisma.business.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { location: { contains: query, mode: "insensitive" } },
+          { businessType: { contains: query, mode: "insensitive" } },
+        ],
+      },
+    });
+
+    res.json(businesses);
+  } catch (error) {
+    console.error("Error searching businesses:", error);
+    res.status(500).json({ error: "Failed to search businesses" });
   } finally {
     await prisma.$disconnect();
   }
