@@ -1,9 +1,7 @@
-/* Container for each category group */
 .category-group {
   margin-bottom: 2rem;
 }
 
-/* Title for each category */
 .category-group h3 {
   font-size: 1.5rem;
   color: #333;
@@ -11,14 +9,12 @@
   text-transform: capitalize;
 }
 
-/* Container for business cards */
 .business-list {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-/* Individual business card */
 .business-card {
   background-color: white;
   border-radius: 10px;

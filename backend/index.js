@@ -2,20 +2,18 @@ require("dotenv").config();
 
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
-const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const axios = require("axios");
+const { processJsonFile } = require("./jsonProcessor");
+const { PORT, API_KEY, JWT_SECRET } = require("./config");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
-const secretKey = process.env.JWT_SECRET;
+const secretKey = JWT_SECRET;
 const app = express();
-const PORT = process.env.PORT || 3000;
-const API_KEY = process.env.API_KEY;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -99,7 +97,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//Endpoint for fethcing businesses
+// Endpoint for fetching businesses
 app.get("/api/businesses", async (req, res) => {
   try {
     const businesses = await prisma.business.findMany();
@@ -195,152 +193,8 @@ app.get("/api/categories", async (req, res) => {
   }
 });
 
-const jsonFilePath = path.join(__dirname, "public", "businessApiResponse.json");
-
-fs.readFile(jsonFilePath, "utf8", (err, data) => {
-  if (err) {
-    console.error("Error reading JSON file:", err);
-    return;
-  }
-  try {
-    const jsonData = JSON.parse(data);
-
-    async function fetchPlaceDetails(placeId) {
-      const url = `https://maps.googleapis.com/maps/api/place/details/json?fields=name,rating,formatted_phone_number,photos,reviews,current_opening_hours,editorial_summary&place_id=${placeId}&key=${API_KEY}`;
-      const response = await axios.get(url);
-      return response.data.result;
-    }
-
-    async function main() {
-      for (const business of jsonData.results) {
-        const location = `${business.geometry.location.lat}, ${business.geometry.location.lng}`;
-        const businessType = business.types.join(", ");
-        const firstType = business.types[0]
-          ? business.types[0].trim()
-          : "Uncategorized";
-        const businessHours = business.opening_hours
-          ? business.opening_hours.weekday_text || ["Unknown"]
-          : ["Unknown"];
-
-        // Fetch additional details from Google Places API
-        const placeDetails = await fetchPlaceDetails(business.place_id);
-
-        const upsertedBusiness = await prisma.business.upsert({
-          where: { placeId: business.place_id },
-          update: {
-            name: placeDetails.name || business.name,
-            location,
-            contactInformation:
-              placeDetails.formatted_phone_number || "Unknown",
-            overview: placeDetails.editorial_summary
-              ? placeDetails.editorial_summary.overview
-              : "Overview not provided",
-            businessHours: placeDetails.current_opening_hours
-              ? placeDetails.current_opening_hours.weekday_text
-              : [],
-            averageRating: placeDetails.rating || business.rating,
-            businessType,
-            photoReference: placeDetails.photos
-              ? placeDetails.photos[0].photo_reference
-              : null,
-            photos: placeDetails.photos
-              ? placeDetails.photos.map((photo) => photo.photo_reference)
-              : [],
-            category: firstType, // Set the category field
-          },
-          create: {
-            placeId: business.place_id,
-            name: placeDetails.name || business.name,
-            location,
-            contactInformation:
-              placeDetails.formatted_phone_number || "Unknown",
-            overview: placeDetails.editorial_summary
-              ? placeDetails.editorial_summary.overview
-              : "Overview not provided",
-            businessHours: placeDetails.current_opening_hours
-              ? placeDetails.current_opening_hours.weekday_text
-              : [],
-            averageRating: placeDetails.rating || business.rating,
-            businessType,
-            photoReference: placeDetails.photos
-              ? placeDetails.photos[0].photo_reference
-              : null,
-            photos: placeDetails.photos
-              ? placeDetails.photos.map((photo) => photo.photo_reference)
-              : [],
-            category: firstType, // Set the category field
-            recommendations: { create: [] },
-          },
-        });
-
-        if (placeDetails.reviews) {
-          for (const review of placeDetails.reviews) {
-            const existingReview = await prisma.review.findFirst({
-              where: {
-                name: review.author_name,
-              },
-            });
-
-            if (!existingReview) {
-              await prisma.review.create({
-                data: {
-                  rating: review.rating,
-                  reviewText: review.text,
-                  name: review.author_name,
-                  businessId: upsertedBusiness.id,
-                },
-              });
-            }
-          }
-        }
-      }
-    }
-
-    main()
-      .catch((e) => {
-        console.error(e);
-        process.exit(1);
-      })
-      .finally(async () => {
-        await prisma.$disconnect();
-      });
-  } catch (parseErr) {
-    console.error("Error parsing JSON data:", parseErr);
-  }
-});
-
-app.get("/api/categories", async (req, res) => {
-  try {
-    const categories = await prisma.category.findMany();
-    res.json(categories);
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    res.status(500).json({ error: "Failed to fetch categories" });
-  }
-});
-
-app.get("/api/businesses/search", async (req, res) => {
-  const { query } = req.query;
-
-  try {
-    const businesses = await prisma.business.findMany({
-      where: {
-        OR: [
-          { name: { contains: query, mode: "insensitive" } },
-          { location: { contains: query, mode: "insensitive" } },
-          { businessType: { contains: query, mode: "insensitive" } },
-        ],
-      },
-    });
-
-    res.json(businesses);
-  } catch (error) {
-    console.error("Error searching businesses:", error);
-    res.status(500).json({ error: "Failed to search businesses" });
-  } finally {
-    await prisma.$disconnect();
-  }
-});
+// Process JSON file
+processJsonFile();
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
