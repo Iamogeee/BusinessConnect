@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./MainHeader.css";
 import SearchBar from "../SearchBar/SearchBar";
 import FilterButton from "../FilterButton/FilterButton";
 
-const MainHeader = () => {
+const MainHeader = ({ onCategoryChange }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch("/api/categories");
+      const data = await response.json();
+      setCategories(data);
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSelectBusiness = (business) => {
     setSelectedBusiness(business);
+  };
+
+  const handleCategoryChange = (categoryId) => {
+    onCategoryChange(categoryId);
   };
 
   return (
@@ -22,7 +37,8 @@ const MainHeader = () => {
         <div className="filter-search">
           <div className="filter">
             <FilterButton
-              categories={["Restaurants", "Cafes", "Bars", "Hotels"]}
+              categories={categories}
+              onCategoryChange={handleCategoryChange}
             />
           </div>
           <SearchBar onSelect={handleSelectBusiness} />

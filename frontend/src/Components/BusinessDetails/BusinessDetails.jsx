@@ -24,11 +24,15 @@ const BusinessDetails = () => {
 
   return (
     <div className="business-details">
-      <h1>{business.name}</h1>
-      <BusinessPhotos photos={business.photos} />
-      <BusinessOverview overview={business.overview} />
-      <BusinessReviews businessId={business.id} />
-      <BusinessHours hours={business.businessHours} />
+      {business && (
+        <>
+          <h1>{business.name}</h1>
+          <BusinessPhotos photos={business.photos} />
+          <BusinessOverview overview={business.overview} />
+          <BusinessReviews businessId={business.id} />
+          <BusinessHours hours={business.businessHours} />{" "}
+        </>
+      )}
     </div>
   );
 };
