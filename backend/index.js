@@ -210,6 +210,31 @@ app.post("/interact", async (req, res) => {
   }
 });
 
+app.get("/api/favorites/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const favorites = await prisma.interaction.findMany({
+      where: { userId: parseInt(id), liked: true },
+      include: { Business: true },
+    });
+
+    const uniqueBusinesses = Array.from(
+      new Set(favorites.map((interaction) => interaction.businessId))
+    ).map((businessId) => {
+      return favorites.find(
+        (interaction) => interaction.businessId === businessId
+      ).Business;
+    });
+
+    res.json(uniqueBusinesses);
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ error: "Failed to fetch favorites" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
 // Process JSON file
 processJsonFile();
 

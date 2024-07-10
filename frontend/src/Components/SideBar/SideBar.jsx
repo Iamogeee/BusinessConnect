@@ -22,7 +22,10 @@ const Sidebar = () => {
             <a href="/saved">Saved for later</a>
           </li>
           <li>
-            <a href="/liked">Liked businesses</a>
+            <a href="/favorites">Favorite businesses</a>
+          </li>
+          <li>
+            <a href="/recommended">Recommended</a>
           </li>
           <li>
             <a href="/profile">Profile</a>
