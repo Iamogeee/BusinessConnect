@@ -1,0 +1,314 @@
+[
+  {
+    "id": 1,
+    "userId": 5,
+    "businessId": 130,
+    "liked": 1,
+    "saved": 1,
+    "viewed": 0,
+    "rated": 0,
+    "reviewed": "",
+    "User": {
+      "id": 5,
+      "name": "ogenna",
+      "email": "ogennaobiora@gmail.com",
+      "password": "$2b$14$QI/nhrGrvV0TBri9gYZ8wesXxPVXL12OStRQtylqlq6J.dJVNlr7W",
+      "interests": null,
+      "preferredRating": null,
+      "favoriteCategories": []
+    },
+    "Business": {
+      "id": 130,
+      "placeId": "ChIJY6ZwBLCkj4ARi7cvBaDpTo4",
+      "name": "Ristorante Carpaccio",
+      "location": "37.4515107, -122.185404",
+      "contactInformation": "(650) 322-1211",
+      "overview": "Long-running local favorite for everyday Italian dishes in a lively neighborhood setting.",
+      "businessHours": [
+        "Monday: Closed",
+        "Tuesday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Wednesday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Thursday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Friday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Saturday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Sunday: 5:00 – 8:00 PM"
+      ],
+      "averageRating": 4.3,
+      "businessType": "meal_takeaway, bar, restaurant, food, point_of_interest, establishment",
+      "photoReference": "AUc7tXUZcmMQE4aY4R25TQTqgFjse-PJ16QMwRIiRdOXYpIiqSSCslFVV5rybKGQ14rxxnW-yrQdMvllD8IQdKDcPkJeQ651RGVRUm3THydMSuyQu4xz7iKVYpdK6cOGgNvdQ5JHosrkWVTNZsATQKKWWV6V3gMVNEP2LRCyRhRGox0jI8c-",
+      "photos": [
+        "AUc7tXUZcmMQE4aY4R25TQTqgFjse-PJ16QMwRIiRdOXYpIiqSSCslFVV5rybKGQ14rxxnW-yrQdMvllD8IQdKDcPkJeQ651RGVRUm3THydMSuyQu4xz7iKVYpdK6cOGgNvdQ5JHosrkWVTNZsATQKKWWV6V3gMVNEP2LRCyRhRGox0jI8c-",
+        "AUc7tXWATLQd69c8tKBmTldCjsNIVGSk1B8S0F48krCy2g7fqdqpDG8p40DdgXdfzO6dPCxlGZTXqWSDYKm_wd5n9Y0esmymxhtnE014VH5JTvvIFKKKDI_GTqkFw2G-WqnrBwyHaQ8nnJW0csXp4jRJMphHmLZzLOkbvSxj_irqzujkINW0",
+        "AUc7tXUSrxk5H_Gm5XvvyrYuNKMaCuNNeRpm6syYuKVwyNw6YzJ-N5RBB0G5ytkYyVU6VpSzPOKh-r1k2rUF11CCEAGj66XiWrQWWMN1MGE0Zppd3oLb0u00S0KNPknunYW8Kx_CseVKVEyVczKftoNDT1K80nzy7Duuv3N8OCiRHj-LLN59",
+        "AUc7tXVE12Y4sN3ilTqXZheDMYAKihbpwjjcZvp1P2Apn4RguK4kzz5UjZi57gYnFtF85NSTUjeFtJkuO9c8dreApB3XQ-ZYjRTC8Z6wPbw6oZdx0rLyrwMfoYIEaV8yXgDw3aDb30E7Q2uhnzI9WlVaIxEcdCktWYlMCCg8A4JxpMkzP11v",
+        "AUc7tXVdjPK6576QtAD4etMgiZ6ZpkqjxF2fGCwQ1-59z1xrWd5cQCv91gtELuhJn5PIcFHarZAdgtLbAXqx51oDF44Np90UFhJZENQIQNn1hRwf6Pc8XgvnKRiiI7CZY3im8qUFPCIrdlftlcDiGnFLT7TvHXGHgj42jX1gILpPbMKEpFJu",
+        "AUc7tXXLuAqHpKNs4AzEI_O3anKHWv9XFGyIjHRuu4kKKjmGE9UlIKibVB1hVAJxgsSNv_gacg5GfetfsRWDerr_MRqdGiJBrrG3dk9vOyLA7pLfmXKSKbz2Bxv7wWyZbNYq1jGhMRIS2Xo4Q4gYAzPBng4oMmaIIOg4MQv7kz3TNQ_zU82G",
+        "AUc7tXUxTuvKDveBLPwlWX9UpBiwbrlqu74EM88roQl-y7pJZ5jdJz7Kf7W0PJoQBx1hYoYs-p-BlJiY-vEHdecGpI_SQ1fvJq8wAKzZyIPuTY1xcyEOUM-BJbPByYiPk317Ppt8qd0c6_1VBVB-2cq0ilsCJ22cGnZAHfaNqIQxDIY-mwW7",
+        "AUc7tXWsnIrgjghy5fiLej5OWCkk5ayKbAeHHpr1hO_fGGOv_zclmHG7iIvKFCLQEbQf1XB7qWFJpC8UhvmQvDxub5j6QeIOwwXExXRMDNBzvm0VuhD9tj1SxxF1NcmbvjM88aGKYu0_FoTJGnGLDcBo633pfP5ewxp0CuSqNZjhHFb3jcNz",
+        "AUc7tXWAtjJP6lorfCvu0arAyG_2lfjU0RIXGCb7ZWCy8qH5o8WlQ7gh4fnenQg9IdmGxXh5GaQ_-gaoQNo7shJ7QxJYIFJsD8lLIqQoM8FmiyTSENxweM_Z0wq5JTaqYCDyk1SCbqj8oepujcaIgAzUo7Wl4SNXcnrV4Jff0alB6bIG7Kyj",
+        "AUc7tXXONRrMw7NoCmUaFzOCRDZ-nUQzM3Xc1lm5A6_a2nBj7qVaHu8UYiWdIO8tCKvRi3jerFKaXUCfwUK8ogbcB_WjX0bGJQYa9xzFTR3dkBbvvSaqj7gIht8OWPu-F9E7NLK0ogY80X3lxPbUW4h6TmB6VfZfq1jDqgGMpvbfJfgcCENH"
+      ],
+      "category": "meal_takeaway"
+    }
+  },
+  {
+    "id": 5,
+    "userId": 5,
+    "businessId": 129,
+    "liked": 1,
+    "saved": 0,
+    "viewed": 0,
+    "rated": 0,
+    "reviewed": "",
+    "User": {
+      "id": 5,
+      "name": "ogenna",
+      "email": "ogennaobiora@gmail.com",
+      "password": "$2b$14$QI/nhrGrvV0TBri9gYZ8wesXxPVXL12OStRQtylqlq6J.dJVNlr7W",
+      "interests": null,
+      "preferredRating": null,
+      "favoriteCategories": []
+    },
+    "Business": {
+      "id": 129,
+      "placeId": "ChIJN9urM66kj4ARTUoR3reRw2g",
+      "name": "Subway",
+      "location": "37.4506619, -122.1851727",
+      "contactInformation": "(650) 330-1692",
+      "overview": "Casual counter-serve chain for build-your-own sandwiches & salads, with health-conscious options.",
+      "businessHours": [
+        "Monday: 7:00 AM – 9:00 PM",
+        "Tuesday: 7:00 AM – 9:00 PM",
+        "Wednesday: 7:00 AM – 9:00 PM",
+        "Thursday: 7:00 AM – 9:00 PM",
+        "Friday: 7:00 AM – 9:00 PM",
+        "Saturday: 8:00 AM – 8:00 PM",
+        "Sunday: 8:00 AM – 8:00 PM"
+      ],
+      "averageRating": 3.7,
+      "businessType": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+      "photoReference": "AUc7tXUFig8AUd42jlJgEhGOXkp2okUVNkcYcyHQsKYT0hw3VsZQiECrttHzG3rLseWjJJ0ZHsi_6oLPoQalDPhocafIuWhn3D3F5paw6Gz60HnxoeWAbx5Dkf-N7TWAW4lWDI_RF-80Gli2l3ehfkeUFGFEZCXUp8YV4DfWaVu7jp6TpMjt",
+      "photos": [
+        "AUc7tXUFig8AUd42jlJgEhGOXkp2okUVNkcYcyHQsKYT0hw3VsZQiECrttHzG3rLseWjJJ0ZHsi_6oLPoQalDPhocafIuWhn3D3F5paw6Gz60HnxoeWAbx5Dkf-N7TWAW4lWDI_RF-80Gli2l3ehfkeUFGFEZCXUp8YV4DfWaVu7jp6TpMjt",
+        "AUc7tXVnrRy-wSwjPqEEAy90WVzckj7MVyS7-C6Eh75d4wa4xTTGSs4tt9Am888EPyV5hj6GpQG8yAT9MLUSFxDS0DCmDccTjW2gX0TYEZHmzNQ_hEQ98j2yom23z_Wd-n2ODP-WpGnjf4H0Oqgf1jZqDcacQp6ffGkNCKeK6WMfyI3Vplvd",
+        "AUc7tXW-qm7polTXAxD0CurTPwefWbYG_rtQYkBamDSeeLupvFHXKKVIxC5m2f5ukpDLnpyTh4Ri9FK16hSzntMkZpMuC4n7-4UiYIVyY3rBoUEPDrcOmrr6JRpbUsleqjymHeqFFHZQMNuo24MvhTBNR5of9RLTexdOh4ua-cXejNOObHEg",
+        "AUc7tXUYQPrSr4uCeP8o-EHBbN_adxY0HBpL_EYBQJSM_8-PbnKcIx6Leh6zqhDVb-z-GYTQZXM62cKSKQWuwxGXNqiFLc2lKMT1GhSdKionzrIaQ0ZXwGRurlzG6H5PfGBfI4IGC3Wz1MsG599AYxLklgrHTZG8zbodkoBYxzVRF9xikuWt",
+        "AUc7tXXaRoS_5QAJK5uwKVVvx53vrdo0tO2QsiuZv3D-asApRP5F7haOojwjN32DZ_5pGGRh5wAmbvful6VGbtR9wN86pGVfpToQG6hdtx70zp_e3KA80eIDuU5jojaqUJ3PcSKf-dkJBdGxdnH9Yw-y12bynHCxKnZbRtD2mQtmmx6HZr-X",
+        "AUc7tXWMFY12et4Vac522WxC0oHFZp28RQ1nhYjYl0F2APUGhtCXmKngiHehza01NLEdYg_JcR95GrhzAETw2c3KDGEBGEjy8m6d2SpC0BUgPp9R2dLmz9hziYGl0-4cvThZ7Mxcy1bEfLs9OfE4qUOSmZAJxT6tTBRmu3GkVadamvubtpYZ",
+        "AUc7tXVLU8ma3Ku-McRRdvvbgvr_1s7vmAEyUsPGcHtFl5gRHFW72IX5lZZ5w89ahmk9Og6uMHpWA5deu2SQ05_DlVLQGbUkROaXjcARPX2GBOY5Ei7RwLyWvzRT1sqPO-ypvjLEp5kFiUO4yaUngF3pnpAqzASuk68WuBoMuoJ_zBzgMMuq",
+        "AUc7tXWHuku73GJYMohbpR8jwsHiZrUu3K4ZkPZ1Yh1_IjZcsWh9-eXE6X0CyNoIiWvPOXAsDl0_i9njwT8aDiLFmF3EVI3KW-UnMMaR2lNie0iEPnirR7YJNzpe2ciawOTQsCNqTcKP9dmorjnmM8jV0ZANrf-5A2G7soP-kpOx7UP2Rxk4",
+        "AUc7tXUJ-0T5PvNgl-XLn3kTw9Ix6g9WAYFScLVeyIiIhl9jgoQkidMn62jyofotTlXqwci9q6XIck8zMb9_Bjocoa1CHmuzCSbt9vGa7skp0m9FnE5ikTq-p-ccIVTXrngAAJFv8Uynuqs9BAUO-Nd_mJcdq06Cw3j9uqp9mwc8yupGu7rF",
+        "AUc7tXXy2Funv9Jm90yiBjT-dlBnsewLGUwJPhKbPabPYSlrXLfWxVlelkV4TmvsH50JEmrjBZHqpO-17n2DZhBDbcIVw42WqZk1kBKfjeUNEMuhwJXmS4b1cN2Q4Ockhh2KQfthHJlHcjX535fpaAxXlevprOlZLrYt_Te2avTcquuBuamZ"
+      ],
+      "category": "meal_takeaway"
+    }
+  },
+  {
+    "id": 10,
+    "userId": 2,
+    "businessId": 129,
+    "liked": 1,
+    "saved": 0,
+    "viewed": 0,
+    "rated": 0,
+    "reviewed": "",
+    "User": {
+      "id": 2,
+      "name": "chi",
+      "email": "chi@gmail.com",
+      "password": "$2b$14$NIl8opktytESNXOTLJWEbent4DR4d6LDtoqQfprqHjLE5xwmT5B0O",
+      "interests": null,
+      "preferredRating": null,
+      "favoriteCategories": []
+    },
+    "Business": {
+      "id": 129,
+      "placeId": "ChIJN9urM66kj4ARTUoR3reRw2g",
+      "name": "Subway",
+      "location": "37.4506619, -122.1851727",
+      "contactInformation": "(650) 330-1692",
+      "overview": "Casual counter-serve chain for build-your-own sandwiches & salads, with health-conscious options.",
+      "businessHours": [
+        "Monday: 7:00 AM – 9:00 PM",
+        "Tuesday: 7:00 AM – 9:00 PM",
+        "Wednesday: 7:00 AM – 9:00 PM",
+        "Thursday: 7:00 AM – 9:00 PM",
+        "Friday: 7:00 AM – 9:00 PM",
+        "Saturday: 8:00 AM – 8:00 PM",
+        "Sunday: 8:00 AM – 8:00 PM"
+      ],
+      "averageRating": 3.7,
+      "businessType": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+      "photoReference": "AUc7tXUFig8AUd42jlJgEhGOXkp2okUVNkcYcyHQsKYT0hw3VsZQiECrttHzG3rLseWjJJ0ZHsi_6oLPoQalDPhocafIuWhn3D3F5paw6Gz60HnxoeWAbx5Dkf-N7TWAW4lWDI_RF-80Gli2l3ehfkeUFGFEZCXUp8YV4DfWaVu7jp6TpMjt",
+      "photos": [
+        "AUc7tXUFig8AUd42jlJgEhGOXkp2okUVNkcYcyHQsKYT0hw3VsZQiECrttHzG3rLseWjJJ0ZHsi_6oLPoQalDPhocafIuWhn3D3F5paw6Gz60HnxoeWAbx5Dkf-N7TWAW4lWDI_RF-80Gli2l3ehfkeUFGFEZCXUp8YV4DfWaVu7jp6TpMjt",
+        "AUc7tXVnrRy-wSwjPqEEAy90WVzckj7MVyS7-C6Eh75d4wa4xTTGSs4tt9Am888EPyV5hj6GpQG8yAT9MLUSFxDS0DCmDccTjW2gX0TYEZHmzNQ_hEQ98j2yom23z_Wd-n2ODP-WpGnjf4H0Oqgf1jZqDcacQp6ffGkNCKeK6WMfyI3Vplvd",
+        "AUc7tXW-qm7polTXAxD0CurTPwefWbYG_rtQYkBamDSeeLupvFHXKKVIxC5m2f5ukpDLnpyTh4Ri9FK16hSzntMkZpMuC4n7-4UiYIVyY3rBoUEPDrcOmrr6JRpbUsleqjymHeqFFHZQMNuo24MvhTBNR5of9RLTexdOh4ua-cXejNOObHEg",
+        "AUc7tXUYQPrSr4uCeP8o-EHBbN_adxY0HBpL_EYBQJSM_8-PbnKcIx6Leh6zqhDVb-z-GYTQZXM62cKSKQWuwxGXNqiFLc2lKMT1GhSdKionzrIaQ0ZXwGRurlzG6H5PfGBfI4IGC3Wz1MsG599AYxLklgrHTZG8zbodkoBYxzVRF9xikuWt",
+        "AUc7tXXaRoS_5QAJK5uwKVVvx53vrdo0tO2QsiuZv3D-asApRP5F7haOojwjN32DZ_5pGGRh5wAmbvful6VGbtR9wN86pGVfpToQG6hdtx70zp_e3KA80eIDuU5jojaqUJ3PcSKf-dkJBdGxdnH9Yw-y12bynHCxKnZbRtD2mQtmmx6HZr-X",
+        "AUc7tXWMFY12et4Vac522WxC0oHFZp28RQ1nhYjYl0F2APUGhtCXmKngiHehza01NLEdYg_JcR95GrhzAETw2c3KDGEBGEjy8m6d2SpC0BUgPp9R2dLmz9hziYGl0-4cvThZ7Mxcy1bEfLs9OfE4qUOSmZAJxT6tTBRmu3GkVadamvubtpYZ",
+        "AUc7tXVLU8ma3Ku-McRRdvvbgvr_1s7vmAEyUsPGcHtFl5gRHFW72IX5lZZ5w89ahmk9Og6uMHpWA5deu2SQ05_DlVLQGbUkROaXjcARPX2GBOY5Ei7RwLyWvzRT1sqPO-ypvjLEp5kFiUO4yaUngF3pnpAqzASuk68WuBoMuoJ_zBzgMMuq",
+        "AUc7tXWHuku73GJYMohbpR8jwsHiZrUu3K4ZkPZ1Yh1_IjZcsWh9-eXE6X0CyNoIiWvPOXAsDl0_i9njwT8aDiLFmF3EVI3KW-UnMMaR2lNie0iEPnirR7YJNzpe2ciawOTQsCNqTcKP9dmorjnmM8jV0ZANrf-5A2G7soP-kpOx7UP2Rxk4",
+        "AUc7tXUJ-0T5PvNgl-XLn3kTw9Ix6g9WAYFScLVeyIiIhl9jgoQkidMn62jyofotTlXqwci9q6XIck8zMb9_Bjocoa1CHmuzCSbt9vGa7skp0m9FnE5ikTq-p-ccIVTXrngAAJFv8Uynuqs9BAUO-Nd_mJcdq06Cw3j9uqp9mwc8yupGu7rF",
+        "AUc7tXXy2Funv9Jm90yiBjT-dlBnsewLGUwJPhKbPabPYSlrXLfWxVlelkV4TmvsH50JEmrjBZHqpO-17n2DZhBDbcIVw42WqZk1kBKfjeUNEMuhwJXmS4b1cN2Q4Ockhh2KQfthHJlHcjX535fpaAxXlevprOlZLrYt_Te2avTcquuBuamZ"
+      ],
+      "category": "meal_takeaway"
+    }
+  },
+  {
+    "id": 7,
+    "userId": 2,
+    "businessId": 131,
+    "liked": 0,
+    "saved": 0,
+    "viewed": 1,
+    "rated": 0,
+    "reviewed": "",
+    "User": {
+      "id": 2,
+      "name": "chi",
+      "email": "chi@gmail.com",
+      "password": "$2b$14$NIl8opktytESNXOTLJWEbent4DR4d6LDtoqQfprqHjLE5xwmT5B0O",
+      "interests": null,
+      "preferredRating": null,
+      "favoriteCategories": []
+    },
+    "Business": {
+      "id": 131,
+      "placeId": "ChIJu2z3_K-kj4AR56nmZskIkg4",
+      "name": "Shiok! Singapore Kitchen",
+      "location": "37.4520328, -122.1853065",
+      "contactInformation": "(650) 838-9448",
+      "overview": "Singaporean fare, such as lychee drinks, samosas & crispy tofu, served in a laid-back setting.",
+      "businessHours": [
+        "Monday: 11:30 AM – 2:30 PM, 5:30 – 8:30 PM",
+        "Tuesday: 11:30 AM – 2:30 PM, 5:30 – 8:30 PM",
+        "Wednesday: 11:30 AM – 2:30 PM, 5:30 – 8:30 PM",
+        "Thursday: 11:30 AM – 2:30 PM, 5:30 – 8:30 PM",
+        "Friday: 11:30 AM – 2:30 PM, 5:30 – 8:30 PM",
+        "Saturday: 5:30 – 8:30 PM",
+        "Sunday: Closed"
+      ],
+      "averageRating": 4.1,
+      "businessType": "restaurant, food, point_of_interest, establishment",
+      "photoReference": "AUc7tXWV_tMGcvYnPt612IkLXLIeMfWm0S8r47WX9sOe1yy_YGGIjYLloO_2GVh9KEfOtQ4ZIj16FkP2thnFso_k9SKmabZzSfxfpv_OGK04G54ZrTY7mHvPjZPSabdjcTrFypFgX5pFdBIs6fqhjOGTo_LEE6Yd7iL2pdPk907G2Kx_gU6S",
+      "photos": [
+        "AUc7tXWV_tMGcvYnPt612IkLXLIeMfWm0S8r47WX9sOe1yy_YGGIjYLloO_2GVh9KEfOtQ4ZIj16FkP2thnFso_k9SKmabZzSfxfpv_OGK04G54ZrTY7mHvPjZPSabdjcTrFypFgX5pFdBIs6fqhjOGTo_LEE6Yd7iL2pdPk907G2Kx_gU6S",
+        "AUc7tXVIhzXsLX6oxnauVU8HaJiWVVHecCZPxOZN-ORhZhzpD7zsrYbbCYFPWeBa98ITXL4fiYn3uzO6Be4g6MZt-MOTL86rNEOPZJHqy5qwb2r9iiYoc11ODNCkJ-v4XHQM2yDYwjRkVTrWesRY8kgbVSdwC5e6RijiEOg-YWofudijgBGq",
+        "AUc7tXUdSBfBmDhqRmRTY8FtgYcFTV9aZlgSf5VntntAvzsYFBbQcDhB2K3USIBdNNtEE4tBsATcghFp3v8ttA8OsoNfSFSjWRucbaXjf117hJZSiR2gz__Si_tuuPd2ZtbtFNm4IVF6r3VjKUZo4Ec0mUrXVrHd0yroL9xLy4ZBh-jOhGhh",
+        "AUc7tXX5vyiA9aM9nCCPgflKAWeiJF-0IXWpXx21pywSQ6w3RARon7ROEx5CXdoLkr2cRh2qPm-a-gDtMWMIigZLKAoiWlJnALEFG4D9t-CmjevV0p_IK2vEvRGmfDGsB81YR0dkwMktwAnkyCYLv4Be7XFgvR-VT2e8hCDi5IZ9W3FZ-SNI",
+        "AUc7tXXA19B92ZCoNN1CuG5ehvNOjtpTyOHK8U959QkIPvHpw8OItwzd-eyQ2Tz0RHHaK4yeKnBLSrNX4WsDjG5dvUtPIwIeCWkaHG9bVDc00rPCbCfJOp1VDMNHyMRYV0QWsLPu2eJlpOI-LA7_2xmVly-qbHQz5qggKaVzVUYJSmNMzKXu",
+        "AUc7tXX19xFULeST-ike7IdTIj1KUSHI4lJTJ40FkEtEKQ3At5G9ddUG3QGF3uO8a8K6mxBwRbeCVR_J1GQW3RN57BVLIo4JFn6Cu-w6JAfPBbKc3wCafHPWS1SzeqvTjY6mLWv8EMubQAhI7ZD9lMzrYWJIm7DgXMCGKawUKySdd649LvOQ",
+        "AUc7tXWTx4DRpesuvGudhCY1NnazX7cbM9b1Qgc59IVnd7kS24bQkRYbtUCglRQ8uH06dSW98nGPlDWEbnM_k6wOgDlHu8pmEdq-bDXypmM8jD2nJF1UA1VofGuOVD1mI4KrIvo3MeFZ-D5Q1FAPG8BQ0aQaRKOE97kPk-b8Ww26HqUyzQQM",
+        "AUc7tXW034cDHU8ro03Dh1xDQupnCMseqnkKcFNYu1QTQOdhMx4_BU15CmP7xZ695W-jX3uwVZSUZ_58O4yCt9D98-Xbk-lOX1wgMFuKNdU_yO5ctjLQGPv9vcMh4WMZnyWYAuU4VtKZjPdDOBlA91PJA-izu2lZR5LQpntgvFbAJB6kggNI",
+        "AUc7tXXSpF5LnG6UlAVMyui-cxvioNByAF3hpfeMz_JNAMopSO2ONfJNpOkOhAXEM4mL20DgfAJ9JrIVMLTEbCQL5ojk_A1TwmLI6ydJJO_PwED6y9EoNO1C4vP05eDW32c6PaJCNoWHSval6PiE75xvhaNJZcrtiSsl0vmxL6GXxumIQM0e",
+        "AUc7tXX4lESmNVMqLtB2Djboa4Y_xcWCrpQ95EYVoLAPL8cPeLoowekGIGiD7p4JHnD-00h97_reeF5I4VnR3RwnmMNT_HkpXNgKFYYonlTgTojunTJRlnTEt4AMK6orfTYu2bSP1P92pHZUfCQSPvTc6OKHDkzLNs8edi7XI_f0Rm867kU9"
+      ],
+      "category": "restaurant"
+    }
+  },
+  {
+    "id": 12,
+    "userId": 2,
+    "businessId": 127,
+    "liked": 1,
+    "saved": 0,
+    "viewed": 0,
+    "rated": 0,
+    "reviewed": "",
+    "User": {
+      "id": 2,
+      "name": "chi",
+      "email": "chi@gmail.com",
+      "password": "$2b$14$NIl8opktytESNXOTLJWEbent4DR4d6LDtoqQfprqHjLE5xwmT5B0O",
+      "interests": null,
+      "preferredRating": null,
+      "favoriteCategories": []
+    },
+    "Business": {
+      "id": 127,
+      "placeId": "ChIJ6ciMyq-kj4ARRLEgxqtHAjQ",
+      "name": "Stacks Menlo Park",
+      "location": "37.45345599999999, -122.183247",
+      "contactInformation": "(650) 838-0066",
+      "overview": "Lively American breakfast/lunch spot that's popular on weekend mornings for big stacks of pancakes.",
+      "businessHours": [
+        "Monday: 7:00 AM – 2:00 PM",
+        "Tuesday: 7:00 AM – 2:00 PM",
+        "Wednesday: 7:00 AM – 2:00 PM",
+        "Thursday: 7:00 AM – 2:00 PM",
+        "Friday: 7:00 AM – 2:30 PM",
+        "Saturday: 7:00 AM – 2:30 PM",
+        "Sunday: 7:00 AM – 2:30 PM"
+      ],
+      "averageRating": 4.3,
+      "businessType": "restaurant, food, point_of_interest, establishment",
+      "photoReference": "AUc7tXX9im6_TgJSXNbFzJFxrIPhZWEAXs-Ki7zJeePwWNlKa1HRhQwF-NHG5g4rWCAF-tx4e7DSo_kSYMzgrBUbt3PuwreOh5c2OMR88HrCWE9o10aBuDfNcyKxkUtjp6JdbzVVeTIwLC5HFlSD6jg3LCnDDNX7IAv_mUUrQKDDn4n3u_eg",
+      "photos": [
+        "AUc7tXX9im6_TgJSXNbFzJFxrIPhZWEAXs-Ki7zJeePwWNlKa1HRhQwF-NHG5g4rWCAF-tx4e7DSo_kSYMzgrBUbt3PuwreOh5c2OMR88HrCWE9o10aBuDfNcyKxkUtjp6JdbzVVeTIwLC5HFlSD6jg3LCnDDNX7IAv_mUUrQKDDn4n3u_eg",
+        "AUc7tXVfsdgNiWL9y3WuQgioOOLBd8BVS2QzSvkh2fy5_VS4_WQnMoLxKqaURsX9Ux4WsJmohqTfubemMjPrtyqH9Mhh_4FE1aTkrvj1G9YZ8lShLDAG2C4I0WQmehOiXU_h0d64JYFxUybRajdWR5cIH64ulY8493SDbHHHXBBwJ9Lo8MVC",
+        "AUc7tXWuIg_zirr7CeEejolI-T8h_0wFRpV42WLx28LP_dn-9wN49oyAg-btxFySNl8KYwhsqthMBkMwToeZ7dR0Woazb3t9WYI_lTOS4MV0XBz831pLCnLwVfzm-hAVuTJ3nBbOSVE9W7xR17R587Momx3ITx2qLNktHV46gGUWhQJyMkHJ",
+        "AUc7tXUtlVrhwoVDSWnLy-djM1CAFX9MQ7Bhfm1v8OB99kecr8KbcDVRLl2BAlUW2j2v0JtTdDWa9x4F99Ygj9MvPurCecU_We17nW33owBdeLbmJTRpH1gFzEwyySXF-CIwWhIKSKSzm-_aeB1zPzeieMLXlOOcBsHYEbsQTj7hf_i_Tp80",
+        "AUc7tXWuUUIa74Q-wUsdf8ER3Il6IScOvcsaMhCYQXUmD5jTUBV8JgndO13Jaw8dZw6iZt1f4jV3Sm5Ewqx1ru3_RF8apj3xOJagDCzWZFqILK_SFLKyxPbPCNHkgcKDzyz9ylP9fFQ6sUyoHB_GvDMLL2R3Fi3THvzrbpESJEhlw5Wa1H4",
+        "AUc7tXWqB_7mFZZBoGtzld8uCHt-opN_1N4WdJGhQ2mI7TsUP6u8xDs_9SSWByHZUeE_kWy-IwDi8H5xMUMYlcUU7mqXDVdXEPgC6ooW2_bkkog54mFnabgzH-IQtk3vpIw_PgVa3RppiTfDbv_74upgGahTSNApBuUWePybS9rSuGqm9tV2",
+        "AUc7tXXQ00ouVoM_lg4Gz8PpXFNAmCkwpXevuRUm7HtYh_ZjFnb7CBFwxOOZ0o2W5RYf0I6vwS2Mblg2LlL0sdhDTMElza7yJ0dmYWPHS_k-HbVnG9mxwCyDzyOw8o090Y3R08zc0aDW3ejOCAi3gOoCzZMAIRpdJnD1vaOzUfiXRgEeknkz",
+        "AUc7tXV9T8lYIj7knsNdSYBFagpdKWpVDbV5ynE8f7KBPXorNbXFytfJmIy3vQdRTnWURtPkc3TkgDSrVhshZgU35QQ3QLzgoENP2_WeHAYLanXRu0a4ggB8_SyPT8HXg3nq7OPaPKIdVyMrWrt06-AXsJn7dUJJMnOqOIN4Vb6rIngXBJCq",
+        "AUc7tXVYqQvCwwVbXSJUXtXpznqq46FvdJn5H8G8nln3cNCJEwvhmGheSEeNaOznArw8bJ7bPMC2aULOIy-WTFTca1E4MsI4qUpkAhxx0PQhaUvPXGCkTiVBd5wpGQalOHLQN6w8LnF_rzQoJ1yskvoH-Sx_LjXsq_yRe9DcbpKKZERSU-6K",
+        "AUc7tXWFbFOFsEJEFYK24BR46Nl9MVKfdsZShZsyfQqgR5suxgCNzrqQ5LKxYFgzreFZtHsPHlfBVhALlPVpJfnlOTbOHrKLZ_bfR0Y1yXJ2hyYstwQub2V3AvYGASXRX-9FyUNRAmnFla1AZjlIEwkof4I7_X74gtqyKtFynEu1K7MTehaW"
+      ],
+      "category": "restaurant"
+    }
+  },
+  {
+    "id": 6,
+    "userId": 2,
+    "businessId": 130,
+    "liked": 1,
+    "saved": 0,
+    "viewed": 1,
+    "rated": 0,
+    "reviewed": "",
+    "User": {
+      "id": 2,
+      "name": "chi",
+      "email": "chi@gmail.com",
+      "password": "$2b$14$NIl8opktytESNXOTLJWEbent4DR4d6LDtoqQfprqHjLE5xwmT5B0O",
+      "interests": null,
+      "preferredRating": null,
+      "favoriteCategories": []
+    },
+    "Business": {
+      "id": 130,
+      "placeId": "ChIJY6ZwBLCkj4ARi7cvBaDpTo4",
+      "name": "Ristorante Carpaccio",
+      "location": "37.4515107, -122.185404",
+      "contactInformation": "(650) 322-1211",
+      "overview": "Long-running local favorite for everyday Italian dishes in a lively neighborhood setting.",
+      "businessHours": [
+        "Monday: Closed",
+        "Tuesday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Wednesday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Thursday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Friday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Saturday: 11:30 AM – 2:30 PM, 5:00 – 8:30 PM",
+        "Sunday: 5:00 – 8:00 PM"
+      ],
+      "averageRating": 4.3,
+      "businessType": "meal_takeaway, bar, restaurant, food, point_of_interest, establishment",
+      "photoReference": "AUc7tXUZcmMQE4aY4R25TQTqgFjse-PJ16QMwRIiRdOXYpIiqSSCslFVV5rybKGQ14rxxnW-yrQdMvllD8IQdKDcPkJeQ651RGVRUm3THydMSuyQu4xz7iKVYpdK6cOGgNvdQ5JHosrkWVTNZsATQKKWWV6V3gMVNEP2LRCyRhRGox0jI8c-",
+      "photos": [
+        "AUc7tXUZcmMQE4aY4R25TQTqgFjse-PJ16QMwRIiRdOXYpIiqSSCslFVV5rybKGQ14rxxnW-yrQdMvllD8IQdKDcPkJeQ651RGVRUm3THydMSuyQu4xz7iKVYpdK6cOGgNvdQ5JHosrkWVTNZsATQKKWWV6V3gMVNEP2LRCyRhRGox0jI8c-",
+        "AUc7tXWATLQd69c8tKBmTldCjsNIVGSk1B8S0F48krCy2g7fqdqpDG8p40DdgXdfzO6dPCxlGZTXqWSDYKm_wd5n9Y0esmymxhtnE014VH5JTvvIFKKKDI_GTqkFw2G-WqnrBwyHaQ8nnJW0csXp4jRJMphHmLZzLOkbvSxj_irqzujkINW0",
+        "AUc7tXUSrxk5H_Gm5XvvyrYuNKMaCuNNeRpm6syYuKVwyNw6YzJ-N5RBB0G5ytkYyVU6VpSzPOKh-r1k2rUF11CCEAGj66XiWrQWWMN1MGE0Zppd3oLb0u00S0KNPknunYW8Kx_CseVKVEyVczKftoNDT1K80nzy7Duuv3N8OCiRHj-LLN59",
+        "AUc7tXVE12Y4sN3ilTqXZheDMYAKihbpwjjcZvp1P2Apn4RguK4kzz5UjZi57gYnFtF85NSTUjeFtJkuO9c8dreApB3XQ-ZYjRTC8Z6wPbw6oZdx0rLyrwMfoYIEaV8yXgDw3aDb30E7Q2uhnzI9WlVaIxEcdCktWYlMCCg8A4JxpMkzP11v",
+        "AUc7tXVdjPK6576QtAD4etMgiZ6ZpkqjxF2fGCwQ1-59z1xrWd5cQCv91gtELuhJn5PIcFHarZAdgtLbAXqx51oDF44Np90UFhJZENQIQNn1hRwf6Pc8XgvnKRiiI7CZY3im8qUFPCIrdlftlcDiGnFLT7TvHXGHgj42jX1gILpPbMKEpFJu",
+        "AUc7tXXLuAqHpKNs4AzEI_O3anKHWv9XFGyIjHRuu4kKKjmGE9UlIKibVB1hVAJxgsSNv_gacg5GfetfsRWDerr_MRqdGiJBrrG3dk9vOyLA7pLfmXKSKbz2Bxv7wWyZbNYq1jGhMRIS2Xo4Q4gYAzPBng4oMmaIIOg4MQv7kz3TNQ_zU82G",
+        "AUc7tXUxTuvKDveBLPwlWX9UpBiwbrlqu74EM88roQl-y7pJZ5jdJz7Kf7W0PJoQBx1hYoYs-p-BlJiY-vEHdecGpI_SQ1fvJq8wAKzZyIPuTY1xcyEOUM-BJbPByYiPk317Ppt8qd0c6_1VBVB-2cq0ilsCJ22cGnZAHfaNqIQxDIY-mwW7",
+        "AUc7tXWsnIrgjghy5fiLej5OWCkk5ayKbAeHHpr1hO_fGGOv_zclmHG7iIvKFCLQEbQf1XB7qWFJpC8UhvmQvDxub5j6QeIOwwXExXRMDNBzvm0VuhD9tj1SxxF1NcmbvjM88aGKYu0_FoTJGnGLDcBo633pfP5ewxp0CuSqNZjhHFb3jcNz",
+        "AUc7tXWAtjJP6lorfCvu0arAyG_2lfjU0RIXGCb7ZWCy8qH5o8WlQ7gh4fnenQg9IdmGxXh5GaQ_-gaoQNo7shJ7QxJYIFJsD8lLIqQoM8FmiyTSENxweM_Z0wq5JTaqYCDyk1SCbqj8oepujcaIgAzUo7Wl4SNXcnrV4Jff0alB6bIG7Kyj",
+        "AUc7tXXONRrMw7NoCmUaFzOCRDZ-nUQzM3Xc1lm5A6_a2nBj7qVaHu8UYiWdIO8tCKvRi3jerFKaXUCfwUK8ogbcB_WjX0bGJQYa9xzFTR3dkBbvvSaqj7gIht8OWPu-F9E7NLK0ogY80X3lxPbUW4h6TmB6VfZfq1jDqgGMpvbfJfgcCENH"
+      ],
+      "category": "meal_takeaway"
+    }
+  }
+]

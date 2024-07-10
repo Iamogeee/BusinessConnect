@@ -50,7 +50,7 @@ model Interaction {
   businessId Int
   liked       Boolean   @default(false)
   saved       Boolean   @default(false)
-  viewed     Boolean   @default(false)
+  viewed     Boolean    @default(false)
   rated      Float?
   reviewed   String?
   User       User      @relation(fields: [userId], references: [id])

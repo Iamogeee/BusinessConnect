@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const { processJsonFile } = require("./jsonProcessor");
+const { exec } = require("child_process");
 const { PORT, API_KEY, JWT_SECRET } = require("./config");
 
 const prisma = new PrismaClient();
@@ -235,8 +235,21 @@ app.get("/api/favorites/:id", async (req, res) => {
   }
 });
 
-// Process JSON file
-processJsonFile();
+// Endpoint to trigger data preprocessing
+app.get("/preprocess-data", (req, res) => {
+  const scriptPath = path.join(__dirname, "dataPreprocessor.js");
+  exec(`node ${scriptPath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing script: ${error.message}`);
+      return res.status(500).send("Error preprocessing data");
+    }
+    if (stderr) {
+      console.error(`Script stderr: ${stderr}`);
+      return res.status(500).send("Error preprocessing data");
+    }
+    res.send("Data preprocessed successfully");
+  });
+});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
