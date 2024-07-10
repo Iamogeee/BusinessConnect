@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./BusinessList.css";
+import BusinessCard from "../BusinessCard/BusinessCard";
 
 const BusinessList = ({ selectedCategory }) => {
   const [businesses, setBusinesses] = useState([]);
   const [groupedBusinesses, setGroupedBusinesses] = useState({});
   const apiKey = import.meta.env.VITE_API_KEY;
-
-  const navigate = useNavigate();
-
-  const handleClick = (business) => {
-    navigate(`/business/${business.id}`);
-  };
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const groupBusinessesByCategory = (businesses) => {
     const grouped = businesses.reduce((acc, business) => {
@@ -40,26 +35,64 @@ const BusinessList = ({ selectedCategory }) => {
     fetchBusinesses();
   }, []);
 
+  const handleLike = async (businessId) => {
+    // Logic for tracking likes
+
+    try {
+      await fetch("http://localhost:3000/interact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ businessId, liked: true, userId: user.id }),
+      });
+    } catch (error) {
+      console.error("Error liking business:", error);
+    }
+  };
+
+  const handleSave = async (businessId) => {
+    // Logic for tracking saves
+
+    try {
+      await fetch("http://localhost:3000/interact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ businessId, saved: true, userId: user.id }),
+      });
+    } catch (error) {
+      console.error("Error saving business:", error);
+    }
+  };
+
+  const handleClick = async (businessId) => {
+    // Logic for tracking buisness views
+    try {
+      await fetch("http://localhost:3000/interact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ businessId, viewed: true, userId: user.id }),
+      });
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
+  };
+
   const renderBusinesses = (businessList) => (
     <div className="business-list">
       {businessList.map((business) => (
-        <div
-          onClick={() => handleClick(business)}
+        <BusinessCard
           key={business.placeId}
-          className="business-card"
-        >
-          <img
-            src={
-              business.photoReference
-                ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${business.photoReference}&key=${apiKey}`
-                : "frontend/src/assets/image.png"
-            }
-            alt={business.name}
-            className="business-photo"
-          />
-          <h3 className="business-name">{business.name}</h3>
-          <p className="business-rating">Rating: {business.averageRating}</p>
-        </div>
+          business={business}
+          apiKey={apiKey}
+          onLike={handleLike}
+          onSave={handleSave}
+          onClick={handleClick}
+        />
       ))}
     </div>
   );

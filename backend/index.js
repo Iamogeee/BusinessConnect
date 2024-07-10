@@ -193,6 +193,23 @@ app.get("/api/categories", async (req, res) => {
   }
 });
 
+//Interact route
+app.post("/interact", async (req, res) => {
+  const { businessId, liked, saved, viewed, reviewed, rated, userId } =
+    req.body;
+  try {
+    const interaction = await prisma.interaction.upsert({
+      where: { userId_businessId: { userId, businessId } },
+      update: { liked, saved, viewed, reviewed, rated },
+      create: { userId, businessId, liked, saved, viewed, reviewed, rated },
+    });
+    res.status(200).json(interaction);
+  } catch (error) {
+    console.error("Error creating/updating interaction:", error);
+    res.status(500).json({ error: "Failed to create/update interaction" });
+  }
+});
+
 // Process JSON file
 processJsonFile();
 

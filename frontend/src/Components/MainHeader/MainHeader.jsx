@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./MainHeader.css";
 import SearchBar from "../SearchBar/SearchBar";
 import FilterButton from "../FilterButton/FilterButton";
+import Sidebar from "../SideBar/SideBar";
 
 const MainHeader = ({ onCategoryChange }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
@@ -27,7 +28,8 @@ const MainHeader = ({ onCategoryChange }) => {
 
   return (
     <header className="header">
-      <div className="logo">
+      <div className="logo-and-sidebar">
+        <Sidebar />
         <h1>
           Business <span>Connect</span>
         </h1>

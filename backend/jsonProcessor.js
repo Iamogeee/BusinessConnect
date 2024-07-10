@@ -93,6 +93,7 @@ async function processJsonFile() {
             const existingReview = await prisma.review.findFirst({
               where: {
                 name: review.author_name,
+                businessId: upsertedBusiness.id,
               },
             });
 
