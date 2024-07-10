@@ -12,3 +12,11 @@
 .business-overview p {
   margin: 0;
 }
+
+body {
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}

@@ -1,8 +1,49 @@
 .business-details {
-  padding: 16px;
-  color: black !important;
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1200px;
 }
 
 .business-details h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
   text-align: center;
+}
+
+.business-main-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.business-section {
+  flex: 1;
+  min-width: 300px;
+  margin-bottom: 20px;
+}
+
+.business-photos {
+  margin-bottom: 20px;
+}
+
+.business-overview {
+  flex: 2;
+}
+
+.business-reviews {
+  flex: 1;
+}
+
+.business-hours {
+  flex: 1;
+}
+
+.open-modal-button {
+  background-color: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }

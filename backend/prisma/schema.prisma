@@ -19,6 +19,9 @@ model User {
   email             String    @unique
   password          String
   interests         String?
+  preferredRating   Float?
+  favoriteCategories String[]
+  interactions      Interaction[]
   recommendations   Recommendation[]
 }
 
@@ -36,7 +39,22 @@ model Business {
   photoReference    String 
   photos            String[]   
   recommendations   Recommendation[]
-  category          String             @default("")     
+  category          String             @default("")   
+  interactions      Interaction[]      
+
+}
+
+model Interaction {
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  businessId Int
+  viewed     Boolean   @default(false)
+  rated      Float?
+  reviewed   String?
+  User       User      @relation(fields: [userId], references: [id])
+  Business   Business  @relation(fields: [businessId], references: [id])
+
+  @@unique([userId, businessId]) 
 }
 
 model Service {
@@ -59,6 +77,7 @@ model Review {
   rating            Int
   reviewText        String
   name              String    @unique
+  profilePhoto      String    @default("")
 }
 
 model Recommendation {
