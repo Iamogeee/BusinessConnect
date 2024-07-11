@@ -24,9 +24,15 @@
 }
 
 .business-name {
-  font-size: 1.2rem;
-  color: #333;
-  margin: 0.5rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.5; /* Adjust line height as needed */
+  max-height: 3em;
+  margin-bottom: 0;
 }
 
 .business-rating {
