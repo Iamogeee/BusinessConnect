@@ -21,6 +21,7 @@ model User {
   interests         String?
   preferredRating   Float?
   favoriteCategories String[]
+  hasSelectedCategories  Boolean   @default(false)
   interactions      Interaction[]
   recommendations   Recommendation[]
 }

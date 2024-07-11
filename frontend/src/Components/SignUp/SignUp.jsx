@@ -27,6 +27,12 @@ function SignUp() {
         return;
       }
 
+      const userData = await response.json();
+
+      // Store user data in localStorage
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      // Navigating to the login page after successful sign-up
       navigate("/login");
     } catch (err) {
       setError("An error occurred. Please try again.");

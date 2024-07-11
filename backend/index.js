@@ -271,6 +271,32 @@ app.get("/api/favorites/:id", async (req, res) => {
   }
 });
 
+// Save categories endpoint
+app.post("/save-categories", async (req, res) => {
+  const { userId, categories, preferredRating } = req.body;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        favoriteCategories: categories,
+        preferredRating: preferredRating,
+        hasSelectedCategories: true,
+      },
+    });
+
+    res
+      .status(200)
+      .json({
+        message: "Categories and preferred rating saved successfully",
+        user,
+      });
+  } catch (error) {
+    console.error("Error saving categories and preferred rating:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // Endpoint to trigger data preprocessing
 app.get("/preprocess-data", (req, res) => {
   const scriptPath = path.join(__dirname, "dataPreprocessor.js");
