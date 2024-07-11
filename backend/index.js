@@ -9,6 +9,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
 const { PORT, API_KEY, JWT_SECRET } = require("./config");
+const tf = require("@tensorflow/tfjs-node");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
@@ -35,6 +36,19 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
+// Load the trained model
+let model;
+const loadModel = async () => {
+  try {
+    const modelPath = `file://${path.join(__dirname, "model", "model.json")}`;
+    model = await tf.loadLayersModel(modelPath);
+  } catch (error) {
+    console.error("Error loading model:", error);
+  }
+};
+
+loadModel();
 
 // Landing Page Route
 app.get("/", (req, res) => {
@@ -169,6 +183,28 @@ app.get("/api/reviews/:businessId", async (req, res) => {
   } catch (error) {
     console.error("Error fetching reviews:", error);
     res.status(500).json({ error: "Failed to fetch reviews" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
+app.post("/api/reviews", async (req, res) => {
+  const { businessId, rating, reviewText, name, profilePhoto } = req.body;
+
+  try {
+    const review = await prisma.review.create({
+      data: {
+        businessId,
+        rating,
+        reviewText,
+        name,
+        profilePhoto,
+      },
+    });
+    res.status(201).json(review);
+  } catch (error) {
+    console.error("Error saving review:", error);
+    res.status(500).json({ error: "Failed to save review" });
   } finally {
     await prisma.$disconnect();
   }
