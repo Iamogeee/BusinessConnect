@@ -46,7 +46,7 @@ try {
   // Training the model
   (async () => {
     await model.fit(inputTensor, labelTensor, { epochs: 100 });
-    console.log("Model training complete");
+    console.log("Model training complete"); //Temporary statement
 
     // Saves the model to my backend
     await model.save("file://./model");
