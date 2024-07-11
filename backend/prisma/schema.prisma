@@ -78,7 +78,7 @@ model Review {
   businessId        Int
   rating            Int
   reviewText        String
-  name              String    @unique
+  name              String    
   profilePhoto      String    @default("")
 }
 
