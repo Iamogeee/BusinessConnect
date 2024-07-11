@@ -16,13 +16,32 @@ const BusinessDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetching the details of the selected business from my backend
-    fetch(`http://localhost:3000/api/businesses/${id}`)
-      .then((response) => response.json())
-      .then((data) => setBusiness(data));
+    const fetchBusinessData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/businesses/${id}`
+        );
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+        setBusiness(data);
+      } catch (err) {
+        console.error("Error fetching business details:", err);
+        setError(err.message);
+      }
+    };
+
+    fetchBusinessData();
   }, [id]);
+
+  if (error) {
+    return <div>Error loading business details: {error}</div>;
+  }
 
   if (!business) {
     return <div>Loading...</div>;

@@ -23,7 +23,8 @@
 
 .photo-item img {
   width: 200px;
-  height: auto;
+  height: 200px;
   border-radius: 10px;
   object-fit: cover;
+  aspect-ratio: 1 / 1;
 }
