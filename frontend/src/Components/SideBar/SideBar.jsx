@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./SideBar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ userId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,19 +20,19 @@ const Sidebar = () => {
         </button>
         <ul>
           <li>
-            <a href="/saved">Saved for later</a>
+            <Link to="/saved">Saved for later</Link>
           </li>
           <li>
-            <a href="/favorites">Favorite businesses</a>
+            <Link to="/favorites">Favorite businesses</Link>
           </li>
           <li>
-            <a href="/recommended">Recommended</a>
+            <Link to={`/recommendations/${userId}`}>Recommended</Link>
           </li>
           <li>
-            <a href="/profile">Profile</a>
+            <Link to="/profile">Profile</Link>
           </li>
           <li>
-            <a href="/logout">Log out</a>
+            <Link to="/logout">Log out</Link>
           </li>
         </ul>
       </div>

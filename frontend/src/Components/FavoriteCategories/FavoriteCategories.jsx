@@ -99,7 +99,7 @@ const FavoriteCategories = () => {
           onChange={(e) => setPreferredRating(e.target.value)}
           min="0"
           max="5"
-          step="1"
+          step="0.5"
         />
       </div>
       <button className="save-button" onClick={handleSave}>
