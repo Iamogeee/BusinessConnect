@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Favoritecategories.css";
+import "./FavoriteCategories.css";
 
 const FavoriteCategories = () => {
   const [categories, setCategories] = useState([]);
