@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./BusinessList.css";
+import MainHeader from "../MainHeader/MainHeader";
+import "./FavoriteBusinesses.css";
+import "../BusinessList/BusinessList.css";
 import BusinessCard from "../BusinessCard/BusinessCard";
 
-const BusinessList = ({ selectedCategory }) => {
+const FavoriteBusinesses = () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
   const [businesses, setBusinesses] = useState([]);
   const [groupedBusinesses, setGroupedBusinesses] = useState({});
   const apiKey = import.meta.env.VITE_API_KEY;
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const groupBusinessesByCategory = (businesses) => {
     const grouped = businesses.reduce((acc, business) => {
@@ -23,7 +26,9 @@ const BusinessList = ({ selectedCategory }) => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/businesses");
+        const response = await fetch(
+          `http://localhost:3000/api/favorites/${user.id}`
+        );
         const data = await response.json();
         setBusinesses(data);
         groupBusinessesByCategory(data);
@@ -118,9 +123,15 @@ const BusinessList = ({ selectedCategory }) => {
     );
   };
 
-  return !selectedCategory || selectedCategory === "All Categories"
-    ? renderCategoryGroups()
-    : renderSelectedCategory();
+  return (
+    <div className="home-page">
+      <MainHeader onCategoryChange={setSelectedCategory} />
+      <main>
+        <h2>Favorites</h2>
+        {selectedCategory ? renderSelectedCategory() : renderCategoryGroups()}
+      </main>
+    </div>
+  );
 };
 
-export default BusinessList;
+export default FavoriteBusinesses;

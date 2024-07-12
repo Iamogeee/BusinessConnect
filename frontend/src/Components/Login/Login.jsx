@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
@@ -20,14 +20,23 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || "Login failed");
+        return;
+      }
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate("/home");
+      const { token, user } = await response.json();
+
+      // Store user data in localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
+      // Navigate based on whether the user has selected categories
+      if (!user.hasSelectedCategories) {
+        navigate("/interests");
       } else {
-        setError(data.message || "Login failed");
+        navigate("/home");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
@@ -42,7 +51,7 @@ function Login() {
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="input-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email Address</label>
             <input
               type="email"
               id="email"
@@ -63,16 +72,10 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
           <button type="submit" className="login-button">
             LOGIN
           </button>
         </form>
-        <div className="sign-up-link">
-          <p>
-            New User? <Link to="/signup">SIGN UP</Link>
-          </p>
-        </div>
       </div>
     </div>
   );

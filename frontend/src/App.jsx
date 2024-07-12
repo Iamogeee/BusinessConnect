@@ -8,6 +8,8 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import HomePage from "./Components/HomePage/HomePage";
 import Footer from "./Components/Footer/Footer";
 import BusinessDetails from "./Components/BusinessDetails/BusinessDetails";
+import FavoriteBusinesses from "./Components/FavoriteBusinesses/FavoriteBusinesses";
+import FavoriteCategories from "./Components/FavoriteCategories/FavoriteCategories";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/business/:id" element={<BusinessDetails />} />
+          <Route path="/favorites" element={<FavoriteBusinesses />} />
+          <Route path="/interests" element={<FavoriteCategories />} />
         </Routes>
         <Footer />
       </div>

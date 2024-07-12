@@ -21,6 +21,7 @@ model User {
   interests         String?
   preferredRating   Float?
   favoriteCategories String[]
+  hasSelectedCategories  Boolean   @default(false)
   interactions      Interaction[]
   recommendations   Recommendation[]
 }
@@ -48,7 +49,9 @@ model Interaction {
   id         Int       @id @default(autoincrement())
   userId     Int
   businessId Int
-  viewed     Boolean   @default(false)
+  liked       Boolean   @default(false)
+  saved       Boolean   @default(false)
+  viewed     Boolean    @default(false)
   rated      Float?
   reviewed   String?
   User       User      @relation(fields: [userId], references: [id])
@@ -76,7 +79,7 @@ model Review {
   businessId        Int
   rating            Int
   reviewText        String
-  name              String    @unique
+  name              String    
   profilePhoto      String    @default("")
 }
 

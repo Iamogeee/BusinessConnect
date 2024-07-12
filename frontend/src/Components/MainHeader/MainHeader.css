@@ -8,13 +8,19 @@
   position: inherit;
 }
 
-.logo h1 {
-  font-size: 24px;
-  font-weight: bold;
+.logo-and-sidebar {
+  display: flex;
+  align-items: center;
 }
 
-.logo span {
-  color: #00aaff;
+.logo-and-sidebar h1 {
+  margin: 0;
+  margin-left: 10px;
+  font-size: 24px;
+}
+
+.logo-and-sidebar h1 span {
+  color: #007bff;
 }
 
 nav {

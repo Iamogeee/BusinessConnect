@@ -7,8 +7,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const { processJsonFile } = require("./jsonProcessor");
+const { exec } = require("child_process");
 const { PORT, API_KEY, JWT_SECRET } = require("./config");
+const tf = require("@tensorflow/tfjs-node");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
@@ -35,6 +36,19 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
+// Load the trained model
+let model;
+const loadModel = async () => {
+  try {
+    const modelPath = `file://${path.join(__dirname, "model", "model.json")}`;
+    model = await tf.loadLayersModel(modelPath);
+  } catch (error) {
+    console.error("Error loading model:", error);
+  }
+};
+
+loadModel();
 
 // Landing Page Route
 app.get("/", (req, res) => {
@@ -174,6 +188,28 @@ app.get("/api/reviews/:businessId", async (req, res) => {
   }
 });
 
+app.post("/api/reviews", async (req, res) => {
+  const { businessId, rating, reviewText, name, profilePhoto } = req.body;
+
+  try {
+    const review = await prisma.review.create({
+      data: {
+        businessId,
+        rating,
+        reviewText,
+        name,
+        profilePhoto,
+      },
+    });
+    res.status(201).json(review);
+  } catch (error) {
+    console.error("Error saving review:", error);
+    res.status(500).json({ error: "Failed to save review" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
 app.get("/api/categories", async (req, res) => {
   try {
     const categories = await prisma.business.findMany({
@@ -193,8 +229,89 @@ app.get("/api/categories", async (req, res) => {
   }
 });
 
-// Process JSON file
-processJsonFile();
+//Interact route
+app.post("/interact", async (req, res) => {
+  const { businessId, liked, saved, viewed, reviewed, rated, userId } =
+    req.body;
+  try {
+    const interaction = await prisma.interaction.upsert({
+      where: { userId_businessId: { userId, businessId } },
+      update: { liked, saved, viewed, reviewed, rated },
+      create: { userId, businessId, liked, saved, viewed, reviewed, rated },
+    });
+    res.status(200).json(interaction);
+  } catch (error) {
+    console.error("Error creating/updating interaction:", error);
+    res.status(500).json({ error: "Failed to create/update interaction" });
+  }
+});
+
+app.get("/api/favorites/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const favorites = await prisma.interaction.findMany({
+      where: { userId: parseInt(id), liked: true },
+      include: { Business: true },
+    });
+
+    const uniqueBusinesses = Array.from(
+      new Set(favorites.map((interaction) => interaction.businessId))
+    ).map((businessId) => {
+      return favorites.find(
+        (interaction) => interaction.businessId === businessId
+      ).Business;
+    });
+
+    res.json(uniqueBusinesses);
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    res.status(500).json({ error: "Failed to fetch favorites" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
+// Save categories endpoint
+app.post("/save-categories", async (req, res) => {
+  const { userId, categories, preferredRating } = req.body;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        favoriteCategories: categories,
+        preferredRating: preferredRating,
+        hasSelectedCategories: true,
+      },
+    });
+
+    res
+      .status(200)
+      .json({
+        message: "Categories and preferred rating saved successfully",
+        user,
+      });
+  } catch (error) {
+    console.error("Error saving categories and preferred rating:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Endpoint to trigger data preprocessing
+app.get("/preprocess-data", (req, res) => {
+  const scriptPath = path.join(__dirname, "dataPreprocessor.js");
+  exec(`node ${scriptPath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing script: ${error.message}`);
+      return res.status(500).send("Error preprocessing data");
+    }
+    if (stderr) {
+      console.error(`Script stderr: ${stderr}`);
+      return res.status(500).send("Error preprocessing data");
+    }
+    res.send("Data preprocessed successfully");
+  });
+});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));

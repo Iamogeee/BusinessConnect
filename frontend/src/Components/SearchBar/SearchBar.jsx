@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./SearchBar.css";
 
 const SearchBar = ({ onSelect, onSearchOnMap }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const latestRequest = useRef(null);
 
   const handleInputChange = async (e) => {
     const value = e.target.value;
@@ -16,9 +17,17 @@ const SearchBar = ({ onSelect, onSearchOnMap }) => {
       return;
     }
 
+    if (latestRequest.current) {
+      latestRequest.current.abort();
+    }
+
+    const controller = new AbortController();
+    latestRequest.current = controller;
+
     try {
       const response = await fetch(
-        `http://localhost:3000/api/businesses/search?query=${value}`
+        `http://localhost:3000/api/businesses/search?query=${value}`,
+        { signal: controller.signal }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
@@ -27,9 +36,11 @@ const SearchBar = ({ onSelect, onSearchOnMap }) => {
       setResults(data);
       setShowDropdown(true);
     } catch (err) {
-      console.error(err);
-      setResults([]);
-      setShowDropdown(false);
+      if (err.name !== "AbortError") {
+        console.error(err);
+        setResults([]);
+        setShowDropdown(false);
+      }
     }
   };
 

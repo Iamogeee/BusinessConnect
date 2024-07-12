@@ -45,11 +45,10 @@ async function processJsonFile() {
           update: {
             name: placeDetails.name || business.name,
             location,
-            contactInformation:
-              placeDetails.formatted_phone_number || "Unknown",
+            contactInformation: placeDetails.formatted_phone_number || null,
             overview: placeDetails.editorial_summary
               ? placeDetails.editorial_summary.overview
-              : "Overview not provided",
+              : null,
             businessHours: placeDetails.current_opening_hours
               ? placeDetails.current_opening_hours.weekday_text
               : [],
@@ -67,11 +66,10 @@ async function processJsonFile() {
             placeId: business.place_id,
             name: placeDetails.name || business.name,
             location,
-            contactInformation:
-              placeDetails.formatted_phone_number || "Unknown",
+            contactInformation: placeDetails.formatted_phone_number || null,
             overview: placeDetails.editorial_summary
               ? placeDetails.editorial_summary.overview
-              : "Overview not provided",
+              : null,
             businessHours: placeDetails.current_opening_hours
               ? placeDetails.current_opening_hours.weekday_text
               : [],
@@ -93,6 +91,7 @@ async function processJsonFile() {
             const existingReview = await prisma.review.findFirst({
               where: {
                 name: review.author_name,
+                businessId: upsertedBusiness.id,
               },
             });
 
