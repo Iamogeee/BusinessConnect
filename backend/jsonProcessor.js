@@ -48,7 +48,7 @@ async function processJsonFile() {
             contactInformation: placeDetails.formatted_phone_number || null,
             overview: placeDetails.editorial_summary
               ? placeDetails.editorial_summary.overview
-              : null,
+              : "",
             businessHours: placeDetails.current_opening_hours
               ? placeDetails.current_opening_hours.weekday_text
               : [],
@@ -69,7 +69,7 @@ async function processJsonFile() {
             contactInformation: placeDetails.formatted_phone_number || null,
             overview: placeDetails.editorial_summary
               ? placeDetails.editorial_summary.overview
-              : null,
+              : "",
             businessHours: placeDetails.current_opening_hours
               ? placeDetails.current_opening_hours.weekday_text
               : [],
@@ -82,7 +82,6 @@ async function processJsonFile() {
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
             category: firstType,
-            recommendations: { create: [] },
           },
         });
 
@@ -117,6 +116,23 @@ async function processJsonFile() {
             }
           }
         }
+        const allReviews = await prisma.review.findMany({
+          where: {
+            businessId: upsertedBusiness.id,
+          },
+        });
+
+        const totalRating = allReviews.reduce(
+          (sum, review) => sum + review.rating,
+          0
+        );
+        const rating = (totalRating / allReviews.length).toFixed(1);
+        const averageRating = parseFloat(rating);
+        // Update the business with the calculated average rating
+        await prisma.business.update({
+          where: { id: upsertedBusiness.id },
+          data: { averageRating },
+        });
       }
     } catch (parseErr) {
       console.error("Error parsing JSON data:", parseErr);
