@@ -10,6 +10,7 @@ import Footer from "./Components/Footer/Footer";
 import BusinessDetails from "./Components/BusinessDetails/BusinessDetails";
 import FavoriteBusinesses from "./Components/FavoriteBusinesses/FavoriteBusinesses";
 import FavoriteCategories from "./Components/FavoriteCategories/FavoriteCategories";
+import Recommendations from "./Components/Recommendations/Recommendations";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/business/:id" element={<BusinessDetails />} />
           <Route path="/favorites" element={<FavoriteBusinesses />} />
           <Route path="/interests" element={<FavoriteCategories />} />
+          <Route path="/recommendations/:id" element={<Recommendations />} />
         </Routes>
         <Footer />
       </div>

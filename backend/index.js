@@ -277,7 +277,17 @@ app.get("/recommendations/:id", async (req, res) => {
 
   try {
     const recommendations = await provideRecommendations(parseInt(id));
-    res.json(recommendations);
+
+    // Fetch the full business data for each recommended business
+    const businessPromises = recommendations.map((rec) => {
+      return prisma.business.findUnique({
+        where: { id: parseInt(rec.businessId) },
+      });
+    });
+
+    // Wait for all business data fetch promises to resolve
+    const businesses = await Promise.all(businessPromises);
+    res.json(businesses);
   } catch (error) {
     console.error("Error providing recommendations:", error);
     res.status(500).send("An error occurred while providing recommendations");
