@@ -7,7 +7,13 @@ import BusinessHours from "../BusinessHours/BusinessHours";
 import ReviewsModal from "../ReviewsModal/ReviewsModal";
 import Modal from "../Modal/Modal";
 import ReviewForm from "../ReviewForm/ReviewForm";
-
+import {
+  APIProvider,
+  Map,
+  AdvancedMarker,
+  // MapCameraChangedEvent,
+  Pin,
+} from "@vis.gl/react-google-maps";
 import "./BusinessDetails.css";
 
 const BusinessDetails = () => {
@@ -17,6 +23,7 @@ const BusinessDetails = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
     // Fetching the details of the selected business from my backend
@@ -67,6 +74,14 @@ const BusinessDetails = () => {
     setReviews((prevReviews) => [...prevReviews, newReview]);
     setShowReviewForm(false);
   };
+  const parseLocation = (location) => {
+    const [lat, lng] = location
+      .split(",")
+      .map((coord) => parseFloat(coord.trim()));
+    return { lat, lng };
+  };
+
+  const handleClick = (event) => {};
 
   return (
     <div className="business-details">
@@ -89,8 +104,29 @@ const BusinessDetails = () => {
             </Modal>
           )}
           <div className="business-main-content">
-            <div className="business-section business-overview">
+            {/* <div className="business-section business-overview">
               <BusinessOverview overview={business.overview} />
+            </div> */}
+            <div className="business-section business-map">
+              <APIProvider apiKey={apiKey}>
+                <Map
+                  defaultZoom={20}
+                  defaultCenter={parseLocation(business.location)}
+                  mapId={"218a557688af104"}
+                >
+                  <AdvancedMarker
+                    position={parseLocation(business.location)}
+                    clickable={true}
+                    onClick={handleClick}
+                  >
+                    <Pin
+                      background={"#FBBC04"}
+                      glyphColor={"#000"}
+                      borderColor={"#000"}
+                    />
+                  </AdvancedMarker>
+                </Map>
+              </APIProvider>
             </div>
             <div className="business-section business-reviews">
               <BusinessReviews businessId={business.id} reviews={reviews} />
