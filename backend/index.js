@@ -245,6 +245,29 @@ app.get("/api/favorites/:id", async (req, res) => {
   }
 });
 
+// Fetch user's saved businesses
+app.get("/api/saved/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const saved = await prisma.interaction.findMany({
+      where: { userId: parseInt(id), saved: true },
+      include: { Business: true },
+    });
+
+    const uniqueBusinesses = Array.from(
+      new Set(saved.map((interaction) => interaction.businessId))
+    ).map((businessId) => {
+      return saved.find((interaction) => interaction.businessId === businessId)
+        .Business;
+    });
+
+    res.json(uniqueBusinesses);
+  } catch (error) {
+    console.error("Error fetching saved businesses:", error);
+    res.status(500).json({ error: "Failed to fetch saved businesses" });
+  }
+});
+
 // Save categories and preferred rating
 app.post("/save-categories", async (req, res) => {
   const { userId, categories, preferredRating } = req.body;

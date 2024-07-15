@@ -11,6 +11,7 @@ import BusinessDetails from "./Components/BusinessDetails/BusinessDetails";
 import FavoriteBusinesses from "./Components/FavoriteBusinesses/FavoriteBusinesses";
 import FavoriteCategories from "./Components/FavoriteCategories/FavoriteCategories";
 import Recommendations from "./Components/Recommendations/Recommendations";
+import SavedBusinesses from "./Components/SavedBusinesses/SavedBusinesses";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/business/:id" element={<BusinessDetails />} />
           <Route path="/favorites" element={<FavoriteBusinesses />} />
+          <Route path="/saved" element={<SavedBusinesses />} />
           <Route path="/interests" element={<FavoriteCategories />} />
           <Route path="/recommendations/:id" element={<Recommendations />} />
         </Routes>

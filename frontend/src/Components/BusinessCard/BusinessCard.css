@@ -30,7 +30,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-  line-height: 1.5; /* Adjust line height as needed */
+  line-height: 1.5;
   max-height: 3em;
   margin-bottom: 0;
 }
@@ -49,7 +49,6 @@
 }
 
 .business-actions button {
-  background-color: #007bff;
   border: none;
   color: white;
   padding: 0.5rem 1rem;
