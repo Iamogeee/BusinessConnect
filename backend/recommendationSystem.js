@@ -239,7 +239,7 @@ async function provideRecommendations(userId) {
 
 module.exports = { provideRecommendations };
 
-/* 
+/*
 In a logistic regression model, each feature is multiplied by a corresponding weight, 
 and the sum of these weighted features plus the bias is passed through a sigmoid function to produce a probability.
 The weights and bias are adjusted during the training process to minimize the prediction error.
