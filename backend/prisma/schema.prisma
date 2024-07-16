@@ -14,79 +14,76 @@ datasource db {
 }
 
 model User {
-  id                Int       @id @default(autoincrement())
-  name              String
-  email             String    @unique
-  password          String
-  interests         String?
-  preferredRating   Float?
-  favoriteCategories String[]
-  hasSelectedCategories  Boolean   @default(false)
-  interactions      Interaction[]
-  recommendations   Recommendation[]
+  id                     Int               @id @default(autoincrement())
+  name                   String
+  email                  String            @unique
+  password               String
+  interests              String?
+  preferredRating        Float?
+  favoriteCategories     String[]
+  hasSelectedCategories  Boolean           @default(false)
+  interactions           Interaction[]
+  recommendations        Recommendation[]
 }
 
 model Business {
-  id                Int       @id @default(autoincrement())
-  placeId           String             @unique
-  name              String
-  location          String
-  contactInformation String
-  overview          String             @default("")
-  businessHours     String[]
-  services          BusinessService[]
-  averageRating     Float?
-  businessType      String
-  photoReference    String 
-  photos            String[]   
-  recommendations   Recommendation[]
-  category          String             @default("")   
-  interactions      Interaction[]      
-
+  id                    Int               @id @default(autoincrement())
+  placeId               String            @unique
+  name                  String
+  location              String
+  contactInformation    String
+  overview              String            @default("")
+  businessHours         String[]
+  services              BusinessService[]
+  averageRating         Float?
+  businessType          String
+  photoReference        String 
+  photos                String[]   
+  category              String            @default("")   
+  interactions          Interaction[]    
 }
 
 model Interaction {
-  id         Int       @id @default(autoincrement())
-  userId     Int
-  businessId Int
-  liked       Boolean   @default(false)
-  saved       Boolean   @default(false)
-  viewed     Boolean    @default(false)
-  rated      Float?
-  reviewed   String?
-  User       User      @relation(fields: [userId], references: [id])
-  Business   Business  @relation(fields: [businessId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  userId               Int
+  businessId           Int
+  liked                Boolean   @default(false)
+  saved                Boolean   @default(false)
+  viewed               Boolean   @default(false)
+  rated                Float?
+  reviewed             String?
+  User                 User      @relation(fields: [userId], references: [id])
+  Business             Business  @relation(fields: [businessId], references: [id])
 
   @@unique([userId, businessId]) 
 }
 
 model Service {
-  id                Int       @id @default(autoincrement())
-  name              String    @unique
-  businesses        BusinessService[]
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique
+  businesses           BusinessService[]
 }
 
 model BusinessService {
-  businessId        Int
-  serviceId         Int
-  business          Business  @relation(fields: [businessId], references: [id])
-  service           Service   @relation(fields: [serviceId], references: [id])
+  businessId           Int
+  serviceId            Int
+  business             Business  @relation(fields: [businessId], references: [id])
+  service              Service   @relation(fields: [serviceId], references: [id])
   @@id([businessId, serviceId])
 }
 
 model Review {
-  id                Int       @id @default(autoincrement())
-  businessId        Int
-  rating            Int
-  reviewText        String
-  name              String    
-  profilePhoto      String    @default("")
+  id                   Int       @id @default(autoincrement())
+  businessId           Int
+  rating               Int
+  reviewText           String
+  name                 String    
+  profilePhoto         String    @default("")
 }
 
 model Recommendation {
-  id                Int       @id @default(autoincrement())
-  userId            Int
-  businessId        Int
-  user              User      @relation(fields: [userId], references: [id])
-  business          Business  @relation(fields: [businessId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  userId               Int
+  recommendations      Json
+  user                 User      @relation(fields: [userId], references: [id])
 }

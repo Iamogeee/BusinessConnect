@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
-const { PORT, API_KEY, JWT_SECRET } = require("./config");
-const tf = require("@tensorflow/tfjs-node");
+const { PORT, JWT_SECRET } = require("./config");
+const { provideRecommendations } = require("./recommendationSystem");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
@@ -36,19 +36,6 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
-
-// Load the trained model
-let model;
-const loadModel = async () => {
-  try {
-    const modelPath = `file://${path.join(__dirname, "model", "model.json")}`;
-    model = await tf.loadLayersModel(modelPath);
-  } catch (error) {
-    console.error("Error loading model:", error);
-  }
-};
-
-loadModel();
 
 // Landing Page Route
 app.get("/", (req, res) => {
@@ -119,14 +106,12 @@ app.get("/api/businesses", async (req, res) => {
   } catch (error) {
     console.error("Error fetching businesses:", error);
     res.status(500).json({ error: "Failed to fetch businesses" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
+// Search businesses
 app.get("/api/businesses/search", async (req, res) => {
   const { query } = req.query;
-
   try {
     const businesses = await prisma.business.findMany({
       where: {
@@ -137,24 +122,19 @@ app.get("/api/businesses/search", async (req, res) => {
         ],
       },
     });
-
     res.json(businesses);
   } catch (error) {
     console.error("Error searching businesses:", error);
     res.status(500).json({ error: "Failed to search businesses" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
+// Fetch single business
 app.get("/api/businesses/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const business = await prisma.business.findUnique({
       where: { id: parseInt(id) },
-      include: {
-        recommendations: true,
-      },
     });
     if (!business) {
       return res.status(404).json({ error: "Business not found" });
@@ -163,11 +143,10 @@ app.get("/api/businesses/:id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching business:", error);
     res.status(500).json({ error: "Failed to fetch business" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
+// Fetch reviews for a business
 app.get("/api/reviews/:businessId", async (req, res) => {
   const { businessId } = req.params;
   try {
@@ -179,18 +158,17 @@ app.get("/api/reviews/:businessId", async (req, res) => {
         .status(404)
         .json({ error: "No reviews found for this business" });
     }
+
     res.json(reviews);
   } catch (error) {
     console.error("Error fetching reviews:", error);
     res.status(500).json({ error: "Failed to fetch reviews" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
+// Save a review
 app.post("/api/reviews", async (req, res) => {
   const { businessId, rating, reviewText, name, profilePhoto } = req.body;
-
   try {
     const review = await prisma.review.create({
       data: {
@@ -205,11 +183,10 @@ app.post("/api/reviews", async (req, res) => {
   } catch (error) {
     console.error("Error saving review:", error);
     res.status(500).json({ error: "Failed to save review" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
+// Fetch business categories
 app.get("/api/categories", async (req, res) => {
   try {
     const categories = await prisma.business.findMany({
@@ -224,12 +201,10 @@ app.get("/api/categories", async (req, res) => {
   } catch (error) {
     console.error("Error fetching categories:", error);
     res.status(500).json({ error: "Failed to fetch categories" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
-//Interact route
+// Interact with a business
 app.post("/interact", async (req, res) => {
   const { businessId, liked, saved, viewed, reviewed, rated, userId } =
     req.body;
@@ -246,6 +221,7 @@ app.post("/interact", async (req, res) => {
   }
 });
 
+// Fetch user's favorite businesses
 app.get("/api/favorites/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -266,15 +242,12 @@ app.get("/api/favorites/:id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching favorites:", error);
     res.status(500).json({ error: "Failed to fetch favorites" });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
-// Save categories endpoint
+// Save categories and preferred rating
 app.post("/save-categories", async (req, res) => {
   const { userId, categories, preferredRating } = req.body;
-
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -285,32 +258,30 @@ app.post("/save-categories", async (req, res) => {
       },
     });
 
-    res
-      .status(200)
-      .json({
-        message: "Categories and preferred rating saved successfully",
-        user,
-      });
+    res.status(200).json({
+      message: "Categories and preferred rating saved successfully",
+      user,
+    });
   } catch (error) {
     console.error("Error saving categories and preferred rating:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// Endpoint to trigger data preprocessing
-app.get("/preprocess-data", (req, res) => {
-  const scriptPath = path.join(__dirname, "dataPreprocessor.js");
-  exec(`node ${scriptPath}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing script: ${error.message}`);
-      return res.status(500).send("Error preprocessing data");
-    }
-    if (stderr) {
-      console.error(`Script stderr: ${stderr}`);
-      return res.status(500).send("Error preprocessing data");
-    }
-    res.send("Data preprocessed successfully");
-  });
+// Endpoint to receive user ID and provide recommendations
+app.get("/recommendations/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).send("User ID is required");
+  }
+
+  try {
+    const recommendations = await provideRecommendations(parseInt(id));
+    res.json(recommendations);
+  } catch (error) {
+    console.error("Error providing recommendations:", error);
+    res.status(500).send("An error occurred while providing recommendations");
+  }
 });
 
 // Serve static files from the React app
