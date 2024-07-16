@@ -10,9 +10,10 @@ import ReviewForm from "../ReviewForm/ReviewForm";
 import {
   APIProvider,
   Map,
-  AdvancedMarker,
-  // MapCameraChangedEvent,
+  Marker,
   Pin,
+  InfoWindow,
+  useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
 import "./BusinessDetails.css";
 
@@ -24,6 +25,8 @@ const BusinessDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const apiKey = import.meta.env.VITE_API_KEY;
+  const [infoWindowOpen, setInfoWindowOpen] = useState(false);
+  const [markerRef, marker] = useAdvancedMarkerRef();
 
   useEffect(() => {
     // Fetching the details of the selected business from my backend
@@ -83,12 +86,24 @@ const BusinessDetails = () => {
 
   const handleClick = (event) => {};
 
+  const handleMouseOver = () => {
+    setInfoWindowOpen(true);
+  };
+
+  const handleMouseOut = () => {
+    setInfoWindowOpen(false);
+  };
+
   return (
     <div className="business-details">
       {business && (
         <>
           <h1>{business.name}</h1>
+
           <BusinessPhotos photos={business.photos} />
+          <div>
+            <BusinessOverview overview={business.overview} />
+          </div>
           <button
             className="open-review-form-button"
             onClick={handleReviewFormOpen}
@@ -104,9 +119,6 @@ const BusinessDetails = () => {
             </Modal>
           )}
           <div className="business-main-content">
-            {/* <div className="business-section business-overview">
-              <BusinessOverview overview={business.overview} />
-            </div> */}
             <div className="business-section business-map">
               <APIProvider apiKey={apiKey}>
                 <Map
@@ -114,17 +126,27 @@ const BusinessDetails = () => {
                   defaultCenter={parseLocation(business.location)}
                   mapId={"218a557688af104"}
                 >
-                  <AdvancedMarker
+                  <Marker
+                    ref={markerRef}
                     position={parseLocation(business.location)}
                     clickable={true}
                     onClick={handleClick}
+                    onMouseOver={handleMouseOver}
+                    onMouseOut={handleMouseOut}
                   >
+                    <InfoWindow
+                      anchor={marker}
+                      position={parseLocation(business.location)}
+                    >
+                      <div>This is a tooltip!</div>
+                    </InfoWindow>
+
                     <Pin
                       background={"#FBBC04"}
                       glyphColor={"#000"}
                       borderColor={"#000"}
                     />
-                  </AdvancedMarker>
+                  </Marker>
                 </Map>
               </APIProvider>
             </div>
