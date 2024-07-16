@@ -62,8 +62,14 @@ function scaleVector(a, scalar) {
   return a.map((val) => val * scalar);
 }
 
-// Train linear regression model
-async function trainLinearRegression(
+// Sigmoid function
+// converts the output of the output of the linear combination of weights and features plus the bias into a probability between 0 and 1.
+function sigmoid(z) {
+  return 1 / (1 + Math.exp(-z));
+}
+
+// Train logistic regression model
+async function trainLogisticRegression(
   userData,
   businessData,
   learningRate = 0.01,
@@ -109,28 +115,38 @@ async function trainLinearRegression(
       } else {
         rating = 0;
       }
-
-      y.push(rating);
+      // y array holds the target labels for the logistic regression model.
+      y.push(rating > 3 ? 1 : 0); // Converting ratings to binary classes
     });
   });
 
   const numFeatures = X[0].length;
+  //Array.from is a mapping function that initializes each element of the array
+  //weights is an array of length numFeatures, with each element initialized to a small random value between 0 and 0.01.
   let weights = Array.from({ length: numFeatures }, () => Math.random() * 0.01);
+
+  //bias serves as an intercept term in the logistic regression model.
   let bias = Math.random() * 0.01;
 
   for (let epoch = 0; epoch < epochs; epoch++) {
     let totalError = 0;
 
     X.forEach((features, i) => {
-      const prediction = dotProduct(weights, features) + bias;
+      const z = dotProduct(weights, features) + bias;
+      const prediction = sigmoid(z);
       const error = prediction - y[i];
       totalError += error ** 2;
 
+      // Updates the weights using gradient descent
       weights = addVectors(
         weights,
-        scaleVector(features, -learningRate * error)
+        scaleVector(
+          features,
+          -learningRate * error * prediction * (1 - prediction)
+        )
       );
-      bias -= learningRate * error;
+      // Updates the bias using gradient descent
+      bias -= learningRate * error * prediction * (1 - prediction);
     });
 
     totalError /= X.length;
@@ -145,8 +161,11 @@ function predictPreference(userProfileVector, businessFeatureVector, model) {
     userProfileVector,
     businessFeatureVector
   );
-  const rawPrediction = dotProduct(model.weights, combinedVector) + model.bias;
-  return Math.max(0, Math.min(1, rawPrediction)); // Clamp prediction to [0, 1]
+
+  //   Computes the linear combination of the weights and combined feature vector, plus the bias.
+  const z = dotProduct(model.weights, combinedVector) + model.bias;
+  const rawPrediction = sigmoid(z);
+  return Math.max(0, Math.min(1, rawPrediction));
 }
 
 // Function to provide recommendations for a given user ID
@@ -176,7 +195,7 @@ async function provideRecommendations(userId) {
   }));
 
   // Train the model
-  const model = await trainLinearRegression([user], businessData);
+  const model = await trainLogisticRegression([user], businessData);
 
   // Save the model to a file
   fs.writeFileSync("model.json", JSON.stringify(model, null, 2));
@@ -219,3 +238,9 @@ async function provideRecommendations(userId) {
 }
 
 module.exports = { provideRecommendations };
+
+/* 
+In a logistic regression model, each feature is multiplied by a corresponding weight, 
+and the sum of these weighted features plus the bias is passed through a sigmoid function to produce a probability.
+The weights and bias are adjusted during the training process to minimize the prediction error.
+*/
