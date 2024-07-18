@@ -3,6 +3,7 @@ import "./MainHeader.css";
 import SearchBar from "../SearchBar/SearchBar";
 import FilterButton from "../FilterButton/FilterButton";
 import Sidebar from "../SideBar/SideBar";
+import { Link, useNavigate } from "react-router-dom";
 
 const MainHeader = ({ onCategoryChange }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
@@ -30,9 +31,11 @@ const MainHeader = ({ onCategoryChange }) => {
     <header className="header">
       <div className="logo-and-sidebar">
         <Sidebar />
-        <h1>
-          Business <span>Connect</span>
-        </h1>
+        <Link to="/home">
+          <h1>
+            Business <span>Connect</span>
+          </h1>
+        </Link>
       </div>
       <nav>
         <button className="discover-button">Discover</button>

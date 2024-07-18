@@ -6,7 +6,6 @@ const BusinessPhotos = ({ photos }) => {
 
   return (
     <div className="business-photos">
-      <h2>Photos</h2>
       <div className="photos-scroll">
         {photos.map((photo, index) => (
           <div key={index} className="photo-item">
