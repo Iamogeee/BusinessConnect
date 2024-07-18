@@ -3,72 +3,50 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f8f8f8;
-  border-bottom: 2px solid #000;
-  position: inherit;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo-and-sidebar {
+.left-section {
   display: flex;
   align-items: center;
 }
 
-.logo-and-sidebar h1 {
-  margin: 0;
-  margin-left: 10px;
+.logo {
   font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  margin-left: 10px;
 }
 
-.logo-and-sidebar h1 span {
+.logo span {
   color: #007bff;
 }
 
-nav {
+.middle-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.right-section {
   display: flex;
   align-items: center;
 }
 
 .discover-button {
-  background-color: #000;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  margin-right: 20px;
-}
-
-.filter-search {
-  display: flex;
-  align-items: center;
-}
-
-.filter {
   font-size: 16px;
   margin-right: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.dropdown-icon {
-  margin-left: 5px;
-}
-
-.search-input {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 5px;
-}
-
-.search-button {
-  background: none;
+  background-color: transparent;
   border: none;
   cursor: pointer;
+  color: #000;
 }
 
-.user-icon img {
-  width: 24px;
-  height: 24px;
+.user-icon {
+  font-size: 24px;
+  color: #000;
+  text-decoration: none;
+  margin-left: 10px;
 }

@@ -1,11 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-/**
- * Tokenizes and normalizes text.
- * @param {String} text - The text to tokenize and normalize.
- * @returns {Array} - An array of tokens.
- */
 const tokenizeAndNormalize = (text) => {
   return text
     .toLowerCase()
@@ -13,10 +8,6 @@ const tokenizeAndNormalize = (text) => {
     .split(/\s+/);
 };
 
-/**
- * Builds an inverted index from the business data.
- * @returns {Object} - The inverted index.
- */
 const buildInvertedIndex = async () => {
   const businesses = await prisma.business.findMany({
     include: {

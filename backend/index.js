@@ -10,10 +10,12 @@ const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
 const { PORT, JWT_SECRET } = require("./config");
 const { provideRecommendations } = require("./recommendationSystem");
+const { searchBusinesses } = require("./search");
+const { personalizeResults } = require("./personalizeResults");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
-const secretKey = JWT_SECRET;
+const secretKey = process.env.JWT_SECRET;
 const app = express();
 
 app.use(cookieParser());
@@ -28,10 +30,14 @@ app.use(
 // Middleware to verify JWT token
 function authenticateToken(req, res, next) {
   const token = req.cookies.token;
-  if (!token) return res.sendStatus(401);
+  if (!token) {
+    return res.sendStatus(401); // Send unauthorized status
+  }
 
   jwt.verify(token, secretKey, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) {
+      return res.sendStatus(403); // Send forbidden status
+    }
     req.user = user;
     next();
   });
@@ -82,7 +88,9 @@ app.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
-    const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user.id }, secretKey, {
+      expiresIn: "7d",
+    });
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -93,8 +101,10 @@ app.post("/login", async (req, res) => {
 
     res.status(200).json({ token, user });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("Error in /login route:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 });
 
@@ -110,22 +120,60 @@ app.get("/api/businesses", async (req, res) => {
 });
 
 // Search businesses
-app.get("/api/businesses/search", async (req, res) => {
-  const { query } = req.query;
+app.get("/api/search", async (req, res) => {
+  const { query, userId } = req.query;
+
   try {
-    const businesses = await prisma.business.findMany({
-      where: {
-        OR: [
-          { name: { contains: query, mode: "insensitive" } },
-          { location: { contains: query, mode: "insensitive" } },
-          { businessType: { contains: query, mode: "insensitive" } },
-        ],
+    const results = await searchBusinesses(query);
+
+    // Fetch interactions and personalize results
+    for (const result of results) {
+      result.interactions = await prisma.interaction.findMany({
+        where: {
+          businessId: result.id,
+          userId: parseInt(userId),
+        },
+      });
+    }
+
+    const personalizedResults = personalizeResults(results);
+
+    res.json(personalizedResults);
+  } catch (error) {
+    console.error("Error in search endpoint:", error);
+    res.status(500).json({ error: "An error occurred while searching" });
+  }
+});
+
+// Fetch currently logged-in user's information
+app.get("/api/user", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        interactions: {
+          include: {
+            Business: true,
+          },
+          where: {
+            OR: [{ saved: true }, { reviewed: { not: null } }],
+          },
+        },
       },
     });
-    res.json(businesses);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
   } catch (error) {
-    console.error("Error searching businesses:", error);
-    res.status(500).json({ error: "Failed to search businesses" });
+    console.error("Error fetching user data:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch user data", details: error.message });
   }
 });
 

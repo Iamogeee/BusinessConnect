@@ -1,8 +1,3 @@
-/**
- * Personalize search results based on user interactions
- * @param {Array} results - Array of business results
- * @returns {Array} - Sorted array of personalized business results
- */
 const personalizeResults = (results) => {
   return results.sort((a, b) => {
     const aInteraction = a.interactions[0] || {};

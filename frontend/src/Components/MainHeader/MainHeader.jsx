@@ -3,9 +3,9 @@ import "./MainHeader.css";
 import SearchBar from "../SearchBar/SearchBar";
 import FilterButton from "../FilterButton/FilterButton";
 import Sidebar from "../SideBar/SideBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const MainHeader = ({ onCategoryChange }) => {
+const MainHeader = ({ onCategoryChange, userId }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [categories, setCategories] = useState([]);
 
@@ -29,29 +29,25 @@ const MainHeader = ({ onCategoryChange }) => {
 
   return (
     <header className="header">
-      <div className="logo-and-sidebar">
+      <div className="left-section">
         <Sidebar />
-        <Link to="/home">
-          <h1>
-            Business <span>Connect</span>
-          </h1>
+        <Link to="/home" className="logo">
+          Business <span>Connect</span>
         </Link>
       </div>
-      <nav>
+      <div className="middle-section">
+        <SearchBar onSelect={handleSelectBusiness} userId={userId} />
+      </div>
+      <div className="right-section">
         <button className="discover-button">Discover</button>
-        <div className="filter-search">
-          <div className="filter">
-            <FilterButton
-              categories={categories}
-              onCategoryChange={handleCategoryChange}
-            />
-          </div>
-          <SearchBar onSelect={handleSelectBusiness} />
-        </div>
-        <div className="user-icon">
+        <FilterButton
+          categories={categories}
+          onCategoryChange={handleCategoryChange}
+        />
+        <Link to="/profile" className="user-icon">
           <i className="fa-regular fa-user"></i>
-        </div>
-      </nav>
+        </Link>
+      </div>
     </header>
   );
 };
