@@ -12,7 +12,7 @@ import FavoriteBusinesses from "./Components/FavoriteBusinesses/FavoriteBusiness
 import FavoriteCategories from "./Components/FavoriteCategories/FavoriteCategories";
 import Recommendations from "./Components/Recommendations/Recommendations";
 import SavedBusinesses from "./Components/SavedBusinesses/SavedBusinesses";
-// import ProfilePage from "./Components/ProfilePage/ProfilePage";
+import ProfilePage from "./Components/ProfilePage/ProfilePage";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route path="/saved" element={<SavedBusinesses />} />
           <Route path="/interests" element={<FavoriteCategories />} />
           <Route path="/recommendations/:id" element={<Recommendations />} />
-          {/* <Route path="/profile" element={<ProfilePage />} /> */}
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
         <Footer />
       </div>
