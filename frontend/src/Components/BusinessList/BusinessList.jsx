@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./BusinessList.css";
 import BusinessCard from "../BusinessCard/BusinessCard";
+import BusinessListSkeleton from "../BusinessListSkeleton/BusinessListSkeleton";
 
 const BusinessList = ({ selectedCategory }) => {
   const [businesses, setBusinesses] = useState([]);
   const [groupedBusinesses, setGroupedBusinesses] = useState({});
+  const [loading, setLoading] = useState(true);
   const apiKey = import.meta.env.VITE_API_KEY;
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -29,10 +31,15 @@ const BusinessList = ({ selectedCategory }) => {
         groupBusinessesByCategory(data);
       } catch (error) {
         console.error("Error fetching businesses:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
       }
     };
 
-    fetchBusinesses();
+    // Simulate loading with setTimeout
+    setTimeout(() => {
+      fetchBusinesses();
+    }, 1000); // 1-second delay
   }, []);
 
   const handleLike = async (businessId) => {
@@ -117,6 +124,10 @@ const BusinessList = ({ selectedCategory }) => {
       </div>
     );
   };
+
+  if (loading) {
+    return <BusinessListSkeleton />;
+  }
 
   return !selectedCategory || selectedCategory === "All Categories"
     ? renderCategoryGroups()
