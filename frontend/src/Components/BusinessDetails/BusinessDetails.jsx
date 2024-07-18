@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import BusinessPhotos from "../BusinessPhotos/BusinessPhotos";
 import BusinessOverview from "../BusinessOverview/BusinessOverview";
 import BusinessReviews from "../BusinessReviews/BusinessReviews";
 import BusinessHours from "../BusinessHours/BusinessHours";
 import ReviewsModal from "../ReviewsModal/ReviewsModal";
 import Modal from "../Modal/Modal";
 import ReviewForm from "../ReviewForm/ReviewForm";
+import BusinessHeader from "../BusinessHeader/BusinessHeader";
 import {
   APIProvider,
   Map,
-  Marker,
+  AdvancedMarker,
   Pin,
   InfoWindow,
   useAdvancedMarkerRef,
@@ -25,6 +25,7 @@ const BusinessDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const apiKey = import.meta.env.VITE_API_KEY;
+  const mapId = import.meta.env.VITE_MAP_ID;
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
 
@@ -53,10 +54,6 @@ const BusinessDetails = () => {
     return <div>Error loading business details: {error}</div>;
   }
 
-  if (!business) {
-    return <div>Loading...</div>;
-  }
-
   const handleModalOpen = () => {
     setShowModal(true);
   };
@@ -73,10 +70,26 @@ const BusinessDetails = () => {
     setShowReviewForm(false);
   };
 
+  const renderRatingIcons = (rating) => {
+    const filledIcons = Math.floor(rating);
+    const emptyIcons = 5 - filledIcons;
+    return (
+      <>
+        {[...Array(filledIcons)].map((_, i) => (
+          <i key={i} className="fas fa-star filled"></i>
+        ))}
+        {[...Array(emptyIcons)].map((_, i) => (
+          <i key={i} className="fas fa-star"></i>
+        ))}
+      </>
+    );
+  };
+
   const handleReviewSubmit = (newReview) => {
     setReviews((prevReviews) => [...prevReviews, newReview]);
     setShowReviewForm(false);
   };
+
   const parseLocation = (location) => {
     const [lat, lng] = location
       .split(",")
@@ -84,26 +97,27 @@ const BusinessDetails = () => {
     return { lat, lng };
   };
 
-  const handleClick = (event) => {};
-
-  const handleMouseOver = () => {
+  const handleClick = (event) => {
     setInfoWindowOpen(true);
   };
 
-  const handleMouseOut = () => {
-    setInfoWindowOpen(false);
-  };
+  const location = business ? parseLocation(business.location) : null;
 
   return (
     <div className="business-details">
       {business && (
         <>
-          <h1>{business.name}</h1>
-
-          <BusinessPhotos photos={business.photos} />
-          <div>
-            <BusinessOverview overview={business.overview} />
-          </div>
+          <BusinessHeader
+            name={business.name}
+            description={business.overview}
+            photos={business.photos.map(
+              (photo) =>
+                `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo}&key=${apiKey}`
+            )}
+            rating={business.averageRating}
+            types={business.businessType}
+            contact={business.contactInformation}
+          />
           <button
             className="open-review-form-button"
             onClick={handleReviewFormOpen}
@@ -121,32 +135,34 @@ const BusinessDetails = () => {
           <div className="business-main-content">
             <div className="business-section business-map">
               <APIProvider apiKey={apiKey}>
-                <Map
-                  defaultZoom={20}
-                  defaultCenter={parseLocation(business.location)}
-                  mapId={"218a557688af104"}
-                >
-                  <Marker
+                <Map defaultZoom={20} defaultCenter={location} mapId={mapId}>
+                  <AdvancedMarker
                     ref={markerRef}
-                    position={parseLocation(business.location)}
+                    position={location}
                     clickable={true}
                     onClick={handleClick}
-                    onMouseOver={handleMouseOver}
-                    onMouseOut={handleMouseOut}
                   >
-                    <InfoWindow
-                      anchor={marker}
-                      position={parseLocation(business.location)}
-                    >
-                      <div>This is a tooltip!</div>
-                    </InfoWindow>
+                    {infoWindowOpen && (
+                      <InfoWindow
+                        anchor={marker}
+                        onCloseClick={() => setInfoWindowOpen(false)}
+                        position={location}
+                      >
+                        <div className="info-window-content">
+                          <h3>{business.name}</h3>
+                          <div>{renderRatingIcons(business.averageRating)}</div>
+
+                          <p>Contact: {business.contactInformation}</p>
+                        </div>
+                      </InfoWindow>
+                    )}
 
                     <Pin
                       background={"#FBBC04"}
                       glyphColor={"#000"}
                       borderColor={"#000"}
                     />
-                  </Marker>
+                  </AdvancedMarker>
                 </Map>
               </APIProvider>
             </div>
