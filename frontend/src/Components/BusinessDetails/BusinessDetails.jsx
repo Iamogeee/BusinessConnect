@@ -89,32 +89,12 @@ const BusinessDetails = () => {
     setReviews((prevReviews) => [...prevReviews, newReview]);
     setShowReviewForm(false);
   };
-  const parseLocation = (location) => {
-    const [lat, lng] = location
-      .split(",")
-      .map((coord) => parseFloat(coord.trim()));
-    return { lat, lng };
-  };
-
-  const handleClick = (event) => {};
-
-  const handleMouseOver = () => {
-    setInfoWindowOpen(true);
-  };
-
-  const handleMouseOut = () => {
-    setInfoWindowOpen(false);
-  };
 
   const parseLocation = (location) => {
     const [lat, lng] = location
       .split(",")
       .map((coord) => parseFloat(coord.trim()));
     return { lat, lng };
-  };
-
-  const handleClick = (event) => {
-    setInfoWindowOpen(true);
   };
 
   const location = business ? parseLocation(business.location) : null;
@@ -156,7 +136,7 @@ const BusinessDetails = () => {
                     ref={markerRef}
                     position={location}
                     clickable={true}
-                    onClick={handleClick}
+                    onClick={() => setInfoWindowOpen(true)}
                   >
                     {infoWindowOpen && (
                       <InfoWindow
