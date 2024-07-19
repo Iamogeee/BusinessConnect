@@ -69,6 +69,30 @@
 .business-hours {
   margin-bottom: 20px;
 }
+.info-window-content {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  max-width: 200px;
+}
+
+.info-window-content h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.info-window-content .fas.fa-star {
+  color: #ccc;
+}
+
+.info-window-content .fas.fa-star.filled {
+  color: #f39c12;
+}
+
+.info-window-content p {
+  margin: 5px 0;
+  color: #666;
+}
 
 .open-modal-button {
   display: block;
@@ -140,4 +164,18 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .card {
+    margin-bottom: 10px;
+  }
 }
