@@ -12,6 +12,7 @@ const { PORT, JWT_SECRET } = require("./config");
 const { provideRecommendations } = require("./recommendationSystem");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
+const cache = require("./cache");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
@@ -123,6 +124,16 @@ app.get("/api/businesses", async (req, res) => {
 app.get("/api/search", async (req, res) => {
   const { query, userId } = req.query;
 
+  console.log(`Received search request: query=${query}, userId=${userId}`);
+
+  const cacheKey = `search:${userId}:${query}`;
+  const cachedResults = cache.get(cacheKey);
+
+  if (cachedResults) {
+    console.log("Serving from cache");
+    return res.json(cachedResults);
+  }
+
   try {
     const results = await searchBusinesses(query);
 
@@ -137,6 +148,9 @@ app.get("/api/search", async (req, res) => {
     }
 
     const personalizedResults = personalizeResults(results);
+
+    // Store the results in the cache
+    cache.set(cacheKey, personalizedResults);
 
     res.json(personalizedResults);
   } catch (error) {
