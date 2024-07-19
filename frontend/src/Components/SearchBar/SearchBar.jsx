@@ -1,58 +1,54 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import debounce from "lodash.debounce";
 import "./SearchBar.css";
 
-const SearchBar = ({ onSelect, onSearchOnMap }) => {
+function SearchBar({ userId, onSelect }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const latestRequest = useRef(null);
+  const [suggestions, setSuggestions] = useState([]);
 
-  const handleInputChange = async (e) => {
-    const value = e.target.value;
-    setQuery(value);
+  const fetchSuggestions = debounce(async (input) => {
+    if (input.length > 0) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/search?query=${input}&userId=${userId}`
+        );
 
-    if (value.trim() === "") {
-      setResults([]);
-      setShowDropdown(false);
-      return;
-    }
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
 
-    if (latestRequest.current) {
-      latestRequest.current.abort();
-    }
+        const data = await response.json();
 
-    const controller = new AbortController();
-    latestRequest.current = controller;
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/businesses/search?query=${value}`,
-        { signal: controller.signal }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch search results");
+        if (Array.isArray(data)) {
+          setSuggestions(data);
+        } else {
+          setSuggestions([]);
+        }
+      } catch (error) {
+        setSuggestions([]);
       }
-      const data = await response.json();
-      setResults(data);
-      setShowDropdown(true);
-    } catch (err) {
-      if (err.name !== "AbortError") {
-        console.error(err);
-        setResults([]);
-        setShowDropdown(false);
-      }
+    } else {
+      setSuggestions([]);
+    }
+  }, 300);
+
+  const handleChange = (e) => {
+    const input = e.target.value;
+    setQuery(input);
+    fetchSuggestions(input);
+  };
+
+  const handleSelect = (suggestion) => {
+    setQuery(suggestion.name);
+    setSuggestions([]);
+    if (onSelect) {
+      onSelect(suggestion);
     }
   };
 
-  const handleResultClick = (result) => {
-    setQuery(result.name);
-    setShowDropdown(false);
-    onSelect(result);
-  };
-
-  const handleSearchOnMapClick = () => {
-    setShowDropdown(false);
-    onSearchOnMap(query);
+  const clearQuery = () => {
+    setQuery("");
+    setSuggestions([]);
   };
 
   return (
@@ -60,31 +56,27 @@ const SearchBar = ({ onSelect, onSearchOnMap }) => {
       <input
         type="text"
         value={query}
-        onChange={handleInputChange}
-        placeholder="Search for businesses..."
+        onChange={handleChange}
+        placeholder="Search..."
         className="search-input"
       />
-      <button className="search-button">
-        <i className="fa fa-search"></i>
-      </button>
-      {showDropdown && results.length > 0 && (
-        <ul className="search-dropdown">
-          {results.map((result) => (
+      {query && <i className="fa fa-times" onClick={clearQuery}></i>}
+      <i className="fa fa-search"></i>
+      {suggestions.length > 0 && (
+        <ul className="suggestions-list">
+          {suggestions.map((suggestion) => (
             <li
-              key={result.placeId}
-              onClick={() => handleResultClick(result)}
-              className="search-result"
+              key={suggestion.id}
+              className="suggestion-item"
+              onClick={() => handleSelect(suggestion)}
             >
-              {result.name}
+              {suggestion.name}
             </li>
           ))}
-          <li onClick={handleSearchOnMapClick} className="search-result">
-            Search on Map
-          </li>
         </ul>
       )}
     </div>
   );
-};
+}
 
 export default SearchBar;
