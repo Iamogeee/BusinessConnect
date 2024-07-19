@@ -89,6 +89,22 @@ const BusinessDetails = () => {
     setReviews((prevReviews) => [...prevReviews, newReview]);
     setShowReviewForm(false);
   };
+  const parseLocation = (location) => {
+    const [lat, lng] = location
+      .split(",")
+      .map((coord) => parseFloat(coord.trim()));
+    return { lat, lng };
+  };
+
+  const handleClick = (event) => {};
+
+  const handleMouseOver = () => {
+    setInfoWindowOpen(true);
+  };
+
+  const handleMouseOut = () => {
+    setInfoWindowOpen(false);
+  };
 
   const parseLocation = (location) => {
     const [lat, lng] = location
