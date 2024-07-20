@@ -1,12 +1,33 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SideBar.css";
 
 const Sidebar = ({ userId }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        // Clear any local storage or context state if needed
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        navigate("/login"); // Redirect to login page or landing page
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -32,7 +53,7 @@ const Sidebar = ({ userId }) => {
             <Link to="/profile">Profile</Link>
           </li>
           <li>
-            <Link to="/logout">Log out</Link>
+            <Link onClick={handleLogout}>Log out</Link>
           </li>
         </ul>
       </div>
