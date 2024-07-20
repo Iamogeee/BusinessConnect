@@ -16,6 +16,7 @@ import {
   useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
 import "./BusinessDetails.css";
+import BusinessDetailsSkeleton from "../BusinessDetailsSkeleton/BusinessDetailsSkeleton";
 
 const BusinessDetails = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const BusinessDetails = () => {
   const mapId = import.meta.env.VITE_MAP_ID;
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetching the details of the selected business from my backend
@@ -52,6 +54,10 @@ const BusinessDetails = () => {
 
   if (error) {
     return <div>Error loading business details: {error}</div>;
+  }
+
+  if (loading) {
+    return <BusinessDetailsSkeleton />;
   }
 
   const handleModalOpen = () => {

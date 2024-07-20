@@ -35,11 +35,6 @@ const BusinessList = ({ selectedCategory }) => {
         setLoading(false); // Set loading to false after data is fetched
       }
     };
-
-    // Simulate loading with setTimeout
-    setTimeout(() => {
-      fetchBusinesses();
-    }, 1000); // 1-second delay
   }, []);
 
   const handleLike = async (businessId) => {
