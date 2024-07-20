@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import debounce from "lodash.debounce";
+import { useNavigate } from "react-router-dom";
 import "./SearchBar.css";
 
 function SearchBar({ userId, onSelect }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
 
   const fetchSuggestions = debounce(async (input) => {
     if (input.length > 0) {
@@ -44,6 +46,7 @@ function SearchBar({ userId, onSelect }) {
     if (onSelect) {
       onSelect(suggestion);
     }
+    navigate(`/business/${suggestion.id}`);
   };
 
   const clearQuery = () => {
