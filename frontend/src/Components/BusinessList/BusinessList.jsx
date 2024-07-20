@@ -35,6 +35,8 @@ const BusinessList = ({ selectedCategory }) => {
         setLoading(false); // Set loading to false after data is fetched
       }
     };
+
+    fetchBusinesses();
   }, []);
 
   const handleLike = async (businessId) => {

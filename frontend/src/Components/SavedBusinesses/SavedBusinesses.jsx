@@ -3,6 +3,7 @@ import MainHeader from "../MainHeader/MainHeader";
 import "./SavedBusinesses.css";
 import "../BusinessList/BusinessList.css";
 import BusinessCard from "../BusinessCard/BusinessCard";
+import BusinessListSkeleton from "../BusinessListSkeleton/BusinessListSkeleton";
 
 const SavedBusinesses = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -10,6 +11,7 @@ const SavedBusinesses = () => {
   const [businesses, setBusinesses] = useState([]);
   const [groupedBusinesses, setGroupedBusinesses] = useState({});
   const apiKey = import.meta.env.VITE_API_KEY;
+  const [loading, setLoading] = useState(true);
 
   const groupBusinessesByCategory = (businesses) => {
     const grouped = businesses.reduce((acc, business) => {
@@ -34,6 +36,8 @@ const SavedBusinesses = () => {
         groupBusinessesByCategory(data);
       } catch (error) {
         console.error("Error fetching saved businesses:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -117,6 +121,10 @@ const SavedBusinesses = () => {
       </div>
     );
   };
+
+  if (loading) {
+    return <BusinessListSkeleton />;
+  }
 
   return (
     <div className="home-page">

@@ -29,7 +29,7 @@ const BusinessDetails = () => {
   const mapId = import.meta.env.VITE_MAP_ID;
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Fetching the details of the selected business from my backend
