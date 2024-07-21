@@ -320,7 +320,9 @@ app.get("/api/reviews/:businessId", async (req, res) => {
 
 // Save a review
 app.post("/api/reviews", async (req, res) => {
-  const { businessId, rating, reviewText, name, profilePhoto } = req.body;
+  const { businessId, rating, reviewText, name, userId, profilePhoto } =
+    req.body;
+
   try {
     const review = await prisma.review.create({
       data: {
@@ -329,6 +331,7 @@ app.post("/api/reviews", async (req, res) => {
         reviewText,
         name,
         profilePhoto,
+        userId,
       },
     });
     res.status(201).json(review);
