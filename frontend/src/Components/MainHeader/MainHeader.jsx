@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./MainHeader.css";
 import SearchBar from "../SearchBar/SearchBar";
 import FilterButton from "../FilterButton/FilterButton";
-import Sidebar from "../SideBar/SideBar";
+import SideBar from "../SideBar/SideBar";
 import { Link } from "react-router-dom";
 
 const MainHeader = ({ onCategoryChange, userId }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -27,10 +28,19 @@ const MainHeader = ({ onCategoryChange, userId }) => {
     onCategoryChange(categoryId);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <header className="header">
       <div className="left-section">
-        <Sidebar />
+        <button
+          className={`sidebar-button" ${isSidebarOpen ? "open" : ""}`}
+          onClick={toggleSidebar}
+        >
+          &#9776;
+        </button>
         <Link to="/home" className="logo">
           Business <span>Connect</span>
         </Link>
@@ -48,6 +58,7 @@ const MainHeader = ({ onCategoryChange, userId }) => {
           <i className="fa-regular fa-user"></i>
         </Link>
       </div>
+      <SideBar userId={userId} isOpen={isSidebarOpen} onClose={toggleSidebar} />
     </header>
   );
 };
