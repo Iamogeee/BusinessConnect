@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./ReviewsModal.css";
+import Chat from "../Chat/Chat";
 
 const ReviewsModal = ({ businessId, onClose }) => {
   const [reviews, setReviews] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
   const defaultProfilePhoto =
     "http://localhost:3000/default-profile-photo.jpeg";
 
@@ -41,6 +43,9 @@ const ReviewsModal = ({ businessId, onClose }) => {
                   <strong>{review.name}</strong>: {review.reviewText}
                 </p>
                 <p>Rating: {review.rating}</p>
+                {review.userId && review.userId != user.id && (
+                  <Chat receiverId={review.userId} />
+                )}
               </div>
             </li>
           ))}

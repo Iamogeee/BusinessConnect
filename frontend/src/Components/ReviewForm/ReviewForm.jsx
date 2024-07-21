@@ -13,11 +13,12 @@ const ReviewForm = ({ businessId, onReviewSubmit }) => {
       rating,
       reviewText,
       name: user.name,
+      userId: user.id,
       profilePhoto: "frontend/src/assets/image.png", // Default profile photo
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/reviews", {
+      const response = await fetch(`http://localhost:3000/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
