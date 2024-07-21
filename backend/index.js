@@ -13,6 +13,8 @@ const { provideRecommendations } = require("./recommendationSystem");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
 const redisCache = require("./redisCache");
+const multer = require("multer");
+const fs = require("fs");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
@@ -30,7 +32,8 @@ app.use(
 
 // Middleware to verify JWT token
 const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token;
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
     return res.sendStatus(401); // Send unauthorized status
   }
@@ -70,6 +73,19 @@ app.post("/signup", async (req, res) => {
         password: hashedPassword,
       },
     });
+
+    // Generate JWT token
+    const token = jwt.sign({ id: newUser.id }, secretKey, {
+      expiresIn: "7d",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 604800000, // 7 days
+    });
+
     res.status(201).json(newUser);
   } catch (error) {
     console.error(error);
@@ -164,8 +180,26 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
+// Ensure the uploads directory exists
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 // Fetch currently logged-in user's information
-app.get("/api/user", authenticateToken, async (req, res) => {
+app.get("/api/user/profile", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -195,6 +229,57 @@ app.get("/api/user", authenticateToken, async (req, res) => {
       .json({ error: "Failed to fetch user data", details: error.message });
   }
 });
+
+// Fetch user by ID
+app.get("/api/user/:id", authenticateToken, async (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch user data", details: error.message });
+  }
+});
+
+// Update user's profile
+app.put(
+  "/api/user/profile",
+  authenticateToken,
+  upload.single("profilePicture"),
+  async (req, res) => {
+    const userId = req.user.id;
+    const { name, email, location, bio, interests } = req.body;
+
+    try {
+      const updatedProfile = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          name,
+          email,
+          location,
+          bio,
+          interests,
+          profilePicture: req.file ? req.file.path : undefined, // Save the profile picture path
+        },
+      });
+      res.json(updatedProfile);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ error: "Failed to update profile" });
+    }
+  }
+);
 
 // Fetch single business
 app.get("/api/businesses/:id", async (req, res) => {
@@ -386,6 +471,11 @@ app.get("/recommendations/:id", async (req, res) => {
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
