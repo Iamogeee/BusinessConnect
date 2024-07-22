@@ -43,8 +43,12 @@ const ReviewsModal = ({ businessId, onClose }) => {
                   <strong>{review.name}</strong>: {review.reviewText}
                 </p>
                 <p>Rating: {review.rating}</p>
-                {review.userId && review.userId != user.id && (
-                  <Chat receiverId={review.userId} />
+                {review.userId && review.userId !== user.id && (
+                  <Chat
+                    receiverId={review.userId}
+                    businessId={businessId}
+                    reviewId={review.id}
+                  />
                 )}
               </div>
             </li>
