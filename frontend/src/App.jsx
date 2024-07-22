@@ -14,44 +14,50 @@ import Recommendations from "./Components/Recommendations/Recommendations";
 import SavedBusinesses from "./Components/SavedBusinesses/SavedBusinesses";
 import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoutes";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
+import { WebSocketProvider } from "./contexts/WebSocketProvider";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<ProtectedRoute element={HomePage} />} />
-          <Route
-            path="/business/:id"
-            element={<ProtectedRoute element={BusinessDetails} />}
-          />
-          <Route
-            path="/favorites"
-            element={<ProtectedRoute element={FavoriteBusinesses} />}
-          />
-          <Route
-            path="/saved"
-            element={<ProtectedRoute element={SavedBusinesses} />}
-          />
-          <Route
-            path="/interests"
-            element={<ProtectedRoute element={FavoriteCategories} />}
-          />
-          <Route
-            path="/recommendations/:id"
-            element={<ProtectedRoute element={Recommendations} />}
-          />
-          <Route
-            path="/profile"
-            element={<ProtectedRoute element={ProfilePage} />}
-          />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <WebSocketProvider>
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/home"
+              element={<ProtectedRoute element={HomePage} />}
+            />
+            <Route
+              path="/business/:id"
+              element={<ProtectedRoute element={BusinessDetails} />}
+            />
+            <Route
+              path="/favorites"
+              element={<ProtectedRoute element={FavoriteBusinesses} />}
+            />
+            <Route
+              path="/saved"
+              element={<ProtectedRoute element={SavedBusinesses} />}
+            />
+            <Route
+              path="/interests"
+              element={<ProtectedRoute element={FavoriteCategories} />}
+            />
+            <Route
+              path="/recommendations/:id"
+              element={<ProtectedRoute element={Recommendations} />}
+            />
+            <Route
+              path="/profile"
+              element={<ProtectedRoute element={ProfilePage} />}
+            />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </WebSocketProvider>
   );
 }
 
