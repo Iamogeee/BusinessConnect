@@ -7,6 +7,7 @@ const Chat = ({ businessId, reviewId, receiverId }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
+  // Fetch messages from the server
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -56,7 +57,7 @@ const Chat = ({ businessId, reviewId, receiverId }) => {
 
       if (response.ok) {
         const sentMessage = await response.json();
-        setMessages([...messages, sentMessage]);
+        setMessages((prevMessages) => [...prevMessages, sentMessage]);
         setNewMessage("");
       } else {
         console.error("Failed to send message");
@@ -74,7 +75,10 @@ const Chat = ({ businessId, reviewId, receiverId }) => {
             key={index}
             className={`message ${msg.senderId === user.id ? "sent" : "received"}`}
           >
-            <p>{msg.text}</p>
+            <p>
+              <strong>{msg.senderId === user.id ? "You" : "Them"}:</strong>{" "}
+              {msg.text}
+            </p>
           </div>
         ))}
       </div>
