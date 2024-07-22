@@ -100,9 +100,12 @@ model Recommendation {
 model Message {
   id         Int      @id @default(autoincrement())
   text       String
-  sender     User     @relation("UserMessages", fields: [senderId], references: [id])
   senderId   Int
-  receiver   User     @relation("UserReceivedMessages", fields: [receiverId], references: [id])
   receiverId Int
+  businessId Int
+  reviewId   Int
   createdAt  DateTime @default(now())
+  sender     User     @relation("UserMessages", fields: [senderId], references: [id])
+  receiver   User     @relation("UserReceivedMessages", fields: [receiverId], references: [id])
 }
+
