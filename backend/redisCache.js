@@ -72,16 +72,6 @@ class RedisCache {
       console.error("Error flushing Redis DB:", err);
     }
   }
-
-  //Returns cache statistics
-  stats() {
-    return {
-      hits: "N/A",
-      misses: "N/A",
-      size: "N/A",
-      maxSize: "N/A",
-    };
-  }
 }
 
 module.exports = new RedisCache();
