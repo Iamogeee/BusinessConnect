@@ -1,77 +1,89 @@
 import React, { useState, useEffect } from "react";
 import "./Chat.css";
 
-const Chat = ({ receiverId }) => {
+const Chat = ({ businessId, reviewId, receiverId }) => {
   const [messages, setMessages] = useState([]);
-  const [text, setText] = useState("");
+  const [newMessage, setNewMessage] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `http://localhost:3000/api/messages/${receiverId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/messages/${receiverId}/${businessId}/${reviewId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      if (response.ok) {
-        const data = await response.json();
-        setMessages(data);
-      } else {
-        console.error("Failed to fetch messages");
+        if (response.ok) {
+          const data = await response.json();
+          setMessages(data);
+        } else {
+          console.error("Failed to fetch messages");
+        }
+      } catch (error) {
+        console.error("Error fetching messages:", error);
       }
     };
 
     fetchMessages();
-  }, [receiverId]);
+  }, [businessId, reviewId, receiverId, token]);
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === "") return;
 
-    const response = await fetch("http://localhost:3000/api/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ text, receiverId }),
-    });
+    const message = {
+      text: newMessage,
+      senderId: user.id,
+      receiverId,
+      businessId,
+      reviewId,
+    };
 
-    if (response.ok) {
-      const newMessage = await response.json();
-      setMessages([...messages, newMessage]);
-      setText("");
-    } else {
-      console.error("Failed to send message");
+    try {
+      const response = await fetch("http://localhost:3000/api/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(message),
+      });
+
+      if (response.ok) {
+        const sentMessage = await response.json();
+        setMessages([...messages, sentMessage]);
+        setNewMessage("");
+      } else {
+        console.error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
   };
 
   return (
     <div className="chat">
       <div className="chat-messages">
-        {messages.map((message) => (
+        {messages.map((msg, index) => (
           <div
-            key={message.id}
-            className={`chat-message ${message.senderId === receiverId ? "received" : "sent"}`}
+            key={index}
+            className={`message ${msg.senderId === user.id ? "sent" : "received"}`}
           >
-            <p>{message.text}</p>
-            <span>{new Date(message.createdAt).toLocaleTimeString()}</span>
+            <p>{msg.text}</p>
           </div>
         ))}
       </div>
-      <form onSubmit={handleSendMessage} className="chat-input">
-        <input
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button type="submit">Send</button>
-      </form>
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+      />
+      <button onClick={handleSendMessage}>Send</button>
     </div>
   );
 };
