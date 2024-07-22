@@ -141,7 +141,7 @@ async function processJsonFile() {
     }
   });
 }
-
+processJsonFile();
 module.exports = {
   processJsonFile,
 };
