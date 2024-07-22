@@ -22,7 +22,8 @@
     "express": "^4.19.2",
     "multer": "^1.4.5-lts.1",
     "natural": "^7.1.0",
-    "redis": "^4.6.15"
+    "redis": "^4.6.15",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "prisma": "^5.17.0"
