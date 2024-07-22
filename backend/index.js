@@ -15,11 +15,15 @@ const { personalizeResults } = require("./personalizeResults");
 const redisCache = require("./redisCache");
 const multer = require("multer");
 const fs = require("fs");
+const http = require("http");
+const WebSocket = require("ws");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
 const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ port: 3001 });
 
 app.use(cookieParser());
 app.use(express.json());
@@ -44,6 +48,32 @@ const authenticateToken = (req, res, next) => {
     }
     req.user = user;
     next();
+  });
+};
+
+// WebSocket connection handling
+wss.on("connection", (ws, req) => {
+  const token = new URLSearchParams(req.url.split("?")[1]).get("token");
+  if (!token) {
+    ws.close();
+    return;
+  }
+
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) {
+      ws.close();
+      return;
+    }
+
+    ws.user = user;
+  });
+});
+
+const notifyUser = (userId, message) => {
+  wss.clients.forEach((client) => {
+    if (client.user && client.user.id === userId) {
+      client.send(JSON.stringify(message));
+    }
   });
 };
 
