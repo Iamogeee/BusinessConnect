@@ -36,6 +36,8 @@ async function processJsonFile() {
         const businessHours = business.opening_hours
           ? business.opening_hours.weekday_text || ["Unknown"]
           : ["Unknown"];
+        const userRatingsTotal = business.user_ratings_total || 0;
+        const priceLevel = business.price_level || null;
 
         // Fetch additional details from Google Places API
         const placeDetails = await fetchPlaceDetails(business.place_id);
@@ -61,6 +63,8 @@ async function processJsonFile() {
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
             category: firstType,
+            priceLevel,
+            numberOfRatings: userRatingsTotal,
           },
           create: {
             placeId: business.place_id,
@@ -82,6 +86,8 @@ async function processJsonFile() {
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
             category: firstType,
+            priceLevel,
+            numberOfRatings: userRatingsTotal,
           },
         });
 

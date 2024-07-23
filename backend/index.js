@@ -59,7 +59,7 @@ app.get("/home", authenticateToken, (req, res) => {
 
 // Signup route
 app.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, location } = req.body;
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -71,6 +71,7 @@ app.post("/signup", async (req, res) => {
         name,
         email,
         password: hashedPassword,
+        location,
       },
     });
 
