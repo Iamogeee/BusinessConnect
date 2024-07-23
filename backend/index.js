@@ -29,7 +29,7 @@ app.use(
 );
 
 // Middleware to verify JWT token
-function authenticateToken(req, res, next) {
+const authenticateToken = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
     return res.sendStatus(401); // Send unauthorized status
@@ -42,7 +42,7 @@ function authenticateToken(req, res, next) {
     req.user = user;
     next();
   });
-}
+};
 
 // Landing Page Route
 app.get("/", (req, res) => {
@@ -107,6 +107,16 @@ app.post("/login", async (req, res) => {
       .status(500)
       .json({ message: "Something went wrong", error: error.message });
   }
+});
+
+// Logout route
+app.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 // Endpoint for fetching businesses
