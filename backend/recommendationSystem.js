@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { Worker } = require("worker_threads");
 
 // Fetch user data including interactions and preferences
 async function fetchUserData(userId) {
@@ -30,23 +31,6 @@ async function fetchUniqueCategories() {
   return categories.map((categoryObj) => categoryObj.category);
 }
 
-// Normalize ratings
-function normalizeRating(rating, min = 1, max = 5) {
-  return (rating - min) / (max - min);
-}
-
-// One-hot encode categories
-function oneHotEncode(categories, allCategories) {
-  return allCategories.map((category) =>
-    categories.includes(category) ? 1 : 0
-  );
-}
-
-// Combine user and business features
-function combineFeatures(userProfileVector, businessFeatureVector) {
-  return [...userProfileVector, ...businessFeatureVector];
-}
-
 // Dot product function
 function dotProduct(a, b) {
   return a.reduce((sum, val, i) => sum + val * b[i], 0);
@@ -73,51 +57,35 @@ async function trainLogisticRegression(
   userData,
   businessData,
   learningRate = 0.01,
-  epochs = 1000
+  epochs = 1000,
+  batchSize = 32
 ) {
   const allCategories = await fetchUniqueCategories();
 
   let X = [];
   let y = [];
 
+  // Use worker threads to prepare data in parallel
+  const promises = [];
   userData.forEach((user) => {
     businessData.forEach((business) => {
-      const userProfileVector = [
-        ...oneHotEncode(user.favoriteCategories, allCategories),
-        normalizeRating(user.preferredRating || 0),
-      ];
-      const businessFeatureVector = [
-        normalizeRating(business.averageRating || 0),
-        ...oneHotEncode([business.category], allCategories),
-      ];
-      const combinedVector = combineFeatures(
-        userProfileVector,
-        businessFeatureVector
+      promises.push(
+        new Promise((resolve, reject) => {
+          const worker = new Worker("./dataPreparer.js", {
+            workerData: { user, business, allCategories },
+          });
+          worker.on("message", (result) => resolve(result));
+          worker.on("error", reject);
+        })
       );
-      X.push(combinedVector);
-
-      const interaction = user.interactions.find(
-        (interaction) => interaction.businessId === business.id
-      );
-
-      let rating;
-      if (interaction) {
-        if (interaction.rated !== null) {
-          rating = interaction.rated;
-        } else if (interaction.liked) {
-          rating =
-            user.preferredRating !== null
-              ? user.preferredRating
-              : business.averageRating;
-        } else {
-          rating = 0;
-        }
-      } else {
-        rating = 0;
-      }
-      // y array holds the target labels for the logistic regression model.
-      y.push(rating > 3 ? 1 : 0); // Converting ratings to binary classes
     });
+  });
+
+  // Collect results from workers
+  const results = await Promise.all(promises);
+  results.forEach(({ combinedVector, label }) => {
+    X.push(combinedVector);
+    y.push(label);
   });
 
   const numFeatures = X[0].length;
@@ -131,23 +99,26 @@ async function trainLogisticRegression(
   for (let epoch = 0; epoch < epochs; epoch++) {
     let totalError = 0;
 
-    X.forEach((features, i) => {
-      const z = dotProduct(weights, features) + bias;
-      const prediction = sigmoid(z);
-      const error = prediction - y[i];
-      totalError += error ** 2;
+    for (let i = 0; i < X.length; i += batchSize) {
+      const batchX = X.slice(i, i + batchSize);
+      const batchY = y.slice(i, i + batchSize);
 
-      // Updates the weights using gradient descent
-      weights = addVectors(
-        weights,
-        scaleVector(
-          features,
-          -learningRate * error * prediction * (1 - prediction)
-        )
-      );
-      // Updates the bias using gradient descent
-      bias -= learningRate * error * prediction * (1 - prediction);
-    });
+      batchX.forEach((features, j) => {
+        const z = dotProduct(weights, features) + bias;
+        const prediction = sigmoid(z);
+        const error = prediction - batchY[j];
+        totalError += error ** 2;
+
+        weights = addVectors(
+          weights,
+          scaleVector(
+            features,
+            -learningRate * error * prediction * (1 - prediction)
+          )
+        );
+        bias -= learningRate * error * prediction * (1 - prediction);
+      });
+    }
 
     totalError /= X.length;
   }

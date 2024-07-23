@@ -16,7 +16,7 @@ function SearchBar({ userId, onSelect }) {
         );
 
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(`Network response was not ok: ${response.status}`);
         }
 
         const data = await response.json();
@@ -32,7 +32,7 @@ function SearchBar({ userId, onSelect }) {
     } else {
       setSuggestions([]);
     }
-  }, 300);
+  }, 150);
 
   const handleChange = (e) => {
     const input = e.target.value;

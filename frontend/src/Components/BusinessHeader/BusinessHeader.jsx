@@ -10,16 +10,29 @@ const BusinessHeader = ({
   types,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === photos.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 2000); // Change image every 2 seconds
+      goToNext();
+    }, 4000); // Change image every 4 seconds
 
     return () => clearInterval(interval);
   }, [photos.length]);
+
+  const goToNext = () => {
+    setDirection("next");
+    setCurrentIndex((prevIndex) =>
+      prevIndex === photos.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToPrevious = () => {
+    setDirection("prev");
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? photos.length - 1 : prevIndex - 1
+    );
+  };
 
   const formatBusinessTypes = (types) => {
     return types
@@ -47,6 +60,9 @@ const BusinessHeader = ({
 
   return (
     <div className="business-header">
+      <button className="carousel-control prev" onClick={goToPrevious}>
+        <i className="fas fa-chevron-left"></i>
+      </button>
       <div className="business-overlay">
         <h1>{name}</h1>
         <p>{description}</p>
@@ -62,10 +78,23 @@ const BusinessHeader = ({
           </p>
         </div>
       </div>
-      <div
-        className="business-backdrop"
-        style={{ backgroundImage: `url(${photos[currentIndex]})` }}
-      ></div>
+      <div className="carousel">
+        <div
+          className={`carousel-inner ${direction}`}
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {photos.map((photo, index) => (
+            <div
+              key={index}
+              className="carousel-item"
+              style={{ backgroundImage: `url(${photo})` }}
+            ></div>
+          ))}
+        </div>
+      </div>
+      <button className="carousel-control next" onClick={goToNext}>
+        <i className="fas fa-chevron-right"></i>
+      </button>
     </div>
   );
 };
