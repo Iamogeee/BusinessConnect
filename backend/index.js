@@ -15,11 +15,13 @@ const { personalizeResults } = require("./personalizeResults");
 const redisCache = require("./redisCache");
 const multer = require("multer");
 const fs = require("fs");
+const axios = require("axios");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
 const app = express();
+const GeoCode_API_KEY = process.env.API_KEY;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -47,6 +49,14 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// Geocode location to get latitude and longitude
+async function geocodeLocation(location) {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${GeoCode_API_KEY}`;
+  const response = await axios.get(url);
+  const result = response.data.results[0];
+  return result ? result.geometry.location : null;
+}
+
 // Landing Page Route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
@@ -66,12 +76,16 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const coordinates = await geocodeLocation(location);
+    const locationString = coordinates
+      ? `${coordinates.lat}, ${coordinates.lng}`
+      : location;
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        location,
+        location: locationString,
       },
     });
 
@@ -236,12 +250,27 @@ app.get("/api/user/:id", authenticateToken, async (req, res) => {
   const userId = parseInt(req.params.id);
 
   try {
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { id: userId },
+      include: { interactions: true },
     });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    // If coordinates are missing in the location field, geocode the location
+    if (user.location && !user.location.includes(",")) {
+      const coordinates = await geocodeLocation(user.location);
+      if (coordinates) {
+        const locationString = `${coordinates.lat}, ${coordinates.lng}`;
+        user = await prisma.user.update({
+          where: { id: userId },
+          data: {
+            location: locationString,
+          },
+        });
+      }
     }
 
     res.json(user);
