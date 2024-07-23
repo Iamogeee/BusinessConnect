@@ -12,6 +12,7 @@ const { PORT, JWT_SECRET } = require("./config");
 const { provideRecommendations } = require("./recommendationSystem");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
+const redisCache = require("./redisCache");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
@@ -123,10 +124,16 @@ app.get("/api/businesses", async (req, res) => {
 app.get("/api/search", async (req, res) => {
   const { query, userId } = req.query;
 
+  const cacheKey = `search:${userId}:${query}`;
+  const cachedResults = await redisCache.get(cacheKey);
+
+  if (cachedResults) {
+    return res.json(cachedResults);
+  }
+
   try {
     const results = await searchBusinesses(query);
 
-    // Fetch interactions and personalize results
     for (const result of results) {
       result.interactions = await prisma.interaction.findMany({
         where: {
@@ -137,6 +144,8 @@ app.get("/api/search", async (req, res) => {
     }
 
     const personalizedResults = personalizeResults(results);
+
+    await redisCache.set(cacheKey, personalizedResults);
 
     res.json(personalizedResults);
   } catch (error) {

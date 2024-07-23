@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import debounce from "lodash.debounce";
+import { useNavigate } from "react-router-dom";
 import "./SearchBar.css";
 
 function SearchBar({ userId, onSelect }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
 
   const fetchSuggestions = debounce(async (input) => {
     if (input.length > 0) {
@@ -14,7 +16,7 @@ function SearchBar({ userId, onSelect }) {
         );
 
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(`Network response was not ok: ${response.status}`);
         }
 
         const data = await response.json();
@@ -30,7 +32,7 @@ function SearchBar({ userId, onSelect }) {
     } else {
       setSuggestions([]);
     }
-  }, 300);
+  }, 150);
 
   const handleChange = (e) => {
     const input = e.target.value;
@@ -44,6 +46,7 @@ function SearchBar({ userId, onSelect }) {
     if (onSelect) {
       onSelect(suggestion);
     }
+    navigate(`/business/${suggestion.id}`);
   };
 
   const clearQuery = () => {
