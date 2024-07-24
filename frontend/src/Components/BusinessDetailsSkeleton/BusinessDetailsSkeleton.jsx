@@ -4,7 +4,7 @@ import "./BusinessDetailsSkeleton.css";
 const BusinessDetailsSkeleton = () => {
   return (
     <div className="business-details-skeleton">
-      <div className="skeleton-Header">
+      <div className="skeleton-header">
         <div className="skeleton-Image shimmer"></div>
 
         <button className="skeleton-button shimmer"></button>
