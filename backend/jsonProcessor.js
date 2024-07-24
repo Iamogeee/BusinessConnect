@@ -145,3 +145,5 @@ async function processJsonFile() {
 module.exports = {
   processJsonFile,
 };
+
+processJsonFile();

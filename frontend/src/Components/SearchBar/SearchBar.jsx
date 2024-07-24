@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
 import "./SearchBar.css";
@@ -40,13 +40,26 @@ function SearchBar({ userId, onSelect }) {
     fetchSuggestions(input);
   };
 
-  const handleSelect = (suggestion) => {
+  const handleSelect = async (suggestion) => {
     setQuery(suggestion.name);
     setSuggestions([]);
     if (onSelect) {
       onSelect(suggestion);
     }
     navigate(`/business/${suggestion.id}`);
+
+    // Track the click in the database by updating the viewed field
+    try {
+      await fetch("/api/track-click", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, businessId: suggestion.id }),
+      });
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
 
   const clearQuery = () => {
