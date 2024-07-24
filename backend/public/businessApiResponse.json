@@ -5,6 +5,1266 @@
       "business_status": "OPERATIONAL",
       "geometry": {
         "location": {
+          "lat": 37.3340784,
+          "lng": -121.890516
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.33532902989271,
+            "lng": -121.8893549701073
+          },
+          "southwest": {
+            "lat": 37.33262937010727,
+            "lng": -121.8920546298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/worship_general-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/worship_christian_pinlet",
+      "name": "Cathedral Basilica of St. Joseph",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 3120,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/108538794478541939834\">wenci garcia</a>"
+          ],
+          "photo_reference": "AelY_CvG0JS2Oc9Z--YructS4K1dgw2Qv9pNlRvsYgnWrVu9vVj1HFEeHIzzu0s01CJ4zT2u2nl8P7V_vwhQOzW_5itacklhHoqHaDbv272ENZNhl0uzpcN77e-TZblCXNjSSjEdbRdO-5YDEl-wD4Kw7j6t11Zx_Q0G7Eup2g5tdshyAZfu",
+          "width": 4160
+        }
+      ],
+      "place_id": "ChIJ63mc47cyjoARr4dWXqpUkrM",
+      "plus_code": {
+        "compound_code": "84M5+JQ San Jose, California",
+        "global_code": "849W84M5+JQ"
+      },
+      "rating": 4.7,
+      "reference": "ChIJ63mc47cyjoARr4dWXqpUkrM",
+      "scope": "GOOGLE",
+      "types": [
+        "tourist_attraction",
+        "church",
+        "place_of_worship",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 894,
+      "vicinity": "80 S Market St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3392534,
+          "lng": -121.8874447
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34063397989272,
+            "lng": -121.8860241701073
+          },
+          "southwest": {
+            "lat": 37.33793432010728,
+            "lng": -121.8887238298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/worship_general-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/worship_christian_pinlet",
+      "name": "Central Apostolic Church of San Jose",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 1899,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/114575709257277895847\">Deedee Chavarria</a>"
+          ],
+          "photo_reference": "AelY_CuMQ39n7kj-GsIM-LJyY__FxGT-P9uQSyszBVj4vg8QXDhCuw9xsd17M3uHIJiXpvzJBvwED3t4K4UiT_qPFiA0odZL6lCS2Yv8Rwo1cEYUQ_sEmgEHlgCE53Pno10wGX86_duPAHVk417mdhdtoxZqQma1T9ZDaHprJ0O5s6spafQ1",
+          "width": 2539
+        }
+      ],
+      "place_id": "ChIJg29ZnL3Mj4ARrhrHeQ7n-g0",
+      "plus_code": {
+        "compound_code": "84Q6+MX San Jose, California",
+        "global_code": "849W84Q6+MX"
+      },
+      "rating": 5,
+      "reference": "ChIJg29ZnL3Mj4ARrhrHeQ7n-g0",
+      "scope": "GOOGLE",
+      "types": [
+        "church",
+        "place_of_worship",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 20,
+      "vicinity": "77 N 5th St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3401616,
+          "lng": -121.882754
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34141457989271,
+            "lng": -121.8813316201073
+          },
+          "southwest": {
+            "lat": 37.33871492010727,
+            "lng": -121.8840312798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/worship_general-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/worship_christian_pinlet",
+      "name": "Our Lady of La Vang Parish San Jose",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1100,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107887874409372956530\">YamatoJapan70 HD</a>"
+          ],
+          "photo_reference": "AelY_CvgZmcGwo7r8uHQkj0f1TzIafb9zgw1m-M3YPY2tcUnVH5I5pULKrwVKbQgTmslmZrGiMixFaMAN91LaLM2CMsZxP488BmyUkVwORpqunXX7KpYBf0RH24x8CplcT3RWGk2UKT_s0BmgIpmMMD1pqeHsC49eXg9klL2FmXkJfl2qRaD",
+          "width": 1466
+        }
+      ],
+      "place_id": "ChIJTwe2PL7Mj4ARbFvd4nokzyU",
+      "plus_code": {
+        "compound_code": "84R8+3V San Jose, California",
+        "global_code": "849W84R8+3V"
+      },
+      "rating": 4.4,
+      "reference": "ChIJTwe2PL7Mj4ARbFvd4nokzyU",
+      "scope": "GOOGLE",
+      "types": [
+        "church",
+        "place_of_worship",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 83,
+      "vicinity": "389 E Santa Clara St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3389716,
+          "lng": -121.8780045
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34036422989272,
+            "lng": -121.8768262701073
+          },
+          "southwest": {
+            "lat": 37.33766457010728,
+            "lng": -121.8795259298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/worship_general-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/worship_christian_pinlet",
+      "name": "The Church in San Jose",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 873,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/111346021431158897348\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CuUhkAk-tTiqy6gFLKERhXH5rUStTfLHMQnG5Ge1AeKDcv_59q__Sb-AE2y42i6hrv2gix5QSivgtMklE0-Q-tzn7_xcEJWwyur2wPMIN9A57IPtSY4_N0PE900ouc_ItTFOZzo6ElwhZ2kNLNPpiIY1aPsidm9c-fbdRZ208K4MLaQ",
+          "width": 1164
+        }
+      ],
+      "place_id": "ChIJ36UsvMDMj4ARYEszBOorsTY",
+      "plus_code": {
+        "compound_code": "84QC+HQ San Jose, California",
+        "global_code": "849W84QC+HQ"
+      },
+      "rating": 4.8,
+      "reference": "ChIJ36UsvMDMj4ARYEszBOorsTY",
+      "scope": "GOOGLE",
+      "types": [
+        "church",
+        "place_of_worship",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 40,
+      "vicinity": "124 S 11th St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3489166,
+          "lng": -121.882976
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.35024092989272,
+            "lng": -121.8816806201072
+          },
+          "southwest": {
+            "lat": 37.34754127010728,
+            "lng": -121.8843802798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "San Jose Barbell",
+      "photos": [
+        {
+          "height": 3036,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/102738578080621277790\">brett frazer</a>"
+          ],
+          "photo_reference": "AelY_Cs1zxFdtBB_5KX-tUm0D_rm5jG94NTF8cJhgI7abRFBQn80cavRjZ823xUhqSsF2idDz1tJyxlEJW0hZGsfIatJ11NxpP_p3geVcpbK0xC_096h_fX-6lLuW52dg2XSlH5VIGhceD3XTp67JJJZ8kuOlYEpJHhqgIk5F55beZsaN_cJ",
+          "width": 4048
+        }
+      ],
+      "place_id": "ChIJEWuCTpLMj4ARYplAzYMNvJ4",
+      "plus_code": {
+        "compound_code": "84X8+HR San Jose, California",
+        "global_code": "849W84X8+HR"
+      },
+      "rating": 4.7,
+      "reference": "ChIJEWuCTpLMj4ARYplAzYMNvJ4",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 45,
+      "vicinity": "404 N 13th St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3376563,
+          "lng": -121.888653
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.33897667989272,
+            "lng": -121.8873836701073
+          },
+          "southwest": {
+            "lat": 37.33627702010727,
+            "lng": -121.8900833298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "WESTCA",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 2080,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/113610557162586883274\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CuDAh_gT8E-H_IDkeiAFWcL0A0yKq4cVinfd3zbBcA9Jj6z6cMapDBLRYZM5lB5nQoPmi6lQeCviUCeSPFogGeN5DjMNLNatAE5jZRAWQ7UdKfS_2MmuhWBMe6Goe_mtHQYzFkD-wBlPoRWuFsLxfUy6JRYkzc1WrNlIsmjBDBYTot_",
+          "width": 3120
+        }
+      ],
+      "place_id": "ChIJL2tMGr3Mj4ARF8jxUFQ11XM",
+      "plus_code": {
+        "compound_code": "84Q6+3G San Jose, California",
+        "global_code": "849W84Q6+3G"
+      },
+      "rating": 4.9,
+      "reference": "ChIJL2tMGr3Mj4ARF8jxUFQ11XM",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 180,
+      "vicinity": "30 N 3rd St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3489062,
+          "lng": -121.8828966
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.35020112989272,
+            "lng": -121.8816658201073
+          },
+          "southwest": {
+            "lat": 37.34750147010728,
+            "lng": -121.8843654798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Hyper Strength and Conditioning",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1080,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/113525916737157874622\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CtJ2KzEkYlgd7nNpUAU8mzgB_A13Wbq77O4Hmdt0paEt8ZKTVALLCo_MItoGOlyqUv9-Wv8VSQepsS2nXPZWHWBAkNbmMUHOTPzN84lD5NQpS0oXMoHPjIBUXPA-hfoasCNvvEJuqCsC1OWm5tlVKc0fhDP-68_JEqi_N45-xxTeA8y",
+          "width": 1620
+        }
+      ],
+      "place_id": "ChIJUcSwP2XMj4ARf5BdyzAD70E",
+      "plus_code": {
+        "compound_code": "84X8+HR San Jose, California",
+        "global_code": "849W84X8+HR"
+      },
+      "rating": 5,
+      "reference": "ChIJUcSwP2XMj4ARf5BdyzAD70E",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 123,
+      "vicinity": "404 N 13th St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3486909,
+          "lng": -121.8939268
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.35004057989273,
+            "lng": -121.8926814701073
+          },
+          "southwest": {
+            "lat": 37.34734092010729,
+            "lng": -121.8953811298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Gymparty",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 2709,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/106067843907059124058\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CuSonVn8guWM9-NNjsOrOSq6JHlpqEB4rETjrDxO9gUpyEkquAyB84v6oDlkJpXycTqMtfL-J2XNh2m28IIf8u1hEEBlnTueFfQMq4Ds3GIJBXwRkBJOXM_pScRjBpqE1nv4L3r0Pk7Kymm_-QH8Kuze83jLRSm5QBVGM_2YKuecfwh",
+          "width": 2709
+        }
+      ],
+      "place_id": "ChIJkcy2mMYzjoARKKhgtrvQYQY",
+      "plus_code": {
+        "compound_code": "84X4+FC San Jose, California",
+        "global_code": "849W84X4+FC"
+      },
+      "rating": 5,
+      "reference": "ChIJkcy2mMYzjoARKKhgtrvQYQY",
+      "scope": "GOOGLE",
+      "types": ["health", "point_of_interest", "establishment"],
+      "user_ratings_total": 18,
+      "vicinity": "590 N 5th St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.329395,
+          "lng": -121.8853492
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.33071442989272,
+            "lng": -121.8840753701073
+          },
+          "southwest": {
+            "lat": 37.32801477010727,
+            "lng": -121.8867750298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "YBX Fitness",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 2197,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/114747175970460940544\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CtnP_9fY3xVl2pTfik0h3Xjsvk3PwMPyUgZKV5ltPvXpdlMep0me2_ZScje0sLuHRZawYgkU_yJliIM8xiY8F0a1Rrh8nrpZD9S17r0OkEg8wOE5-Cs-XIAMarQDLBR3pe6htVhe9tBZtvvQYdFjvyFpfdkQ6jHEb1tdLTojpuAHgLh",
+          "width": 2197
+        }
+      ],
+      "place_id": "ChIJ-w_hJ9jNj4ARzrY-Ozpyz0U",
+      "plus_code": {
+        "compound_code": "84H7+QV San Jose, California",
+        "global_code": "849W84H7+QV"
+      },
+      "rating": 4.9,
+      "reference": "ChIJ-w_hJ9jNj4ARzrY-Ozpyz0U",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 117,
+      "vicinity": "452 S 1st St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3391466,
+          "lng": -121.9004172
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34040027989272,
+            "lng": -121.8989774701073
+          },
+          "southwest": {
+            "lat": 37.33770062010728,
+            "lng": -121.9016771298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "WARCAT Strength",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 4000,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107846163118552000595\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CuZFYP-GxSgGJY9waMflsgs60kFJNhBBhmClGyDzCysY4IXOUWmbQxgQIssODllTHPoErKxZ9vbAChtHa7xHIpywpl04PX4r8hUP274outHYIWNF3kMdUAGfYpMh9M4WIHfxnnVBOepeXB00ZPySBabBpqre1f6W9Eph5s3BUpkaSh_",
+          "width": 6000
+        }
+      ],
+      "place_id": "ChIJ8e7Hszw1joARtJ8yLM8mp0E",
+      "plus_code": {
+        "compound_code": "83QX+MR San Jose, California",
+        "global_code": "849W83QX+MR"
+      },
+      "rating": 4.6,
+      "reference": "ChIJ8e7Hszw1joARtJ8yLM8mp0E",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 47,
+      "vicinity": "299 Bassett St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3391466,
+          "lng": -121.9004172
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34042112989273,
+            "lng": -121.8989500201073
+          },
+          "southwest": {
+            "lat": 37.33772147010728,
+            "lng": -121.9016496798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Functional Performance Fitness/Punch King Fitness",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1000,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/103674355301606215676\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CvWAelXTmRKOqh8-oWaFNyYu_mRGdg7PIl7IYSVAezfGx0qXv403mqMCZfeSNjsJ4LTJuM8WGzwJbbu5ZvElAThqact9Iyt9Au-WzbAAdYpNo20cDAplrAyTgTNCP0xDyXUMUu3oNmKfxUtsaPdXWA0IyG3Lxmzq09p2jo-J6Zw9kO9",
+          "width": 1500
+        }
+      ],
+      "place_id": "ChIJ09R38qk0joARobdUknnsPc0",
+      "plus_code": {
+        "compound_code": "83QX+MR San Jose, California",
+        "global_code": "849W83QX+MR"
+      },
+      "rating": 4.7,
+      "reference": "ChIJ09R38qk0joARobdUknnsPc0",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 33,
+      "vicinity": "299 Bassett St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3391466,
+          "lng": -121.9004172
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34040027989272,
+            "lng": -121.8989774701073
+          },
+          "southwest": {
+            "lat": 37.33770062010728,
+            "lng": -121.9016771298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Punch King Fitness | Gym",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1512,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/108349182756674279262\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CsPYO31VSyjShE3eQ-JmHEpGBYGl5b0mGvfLibMr6ph1VavE8pGvIpP4OWGDsU9-mPJFd1WTLniUDlG5hJj8-zDSGv9wQdMglaMnj-GyINyPKw2XTiQLKPK2cagSkGNrukRlBM8mLZ9WDucAVaY-tu-IoEFNaOEh5B0lbln66MAO9eD",
+          "width": 2016
+        }
+      ],
+      "place_id": "ChIJ8WOMEGLNj4AR_rMCeXP-BUU",
+      "plus_code": {
+        "compound_code": "83QX+MR San Jose, California",
+        "global_code": "849W83QX+MR"
+      },
+      "rating": 4.7,
+      "reference": "ChIJ8WOMEGLNj4AR_rMCeXP-BUU",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 24,
+      "vicinity": "299 Bassett St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.34244839999999,
+          "lng": -121.8936159
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.34375967989273,
+            "lng": -121.8923440701072
+          },
+          "southwest": {
+            "lat": 37.34106002010728,
+            "lng": -121.8950437298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Jack'd Functional Fitness",
+      "opening_hours": {
+        "open_now": false
+      },
+      "place_id": "ChIJgY-GlVPNj4ARYxroLs-3zpQ",
+      "plus_code": {
+        "compound_code": "84R4+XH San Jose, California",
+        "global_code": "849W84R4+XH"
+      },
+      "rating": 5,
+      "reference": "ChIJgY-GlVPNj4ARYxroLs-3zpQ",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 11,
+      "vicinity": "350 N 2nd St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3374806,
+          "lng": -121.8938414
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.33866627989272,
+            "lng": -121.8925279201073
+          },
+          "southwest": {
+            "lat": 37.33596662010728,
+            "lng": -121.8952275798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Orangetheory Fitness",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 480,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/112193415509783215348\">A Google User</a>"
+          ],
+          "photo_reference": "AelY_CvUGYn_FC81aiEaZzNP_KLtApE2L4KvA6B4jQx0ustqrTbS8fI78vS0v3NkMX8_9PP6_x7QKtW0-M6793Pb97Hu9I1UD6Fh6ldua2qAx5QK4U5-GrXj_13D58S2KuiAIbC_4RAuw3CV5YBU3EpqgrK7l4ckmSvMpwrXEEKgz3nhxsly",
+          "width": 720
+        }
+      ],
+      "place_id": "ChIJTxNAcKLMj4ARwiyOWvFdWSA",
+      "plus_code": {
+        "compound_code": "84P4+XF San Jose, California",
+        "global_code": "849W84P4+XF"
+      },
+      "rating": 4.6,
+      "reference": "ChIJTxNAcKLMj4ARwiyOWvFdWSA",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 71,
+      "vicinity": "111 W St John St #110, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3489374,
+          "lng": -121.8722016
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.35026792989273,
+            "lng": -121.8708607701073
+          },
+          "southwest": {
+            "lat": 37.34756827010728,
+            "lng": -121.8735604298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "San Jose High School - Gym",
+      "photos": [
+        {
+          "height": 1080,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/102553498884840423292\">Haiyang Pan</a>"
+          ],
+          "photo_reference": "AelY_Ct4Ci9VaXASZC82ItisoPjpF1LnR5sgInm5wkUsxBXux_kfphbKtrlfF0fE-QRpg00VyY8_mHH-60s-3kqrIBIqutpOeS6bL_1NUTWrNPE374jeLsgOpYQ8s-LHGSVkKkOpZBQwwxYQYLaY6qyyGSBSwu6oqrlnELIYoYx_v0RjEsS_",
+          "width": 1920
+        }
+      ],
+      "place_id": "ChIJa9Wqz7TNj4AR6fE1quYgHZ4",
+      "plus_code": {
+        "compound_code": "84XH+J3 San Jose, California",
+        "global_code": "849W84XH+J3"
+      },
+      "rating": 0,
+      "reference": "ChIJa9Wqz7TNj4AR6fE1quYgHZ4",
+      "scope": "GOOGLE",
+      "types": ["gym", "health", "point_of_interest", "establishment"],
+      "user_ratings_total": 0,
+      "vicinity": "275 N 24th St, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3328862,
+          "lng": -121.8893084
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3343672802915,
+            "lng": -121.8876644197085
+          },
+          "southwest": {
+            "lat": 37.33166931970851,
+            "lng": -121.8903623802915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
+      "icon_background_color": "#909CE1",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/hotel_pinlet",
+      "name": "Fairmont San Jose",
+      "photos": [
+        {
+          "height": 3596,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/116319303957678878480\">Fairmont San Jose</a>"
+          ],
+          "photo_reference": "AelY_Cv51BVbk0x9JBdDaKrDduzn1yEPyWM4ZrfqglN373-eJmCHXDw5GLOzr3Fxjy3c9P87mWWRTFC4xubS4_CrtTqiTMO2k_BEnQfoFM5Ww3da753EISAP9JCipDgtWyMPPQQ2_Ss3ipIYa-97kGRpL3yq1lVi-5D9Z1jg5vyRDZ_msSZ8",
+          "width": 5868
+        }
+      ],
+      "place_id": "ChIJJxVjI7vMj4ARPYYHcC-20vo",
+      "plus_code": {
+        "compound_code": "84M6+57 San Jose, CA, USA",
+        "global_code": "849W84M6+57"
+      },
+      "price_level": 4,
+      "rating": 4.4,
+      "reference": "ChIJJxVjI7vMj4ARPYYHcC-20vo",
+      "scope": "GOOGLE",
+      "types": [
+        "lodging",
+        "restaurant",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "user_ratings_total": 4636,
+      "vicinity": "170 South Market Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3310012,
+          "lng": -121.8878173
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3322766802915,
+            "lng": -121.8866264697085
+          },
+          "southwest": {
+            "lat": 37.3295787197085,
+            "lng": -121.8893244302915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Il Fornaio",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1280,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107267790850162420867\">Il Fornaio</a>"
+          ],
+          "photo_reference": "AelY_CtqG9rYz7Bmq3BnJBtP73nx2z39Mfj2fCBlnR9Vtgd51ndm_uzMz7ozaJn0oq-fVeOgBGxSRYTkFq18yg0DRvHVGMGCFkaPv1X4y7p2g98W_i1Bwzqbzm0EqK8YtCmT7470QUVbuMqam8Ambkn7Tx3hI-lVFUU4t1UvojNSwZDnTNm3",
+          "width": 1800
+        }
+      ],
+      "place_id": "ChIJ06drj7rMj4AR4Y_OEpeT5LA",
+      "plus_code": {
+        "compound_code": "84J6+CV San Jose, CA, USA",
+        "global_code": "849W84J6+CV"
+      },
+      "price_level": 2,
+      "rating": 4.2,
+      "reference": "ChIJ06drj7rMj4AR4Y_OEpeT5LA",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 1278,
+      "vicinity": "302 South Market Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3313416,
+          "lng": -121.8871374
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3326710802915,
+            "lng": -121.8858745197085
+          },
+          "southwest": {
+            "lat": 37.3299731197085,
+            "lng": -121.8885724802915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Original Joe's San Jose",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 640,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107656844384707863932\">Original Joe&#39;s San Jose</a>"
+          ],
+          "photo_reference": "AelY_CsouFe7VBMS4A9ZawYPhAN6LydRbwv7yRAIPcZuu9528Ca8nHK5UZFdY1YUDiCWTRk--qg-TJ9Twi3y7As96Raz8HRPjdnidxJ0jzMOkwnBzYvc_SgXqU80A47OG9-cj1ZGsMtueL0XFF9uI4oxghq60ARRIa8cuExUGtEB_arAwBRa",
+          "width": 640
+        }
+      ],
+      "place_id": "ChIJKww9ZLrMj4ARb-KGDMCdo_I",
+      "plus_code": {
+        "compound_code": "84J7+G4 San Jose, CA, USA",
+        "global_code": "849W84J7+G4"
+      },
+      "price_level": 2,
+      "rating": 4.2,
+      "reference": "ChIJKww9ZLrMj4ARb-KGDMCdo_I",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 2560,
+      "vicinity": "301 South 1st Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3353822,
+          "lng": -121.8981047
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3366721802915,
+            "lng": -121.8967136197085
+          },
+          "southwest": {
+            "lat": 37.3339742197085,
+            "lng": -121.8994115802915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Henry's World Famous Hi-Life",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 3024,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/114543378064999712103\">Yuji Goto</a>"
+          ],
+          "photo_reference": "AelY_CuKmZKstYSE7lkxBUHMIcvhuKD4Xu7JN45XZ0G836scMhwAUm2tPwtS_60rDQbTaVZUP7EZgiZQFElCcVdGklbkT2jnNBucYRNi3hFBilSe2xxUVRXxVfB26h5srvln0xX00faYTHVqWgJNbAoRIBkKn4rR6_4HHjplKUlGalhH4PU1",
+          "width": 4032
+        }
+      ],
+      "place_id": "ChIJkXmJt6HMj4AR_CU3a1r9eYg",
+      "plus_code": {
+        "compound_code": "84P2+5Q San Jose, CA, USA",
+        "global_code": "849W84P2+5Q"
+      },
+      "price_level": 2,
+      "rating": 4.6,
+      "reference": "ChIJkXmJt6HMj4AR_CU3a1r9eYg",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 2345,
+      "vicinity": "301 West Saint John Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.336045,
+          "lng": -121.893779
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.33724153029149,
+            "lng": -121.8927585697085
+          },
+          "southwest": {
+            "lat": 37.3345435697085,
+            "lng": -121.8954565302915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "The Old Spaghetti Factory",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 4032,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/105935514221925357828\">Mj Stearns - Your Local Santa Cruz Realtor</a>"
+          ],
+          "photo_reference": "AelY_Cs3aYDLEoxCJBqx-9tw9IxcmBQalUcrYfjOeWx10PBubGvbRccq7Z5w-mZNYxtXsmsQ869jh-vGuVRJ1bcYzBoMKUpD-Qm9_aKCn9dP5XBwFMMCs0KL6vKh9rmcU2z0MluG4IkiCs2Mr1kvIJCUQRuoFCpFKwFhggo2A97AMfFyhbdM",
+          "width": 3024
+        }
+      ],
+      "place_id": "ChIJ7XhmUaLMj4ARlxuA2ZcMbVg",
+      "plus_code": {
+        "compound_code": "84P4+CF San Jose, CA, USA",
+        "global_code": "849W84P4+CF"
+      },
+      "price_level": 2,
+      "rating": 4.2,
+      "reference": "ChIJ7XhmUaLMj4ARlxuA2ZcMbVg",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 3702,
+      "vicinity": "51 North San Pedro Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3352759,
+          "lng": -121.8983499
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3365642802915,
+            "lng": -121.8969579697085
+          },
+          "southwest": {
+            "lat": 37.3338663197085,
+            "lng": -121.8996559302915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Poor House Bistro",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 4032,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/114275934011068006201\">Sandy Fong-Navalta</a>"
+          ],
+          "photo_reference": "AelY_CtybGPwuW6YrWMM6llcpFhkqjc8MOjccXbK3GAcEVTqInn1MgbdtnhyErf9lxDLsZIBn1PEC0KXck2TaVHBC2qt_wB95aruOX84cqyAMSJqEr8cYTemW291GbGxTjKbfKuYXdQ6VA1zvT9nM34MgUdjOi66tuoAz-ToQ3zxcxwReF_8",
+          "width": 3024
+        }
+      ],
+      "place_id": "ChIJbeGGEqfMj4ARLsEQKwQohWM",
+      "plus_code": {
+        "compound_code": "84P2+4M San Jose, CA, USA",
+        "global_code": "849W84P2+4M"
+      },
+      "price_level": 2,
+      "rating": 4.4,
+      "reference": "ChIJbeGGEqfMj4ARLsEQKwQohWM",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 1475,
+      "vicinity": "317 West Saint John Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.33222139999999,
+          "lng": -121.888913
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3336000302915,
+            "lng": -121.8876769697085
+          },
+          "southwest": {
+            "lat": 37.3309020697085,
+            "lng": -121.8903749302915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Morton's The Steakhouse",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1080,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/108736150410460774016\">Morton&#39;s The Steakhouse</a>"
+          ],
+          "photo_reference": "AelY_CvZ5V6weGzmnyc76Wlq-JwWmIikuRMtFZvt_hLY990s-cKV36uiiDNaOnTFciRftcU373Ymhs3rKG0abyU45BT1HJcAEXN0gyTjuSFM9oSNVURC-W5xaU-pxTrGPDhRU3WBfLlcZGAZ_1PQWk-nv6frFdmPXieUGJtm55qWaiiqTJYp",
+          "width": 1620
+        }
+      ],
+      "place_id": "ChIJYVuT2aTMj4ARVoWJdxjG69A",
+      "plus_code": {
+        "compound_code": "84J6+VC San Jose, CA, USA",
+        "global_code": "849W84J6+VC"
+      },
+      "price_level": 4,
+      "rating": 4.2,
+      "reference": "ChIJYVuT2aTMj4ARVoWJdxjG69A",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 1059,
+      "vicinity": "170 South Market Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3328728,
+          "lng": -121.884597
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3341312302915,
+            "lng": -121.8833397197085
+          },
+          "southwest": {
+            "lat": 37.3314332697085,
+            "lng": -121.8860376802915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Pizza My Heart",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 3000,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/116420614653904474227\">Liz K</a>"
+          ],
+          "photo_reference": "AelY_CtMww_iS5LZtXkQMmvF9Kn_zRseVC4kvLZEUyb494C7MbArPtVmC_KTUvHPALSGg1rQyOTRr_3cnKq1dpYDI6Km8jO1uvLoEO2D2-L6KuLyCZ2w3tOIjiBUGDZdc1z-4Lg5MnwjwOSvy7dY7IYAvO_9s7sO_BRofIxOKBE3T6uxoEDw",
+          "width": 4000
+        }
+      ],
+      "place_id": "ChIJDxcAKrrMj4ARNmr9RDYHuPg",
+      "plus_code": {
+        "compound_code": "84M8+45 San Jose, CA, USA",
+        "global_code": "849W84M8+45"
+      },
+      "price_level": 1,
+      "rating": 4.3,
+      "reference": "ChIJDxcAKrrMj4ARNmr9RDYHuPg",
+      "scope": "GOOGLE",
+      "types": [
+        "meal_takeaway",
+        "restaurant",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "user_ratings_total": 895,
+      "vicinity": "117 East San Carlos Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3326357,
+          "lng": -121.8891198
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3339016302915,
+            "lng": -121.8878621197085
+          },
+          "southwest": {
+            "lat": 37.3312036697085,
+            "lng": -121.8905600802915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "The Grill on the Alley",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 3024,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/110374980239162107463\">louis Moran</a>"
+          ],
+          "photo_reference": "AelY_CuXGLvf_C8dw5n12iKIdh6fE5LjuvkiNC27B7EPV0nUoX7ME7Mqr7TqsJ-BFOpAVE5VPYjYpUPmcYMlOoSEHRa-5l_xqK_nuwnTcpwC7GIYU95wp3Nk8guhFe7em2CVH1SvupF9nOb3wKCkMImxdKuUwZxlHCQVyrup33eHG6oe0FLB",
+          "width": 4032
+        }
+      ],
+      "place_id": "ChIJWwfFI7vMj4ARbK8xbuWfuHg",
+      "plus_code": {
+        "compound_code": "84M6+39 San Jose, CA, USA",
+        "global_code": "849W84M6+39"
+      },
+      "price_level": 2,
+      "rating": 4.3,
+      "reference": "ChIJWwfFI7vMj4ARbK8xbuWfuHg",
+      "scope": "GOOGLE",
+      "types": [
+        "bar",
+        "restaurant",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "user_ratings_total": 574,
+      "vicinity": "172 South Market Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3352543,
+          "lng": -121.8881358
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.3365508302915,
+            "lng": -121.8868933697085
+          },
+          "southwest": {
+            "lat": 37.3338528697085,
+            "lng": -121.8895913302915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Loft Bar & Bistro",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1160,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/116558117600900536311\">Loft Bar &amp; Bistro</a>"
+          ],
+          "photo_reference": "AelY_CvG-gQMR41CPeRLvyMHhU8i8RV-eqDi9XbSFi-WtT3OEW3-rL0i_pcCuZrNkFYVfTP-5nF0UnzX06EcHpPQuSvjitLnxY4k5Q99DqspwLxpQMy3eoa35opBh2ptxJk6oQ2Q5pEP3u5HS-jpxGr2CQEsaQsvHripvkcgVNfANxiDuhg-",
+          "width": 1790
+        }
+      ],
+      "place_id": "ChIJmXNOg7zMj4ARl3VZADKRkZ8",
+      "plus_code": {
+        "compound_code": "84P6+4P San Jose, CA, USA",
+        "global_code": "849W84P6+4P"
+      },
+      "price_level": 2,
+      "rating": 4.1,
+      "reference": "ChIJmXNOg7zMj4ARl3VZADKRkZ8",
+      "scope": "GOOGLE",
+      "types": [
+        "restaurant",
+        "night_club",
+        "bar",
+        "point_of_interest",
+        "food",
+        "establishment"
+      ],
+      "user_ratings_total": 577,
+      "vicinity": "90 South Second Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 37.3325636,
+          "lng": -121.8843945
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 37.33397653029149,
+            "lng": -121.8831028697085
+          },
+          "southwest": {
+            "lat": 37.33127856970849,
+            "lng": -121.8858008302915
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "La Victoria Taqueria",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 1904,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107632366121162896986\">Jonathan Chang</a>"
+          ],
+          "photo_reference": "AelY_CtnwNCw4R5VnSfQ-cBhLbc0E_oI7ObuytmXb4seasNn2efGbmFlV-iGzaRNEyDSn14IT1Z50HICcB3JAuFHSlWpX8xBAc3LAL7i05gJJ8Bry7w29LG2tnUGHjtlTwZg_bWsAF3b-jmfPeC9jxzNc9djJSqhJkQBGiJVTktZvI1ioq0",
+          "width": 1904
+        }
+      ],
+      "place_id": "ChIJrQJhi7nMj4ARifu7CGhc2S4",
+      "plus_code": {
+        "compound_code": "84M8+26 San Jose, CA, USA",
+        "global_code": "849W84M8+26"
+      },
+      "price_level": 1,
+      "rating": 4.2,
+      "reference": "ChIJrQJhi7nMj4ARifu7CGhc2S4",
+      "scope": "GOOGLE",
+      "types": ["restaurant", "point_of_interest", "food", "establishment"],
+      "user_ratings_total": 3270,
+      "vicinity": "140 East San Carlos Street, San Jose"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
           "lat": 37.45345599999999,
           "lng": -122.183247
         },

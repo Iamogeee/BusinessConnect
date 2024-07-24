@@ -9,7 +9,10 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
 const { PORT, JWT_SECRET } = require("./config");
-const { provideRecommendations } = require("./recommendationSystem");
+const {
+  provideRecommendations,
+  handleUserInteraction,
+} = require("./recommendationSystem");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
 const redisCache = require("./redisCache");
@@ -396,6 +399,7 @@ app.post("/interact", async (req, res) => {
       update: { liked, saved, viewed, reviewed, rated },
       create: { userId, businessId, liked, saved, viewed, reviewed, rated },
     });
+    handleUserInteraction(userId);
     res.status(200).json(interaction);
   } catch (error) {
     console.error("Error creating/updating interaction:", error);

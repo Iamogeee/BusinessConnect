@@ -136,7 +136,7 @@ const Recommendations = () => {
 
   return (
     <div className="home-page">
-      <MainHeader onCategoryChange={setSelectedCategory} />
+      <MainHeader onCategoryChange={setSelectedCategory} userId={user.id} />
       <main>
         <h2>Recommended</h2>
         {selectedCategory ? renderSelectedCategory() : renderCategoryGroups()}
