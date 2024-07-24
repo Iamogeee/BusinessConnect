@@ -2,7 +2,18 @@ const fs = require("fs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// Fetch user data including interactions and preferences
+const initialWeights = {
+  favoriteCategories: 0.8,
+  location: 0.2,
+};
+
+const parseLocation = (location) => {
+  const [lat, lng] = location
+    .split(",")
+    .map((coord) => parseFloat(coord.trim()));
+  return { lat, lng };
+};
+
 async function fetchUserData(userId) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -10,225 +21,100 @@ async function fetchUserData(userId) {
       interactions: true,
     },
   });
+
+  if (user && user.location) {
+    const { lat, lng } = parseLocation(user.location);
+    return { ...user, coordinates: { lat, lng } };
+  }
+
   return user;
 }
 
-// Fetch all businesses
 async function fetchBusinessData() {
   const businesses = await prisma.business.findMany();
-  return businesses;
+  return businesses.map((business) => {
+    const { lat, lng } = parseLocation(business.location);
+    return { ...business, coordinates: { lat, lng } };
+  });
 }
 
-// Fetch all unique categories
 async function fetchUniqueCategories() {
   const categories = await prisma.business.findMany({
-    select: {
-      category: true,
-    },
+    select: { category: true },
     distinct: ["category"],
   });
   return categories.map((categoryObj) => categoryObj.category);
 }
 
-// Normalize ratings
-function normalizeRating(rating, min = 1, max = 5) {
-  return (rating - min) / (max - min);
+function normalize(value, min, max) {
+  if (value === undefined || value === null || isNaN(value)) {
+    return 0;
+  }
+  return (value - min) / (max - min);
 }
 
-// One-hot encode categories
 function oneHotEncode(categories, allCategories) {
   return allCategories.map((category) =>
     categories.includes(category) ? 1 : 0
   );
 }
 
-// Combine user and business features
-function combineFeatures(userProfileVector, businessFeatureVector) {
-  return [...userProfileVector, ...businessFeatureVector];
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  const toRadians = (degree) => degree * (Math.PI / 180);
+  const R = 3958.8;
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon1 - lon2);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) *
+      Math.cos(toRadians(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
-// Dot product function
-function dotProduct(a, b) {
-  return a.reduce((sum, val, i) => sum + val * b[i], 0);
-}
+function combineInitialFeatures(user, business, initialWeights, allCategories) {
+  const categoryScore = oneHotEncode(
+    user.favoriteCategories,
+    allCategories
+  ).reduce((sum, val) => sum + val * initialWeights.favoriteCategories, 0);
 
-// Add two vectors
-function addVectors(a, b) {
-  return a.map((val, i) => val + b[i]);
-}
-
-// Scale a vector
-function scaleVector(a, scalar) {
-  return a.map((val) => val * scalar);
-}
-
-// Sigmoid function
-// converts the output of the output of the linear combination of weights and features plus the bias into a probability between 0 and 1.
-function sigmoid(z) {
-  return 1 / (1 + Math.exp(-z));
-}
-
-// Train logistic regression model
-async function trainLogisticRegression(
-  userData,
-  businessData,
-  learningRate = 0.01,
-  epochs = 1000
-) {
-  const allCategories = await fetchUniqueCategories();
-
-  let X = [];
-  let y = [];
-
-  userData.forEach((user) => {
-    businessData.forEach((business) => {
-      const userProfileVector = [
-        ...oneHotEncode(user.favoriteCategories, allCategories),
-        normalizeRating(user.preferredRating || 0),
-      ];
-      const businessFeatureVector = [
-        normalizeRating(business.averageRating || 0),
-        ...oneHotEncode([business.category], allCategories),
-      ];
-      const combinedVector = combineFeatures(
-        userProfileVector,
-        businessFeatureVector
-      );
-      X.push(combinedVector);
-
-      const interaction = user.interactions.find(
-        (interaction) => interaction.businessId === business.id
-      );
-
-      let rating;
-      if (interaction) {
-        if (interaction.rated !== null) {
-          rating = interaction.rated;
-        } else if (interaction.liked) {
-          rating =
-            user.preferredRating !== null
-              ? user.preferredRating
-              : business.averageRating;
-        } else {
-          rating = 0;
-        }
-      } else {
-        rating = 0;
-      }
-      // y array holds the target labels for the logistic regression model.
-      y.push(rating > 3 ? 1 : 0); // Converting ratings to binary classes
-    });
-  });
-
-  const numFeatures = X[0].length;
-  //Array.from is a mapping function that initializes each element of the array
-  //weights is an array of length numFeatures, with each element initialized to a small random value between 0 and 0.01.
-  let weights = Array.from({ length: numFeatures }, () => Math.random() * 0.01);
-
-  //bias serves as an intercept term in the logistic regression model.
-  let bias = Math.random() * 0.01;
-
-  for (let epoch = 0; epoch < epochs; epoch++) {
-    let totalError = 0;
-
-    X.forEach((features, i) => {
-      const z = dotProduct(weights, features) + bias;
-      const prediction = sigmoid(z);
-      const error = prediction - y[i];
-      totalError += error ** 2;
-
-      // Updates the weights using gradient descent
-      weights = addVectors(
-        weights,
-        scaleVector(
-          features,
-          -learningRate * error * prediction * (1 - prediction)
-        )
-      );
-      // Updates the bias using gradient descent
-      bias -= learningRate * error * prediction * (1 - prediction);
-    });
-
-    totalError /= X.length;
-  }
-
-  return { weights, bias };
-}
-
-// Predict preference
-function predictPreference(userProfileVector, businessFeatureVector, model) {
-  const combinedVector = combineFeatures(
-    userProfileVector,
-    businessFeatureVector
+  const distance = haversineDistance(
+    user.coordinates.lat,
+    user.coordinates.lng,
+    business.coordinates.lat,
+    business.coordinates.lng
   );
+  const normalizedDistance = normalize(distance, 0, 50);
+  const locationScore = (1 - normalizedDistance) * initialWeights.location;
 
-  //   Computes the linear combination of the weights and combined feature vector, plus the bias.
-  const z = dotProduct(model.weights, combinedVector) + model.bias;
-  const rawPrediction = sigmoid(z);
-  return Math.max(0, Math.min(1, rawPrediction));
+  return categoryScore + locationScore;
 }
 
-// Function to provide recommendations for a given user ID
-async function provideRecommendations(userId) {
+async function provideInitialRecommendations(userId) {
   const user = await fetchUserData(userId);
   const businessData = await fetchBusinessData();
   const allCategories = await fetchUniqueCategories();
 
-  if (!user) {
-    console.error("User not found");
-    return;
-  }
-
-  // Preprocess user data to create profile vector
-  const userProfileVector = [
-    ...oneHotEncode(user.favoriteCategories, allCategories),
-    normalizeRating(user.preferredRating || 0),
-  ];
-
-  // Preprocess business data to create feature vectors
-  const businessVectors = businessData.map((business) => ({
-    id: business.id,
-    vector: [
-      normalizeRating(business.averageRating || 0),
-      ...oneHotEncode([business.category], allCategories),
-    ],
-  }));
-
-  // Train the model
-  const model = await trainLogisticRegression([user], businessData);
-
-  // Save the model to a file
-  fs.writeFileSync("model.json", JSON.stringify(model, null, 2));
-
-  // Make predictions
-  const predictions = businessVectors.map((business) => {
-    const predictedRating = predictPreference(
-      userProfileVector,
-      business.vector,
-      model
+  const initialScores = businessData.map((business) => {
+    const score = combineInitialFeatures(
+      user,
+      business,
+      initialWeights,
+      allCategories
     );
-    return { businessId: business.id, predictedRating };
+    return { businessId: business.id, score };
   });
 
-  // Rank predictions based on predicted rating
-  const rankedPredictions = predictions.sort(
-    (a, b) => b.predictedRating - a.predictedRating
-  );
-
-  // Number of recommendations to generate
-  const numRecommendations = 20;
-
-  // Generate recommendations by selecting the top N ranked predictions
-  const recommendations = rankedPredictions.slice(0, numRecommendations);
+  const rankedInitialScores = initialScores.sort((a, b) => b.score - a.score);
+  const recommendations = rankedInitialScores.slice(0, 20);
 
   const businessIds = recommendations.map((rec) => rec.businessId);
   const businessDetails = await prisma.business.findMany({
-    where: {
-      id: { in: businessIds },
-    },
+    where: { id: { in: businessIds } },
   });
 
-  // Combine recommendations with business details
   const detailedRecommendations = recommendations.map((rec) => ({
     ...rec,
     business: businessDetails.find((b) => b.id === rec.businessId),
@@ -237,10 +123,282 @@ async function provideRecommendations(userId) {
   return detailedRecommendations;
 }
 
-module.exports = { provideRecommendations };
+let interactionCount = 0;
 
-/*
-In a logistic regression model, each feature is multiplied by a corresponding weight, 
-and the sum of these weighted features plus the bias is passed through a sigmoid function to produce a probability.
-The weights and bias are adjusted during the training process to minimize the prediction error.
-*/
+async function handleUserInteraction(userId, businessId, rating) {
+  interactionCount++;
+
+  if (interactionCount % 2 === 0) {
+    const user = await fetchUserData(userId);
+    const businessData = await fetchBusinessData();
+    const model = await trainLogisticRegression(user, businessData);
+
+    fs.writeFileSync("model.json", JSON.stringify(model, null, 2));
+  }
+}
+
+function getUserProfileVector(user, allCategories) {
+  const numberOfInteractions = user.interactions.length;
+  const averageRatingGiven =
+    user.interactions.reduce(
+      (sum, interaction) => sum + (interaction.rated || 0),
+      0
+    ) / numberOfInteractions;
+  const { lat: latitude, lng: longitude } = user.coordinates || {
+    lat: 0,
+    lng: 0,
+  };
+
+  const categoryCounts = user.interactions.reduce((acc, interaction) => {
+    const category = interaction.businessCategory;
+    if (acc[category]) acc[category]++;
+    else acc[category] = 1;
+    return acc;
+  }, {});
+
+  const categoryPreferences = allCategories.map((category) =>
+    categoryCounts[category]
+      ? categoryCounts[category] / numberOfInteractions
+      : 0
+  );
+
+  const totalDistance = user.interactions.reduce(
+    (sum, interaction) =>
+      sum +
+      haversineDistance(
+        latitude,
+        longitude,
+        interaction.businessLat,
+        interaction.businessLng
+      ),
+    0
+  );
+  const averageDistance = totalDistance / numberOfInteractions;
+
+  return [
+    numberOfInteractions,
+    ...categoryPreferences,
+    latitude,
+    longitude,
+    normalize(averageDistance, 0, 50),
+  ];
+}
+
+function getBusinessFeatureVector(business, allCategories) {
+  const { lat: latitude, lng: longitude } = business.coordinates || {
+    lat: 0,
+    lng: 0,
+  };
+  const businessHours = business.businessHours.length;
+  const userRatingsTotal = business.numberOfRatings || 0;
+
+  return [
+    ...oneHotEncode([business.category], allCategories),
+    business.priceLevel || 0,
+    businessHours,
+    normalize(userRatingsTotal, 0, 10000),
+    latitude,
+    longitude,
+  ];
+}
+
+function combineFeatures(userProfileVector, businessFeatureVector) {
+  const userLatitude = userProfileVector[userProfileVector.length - 3];
+  const userLongitude = userProfileVector[userProfileVector.length - 2];
+  const businessLatitude =
+    businessFeatureVector[businessFeatureVector.length - 2];
+  const businessLongitude =
+    businessFeatureVector[businessFeatureVector.length - 1];
+
+  const distance = haversineDistance(
+    userLatitude,
+    userLongitude,
+    businessLatitude,
+    businessLongitude
+  );
+
+  const userProfileWithoutCoordinates = userProfileVector.slice(0, -3);
+  const businessProfileWithoutCoordinates = businessFeatureVector.slice(0, -2);
+
+  return [
+    ...userProfileWithoutCoordinates,
+    ...businessProfileWithoutCoordinates,
+    distance,
+  ];
+}
+
+async function trainLogisticRegression(
+  user,
+  businessData,
+  learningRate = 0.01,
+  epochs = 1000
+) {
+  const allCategories = await fetchUniqueCategories();
+
+  let featureMatrix = [];
+  let targetVector = [];
+
+  businessData.forEach((business) => {
+    const userProfileVector = getUserProfileVector(user, allCategories);
+    const businessFeatureVector = getBusinessFeatureVector(
+      business,
+      allCategories
+    );
+    const combinedVector = combineFeatures(
+      userProfileVector,
+      businessFeatureVector
+    );
+
+    featureMatrix.push(combinedVector);
+
+    const interaction = user.interactions.find(
+      (interaction) => interaction.businessId === business.id
+    );
+
+    let rating;
+    if (interaction) {
+      if (interaction.rated !== null) {
+        rating = interaction.rated;
+      } else if (interaction.liked) {
+        rating =
+          user.preferredRating !== null
+            ? user.preferredRating
+            : business.averageRating;
+      } else {
+        rating = 0;
+      }
+    } else {
+      rating = 0;
+    }
+    targetVector.push(rating > 4 ? 1 : 0);
+  });
+
+  const numFeatures = featureMatrix[0].length;
+
+  let weights = Array.from({ length: numFeatures }, () => Math.random() * 0.01);
+  let bias = Math.random() * 0.01;
+
+  for (let epoch = 0; epoch < epochs; epoch++) {
+    let totalError = 0;
+
+    featureMatrix.forEach((features, i) => {
+      const weightedSum = dotProduct(weights, features) + bias;
+      const prediction = sigmoid(weightedSum);
+      const error = prediction - targetVector[i];
+      totalError += error ** 2;
+
+      weights = addVectors(
+        weights,
+        scaleVector(
+          features,
+          -learningRate * error * prediction * (1 - prediction)
+        )
+      );
+      bias -= learningRate * error * prediction * (1 - prediction);
+    });
+
+    totalError /= featureMatrix.length;
+  }
+
+  return { weights, bias };
+}
+
+function predictPreference(userProfileVector, businessFeatureVector, model) {
+  const combinedVector = combineFeatures(
+    userProfileVector,
+    businessFeatureVector
+  );
+
+  const weightedSum = dotProduct(model.weights, combinedVector) + model.bias;
+  const rawPrediction = sigmoid(weightedSum);
+  return Math.max(0, Math.min(1, rawPrediction));
+}
+
+async function provideRecommendations(userId, useModel = false) {
+  const user = await fetchUserData(userId);
+  const businessData = await fetchBusinessData();
+  const allCategories = await fetchUniqueCategories();
+
+  if (!user || !user.interactions) {
+    console.error("User not found");
+    return [];
+  }
+
+  if (useModel) {
+    const model = loadModel();
+
+    if (!model) {
+      console.error("Model not found or failed to load");
+      return [];
+    }
+
+    const userProfileVector = getUserProfileVector(user, allCategories);
+
+    const businessVectors = businessData.map((business) => ({
+      id: business.id,
+      vector: getBusinessFeatureVector(business, allCategories),
+    }));
+
+    const predictions = businessVectors.map((business) => {
+      const predictedRating = predictPreference(
+        userProfileVector,
+        business.vector,
+        model
+      );
+      return { businessId: business.id, predictedRating };
+    });
+
+    const rankedPredictions = predictions.sort(
+      (a, b) => b.predictedRating - a.predictedRating
+    );
+
+    const numRecommendations = 20;
+    const recommendations = rankedPredictions.slice(0, numRecommendations);
+
+    const businessIds = recommendations.map((rec) => rec.businessId);
+    const businessDetails = await prisma.business.findMany({
+      where: { id: { in: businessIds } },
+    });
+
+    const detailedRecommendations = recommendations.map((rec) => ({
+      ...rec,
+      business: businessDetails.find((b) => b.id === rec.businessId),
+    }));
+
+    return detailedRecommendations;
+  } else {
+    return provideInitialRecommendations(userId);
+  }
+}
+
+function dotProduct(a, b) {
+  return a.reduce((sum, val, i) => sum + val * b[i], 0);
+}
+
+function addVectors(a, b) {
+  return a.map((val, i) => val + b[i]);
+}
+
+function scaleVector(a, scalar) {
+  return a.map((val) => val * scalar);
+}
+
+function sigmoid(weightedSum) {
+  return 1 / (1 + Math.exp(-weightedSum));
+}
+
+function loadModel() {
+  try {
+    const modelData = fs.readFileSync("model.json");
+    return JSON.parse(modelData);
+  } catch (error) {
+    console.error("Failed to load model:", error);
+    return null;
+  }
+}
+
+module.exports = {
+  provideRecommendations,
+  handleUserInteraction,
+  provideInitialRecommendations,
+};
