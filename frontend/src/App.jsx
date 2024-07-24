@@ -13,7 +13,7 @@ import FavoriteCategories from "./Components/FavoriteCategories/FavoriteCategori
 import Recommendations from "./Components/Recommendations/Recommendations";
 import SavedBusinesses from "./Components/SavedBusinesses/SavedBusinesses";
 import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoutes";
-import ProfilePage from "./Components/ProfilePage/ProfilePage";
+// import ProfilePage from "./Components/ProfilePage/ProfilePage";
 
 function App() {
   return (
@@ -44,10 +44,10 @@ function App() {
             path="/recommendations/:id"
             element={<ProtectedRoute element={Recommendations} />}
           />
-          <Route
+          {/* <Route
             path="/profile"
             element={<ProtectedRoute element={ProfilePage} />}
-          />
+          /> */}
         </Routes>
         <Footer />
       </div>

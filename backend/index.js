@@ -256,7 +256,7 @@ app.get("/api/user/:id", authenticateToken, async (req, res) => {
 app.put(
   "/api/user/profile",
   authenticateToken,
-  upload.single("profilePicture"),
+  upload.single("profilePicture"), //handles the upload of a single file with the field name 'profilePicture'
   async (req, res) => {
     const userId = req.user.id;
     const { name, email, location, bio, interests } = req.body;
