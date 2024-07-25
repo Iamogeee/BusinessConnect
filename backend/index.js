@@ -9,10 +9,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
 const { PORT, JWT_SECRET } = require("./config");
-const {
-  provideRecommendations,
-  handleUserInteraction,
-} = require("./recommendationSystem");
+const { recommendBusinesses, handleUserInteraction } = require("./main");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
 const redisCache = require("./redisCache");
@@ -399,7 +396,6 @@ app.post("/interact", async (req, res) => {
       update: { liked, saved, viewed, reviewed, rated },
       create: { userId, businessId, liked, saved, viewed, reviewed, rated },
     });
-    handleUserInteraction(userId);
     res.status(200).json(interaction);
   } catch (error) {
     console.error("Error creating/updating interaction:", error);
@@ -478,28 +474,15 @@ app.post("/save-categories", async (req, res) => {
 });
 
 // Endpoint to receive user ID and provide recommendations
-app.get("/recommendations/:id", async (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    return res.status(400).send("User ID is required");
-  }
+app.get("/recommendations/:userId", async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
 
   try {
-    const recommendations = await provideRecommendations(parseInt(id));
-
-    // Fetch the full business data for each recommended business
-    const businessPromises = recommendations.map((rec) => {
-      return prisma.business.findUnique({
-        where: { id: parseInt(rec.businessId) },
-      });
-    });
-
-    // Wait for all business data fetch promises to resolve
-    const businesses = await Promise.all(businessPromises);
-    res.json(businesses);
+    const recommendations = await recommendBusinesses(userId);
+    res.status(200).json(recommendations);
   } catch (error) {
-    console.error("Error providing recommendations:", error);
-    res.status(500).send("An error occurred while providing recommendations");
+    console.error("Error fetching recommendations:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
