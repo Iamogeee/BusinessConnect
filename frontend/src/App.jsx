@@ -12,6 +12,8 @@ import FavoriteBusinesses from "./Components/FavoriteBusinesses/FavoriteBusiness
 import FavoriteCategories from "./Components/FavoriteCategories/FavoriteCategories";
 import Recommendations from "./Components/Recommendations/Recommendations";
 import SavedBusinesses from "./Components/SavedBusinesses/SavedBusinesses";
+import ProtectedRoute from "./Components/ProtectedRoutes/ProtectedRoutes";
+import ProfilePage from "./Components/ProfilePage/ProfilePage";
 
 function App() {
   return (
@@ -19,14 +21,33 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/business/:id" element={<BusinessDetails />} />
-          <Route path="/favorites" element={<FavoriteBusinesses />} />
-          <Route path="/saved" element={<SavedBusinesses />} />
-          <Route path="/interests" element={<FavoriteCategories />} />
-          <Route path="/recommendations/:id" element={<Recommendations />} />
+          <Route path="/home" element={<ProtectedRoute element={HomePage} />} />
+          <Route
+            path="/business/:id"
+            element={<ProtectedRoute element={BusinessDetails} />}
+          />
+          <Route
+            path="/favorites"
+            element={<ProtectedRoute element={FavoriteBusinesses} />}
+          />
+          <Route
+            path="/saved"
+            element={<ProtectedRoute element={SavedBusinesses} />}
+          />
+          <Route
+            path="/interests"
+            element={<ProtectedRoute element={FavoriteCategories} />}
+          />
+          <Route
+            path="/recommendations/:id"
+            element={<ProtectedRoute element={Recommendations} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute element={ProfilePage} />}
+          />
         </Routes>
         <Footer />
       </div>

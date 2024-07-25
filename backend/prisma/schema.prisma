@@ -14,17 +14,21 @@ datasource db {
 }
 
 model User {
-  id                     Int               @id @default(autoincrement())
-  name                   String
-  email                  String            @unique
-  password               String
-  interests              String?
-  preferredRating        Float?
-  favoriteCategories     String[]
-  hasSelectedCategories  Boolean           @default(false)
-  interactions           Interaction[]
-  recommendations        Recommendation[]
+  id                 Int       @id @default(autoincrement())
+  name               String
+  email              String    @unique
+  password           String
+  location           String?   
+  bio                String?   
+  interests          String?   
+  profilePicture     String?  
+  favoriteCategories String[]
+  preferredRating    Float?
+  hasSelectedCategories Boolean @default(false)
+  interactions       Interaction[]
+  recommendations    Recommendation[]
 }
+
 
 model Business {
   id                    Int               @id @default(autoincrement())

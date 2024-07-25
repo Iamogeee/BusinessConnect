@@ -3,7 +3,8 @@ import "./ReviewsModal.css";
 
 const ReviewsModal = ({ businessId, onClose }) => {
   const [reviews, setReviews] = useState([]);
-  const defaultProfilePhoto = "frontend/src/assets/image.png";
+  const defaultProfilePhoto =
+    "http://localhost:3000/default-profile-photo.jpeg";
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -28,7 +29,11 @@ const ReviewsModal = ({ businessId, onClose }) => {
           {reviews.map((review) => (
             <li key={review.id} className="review-item">
               <img
-                src={review.profilePhoto || defaultProfilePhoto}
+                src={
+                  review.profilePhoto
+                    ? `http://localhost:3000/${review.profilePhoto}`
+                    : defaultProfilePhoto
+                }
                 alt={`${review.name}'s profile`}
               />
               <div>
