@@ -50,7 +50,6 @@ const MainHeader = ({ onCategoryChange, userId }) => {
         <SearchBar onSelect={handleSelectBusiness} userId={userId} />
       </div>
       <div className="right-section">
-        <button className="discover-button">Discover</button>
         <FilterButton
           categories={categories}
           onCategoryChange={handleCategoryChange}
