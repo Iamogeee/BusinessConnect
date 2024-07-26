@@ -40,10 +40,6 @@ class Cache {
     this.cache.set(key, [value, expiryTime]);
   }
 
-  invalidate(key) {
-    this.cache.delete(key);
-  }
-
   clear() {
     this.cache.clear();
   }
