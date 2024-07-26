@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BusinessCard.css";
+import defaultPhoto from "../../assets/businessPlaceholder.jpeg";
 
 const BusinessCard = ({ business, apiKey, onLike, onSave, onClick }) => {
   const [liked, setLiked] = useState(false);
@@ -26,14 +27,18 @@ const BusinessCard = ({ business, apiKey, onLike, onSave, onClick }) => {
     <div className="business-card">
       <img
         src={
-          business.photoReference
+          business.photoReference &&
+          business.photoReference != "No photo available"
             ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${business.photoReference}&key=${apiKey}`
-            : "frontend/src/assets/image.png"
+            : defaultPhoto
         }
         alt={business.name}
         className="business-photo"
       />
-      <h3 className="business-name" onClick={handleDetailsClick}>
+      <h3
+        className="business-name fs-5 fw-bold text-emphasis"
+        onClick={handleDetailsClick}
+      >
         {business.name}
       </h3>
       <p className="business-rating">Rating: {business.averageRating}</p>

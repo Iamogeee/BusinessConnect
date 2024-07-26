@@ -4,6 +4,7 @@ import SideBar from "../SideBar/SideBar";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./ProfilePage.css";
+import UserReviews from "../UserReviews/UserReviews";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({
@@ -18,7 +19,7 @@ const ProfilePage = () => {
   const [pinnedServices, setPinnedServices] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [reviews, setReviews] = useState([]);
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
@@ -46,6 +47,23 @@ const ProfilePage = () => {
 
     fetchProfile();
   }, []);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/myreviews/${user.id}`
+        );
+        const data = await response.json();
+
+        setReviews(data);
+      } catch (error) {
+        console.error("Error fetching businesses:", error);
+      }
+    };
+
+    fetchReviews();
+  }, [profile]);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -95,6 +113,7 @@ const ProfilePage = () => {
       alert("Failed to update profile");
     }
   };
+
   return (
     <div className="profile-page">
       <button
@@ -117,7 +136,7 @@ const ProfilePage = () => {
         </div>
         <div className="profile-info">
           <h2>{profile.name}</h2>
-          <p>Location: {profile.location || "N/A"}</p>
+          {profile.location && <p>Location: {profile.location}</p>}
           <button
             onClick={() => setIsModalOpen(true)}
             aria-label="Edit profile"
@@ -128,7 +147,7 @@ const ProfilePage = () => {
         <Tabs>
           <TabList>
             <Tab>Bio</Tab>
-            <Tab>Pinned Services</Tab>
+
             <Tab>Reviews</Tab>
           </TabList>
 
@@ -140,31 +159,10 @@ const ProfilePage = () => {
               <p>{profile.interests || "N/A"}</p>
             </div>
           </TabPanel>
-          <TabPanel>
-            <div className="pinned-services">
-              <h3>Pinned Services</h3>
-              <div className="services-container">
-                {pinnedServices.length > 0 ? (
-                  pinnedServices.map((service, index) => (
-                    <div key={index} className="service-card">
-                      <h4>{service.name}</h4>
-                      <p>{service.description}</p>
-                    </div>
-                  ))
-                ) : (
-                  <img
-                    src="default-pinned-service-image.jpeg"
-                    alt="Default Pinned Service"
-                  />
-                )}
-              </div>
-            </div>
-          </TabPanel>
+
           <TabPanel>
             <div className="profile-reviews">
-              <h3>Reviews</h3>
-              <p>Here will be the user's reviews...</p>
-              {/* Implement fetching and displaying user reviews */}
+              <UserReviews reviews={reviews} />
             </div>
           </TabPanel>
         </Tabs>

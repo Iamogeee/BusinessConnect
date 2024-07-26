@@ -29,16 +29,29 @@ body {
 }
 
 .landing-page-content {
-  margin-top: 80px;
+  margin-top: 400px;
+  width: 100vw;
+  display: flex;
+}
+.landing-page-contents {
+  width: 60%;
+  display: inline;
 }
 
 .landing-page h1,
 .landing-page p,
+.landing-page img,
 .landing-page-buttons .signup-button {
   opacity: 0;
   animation: fadeIn 1s forwards;
 }
-
+.landing-page-image {
+  display: inline;
+}
+.landing-page-image img {
+  object-fit: fill;
+  width: 100%;
+}
 .landing-page h1 {
   font-size: 3rem;
   color: #fff;
@@ -64,7 +77,9 @@ body {
   border-radius: 30px;
   text-decoration: none;
   font-size: 1.2rem;
-  transition: background 0.3s, transform 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.3s;
   animation-delay: 2.5s;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   cursor: pointer;

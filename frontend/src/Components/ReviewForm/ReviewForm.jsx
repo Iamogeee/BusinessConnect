@@ -13,6 +13,7 @@ const ReviewForm = ({ businessId, onReviewSubmit }) => {
       rating,
       reviewText,
       name: user.name,
+      userId: user.id,
       profilePhoto: "frontend/src/assets/image.png", // Default profile photo
     };
 

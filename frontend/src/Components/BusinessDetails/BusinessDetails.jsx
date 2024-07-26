@@ -152,6 +152,7 @@ const BusinessDetails = () => {
                       >
                         <div className="info-window-content">
                           <h3>{business.name}</h3>
+                          <p>{business.address}</p>
                           <div>{renderRatingIcons(business.averageRating)}</div>
 
                           <p>Contact: {business.contactInformation}</p>

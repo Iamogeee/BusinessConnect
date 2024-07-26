@@ -41,7 +41,7 @@
   margin: 5px 0;
 }
 
-.carousel {
+.carousl {
   position: relative;
   width: 100%;
   height: 100%;
@@ -49,20 +49,20 @@
   display: flex;
 }
 
-.carousel-inner {
+.carousl-inner {
   display: flex;
   width: 100%;
   transition: transform 1s ease-in-out;
 }
 
-.carousel-item {
+.carousl-item {
   min-width: 100%;
   height: 100%;
   background-size: contain;
   background-position: center;
 }
 
-.carousel-control {
+.carousl-control {
   z-index: 2;
   position: absolute;
   top: 50%;
@@ -75,11 +75,11 @@
   padding: 10px;
 }
 
-.carousel-control.prev {
+.carousl-control.prev {
   left: 10px;
 }
 
-.carousel-control.next {
+.carousl-control.next {
   right: 10px;
 }
 
