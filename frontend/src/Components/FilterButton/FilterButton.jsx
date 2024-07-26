@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const FilterButton = ({ onCategoryChange }) => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await fetch("http://localhost:3000/api/categories");
-      const data = await response.json();
-      setCategories(data);
-    };
-
-    fetchCategories();
-  }, []);
-
+const FilterButton = ({ onCategoryChange, categories }) => {
   return (
     <div>
       <select onChange={(e) => onCategoryChange(e.target.value)}>

@@ -9,17 +9,19 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { exec } = require("child_process");
 const { PORT, JWT_SECRET } = require("./config");
-const { provideRecommendations } = require("./recommendationSystem");
+const { recommendBusinesses, handleUserInteraction } = require("./main");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
 const cache = require("./cache");
 const fs = require("fs");
 const multer = require("multer");
+const axios = require("axios");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
 const app = express();
+const GeoCode_API_KEY = process.env.API_KEY;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -47,6 +49,14 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// Geocode location to get latitude and longitude
+async function geocodeLocation(location) {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${GeoCode_API_KEY}`;
+  const response = await axios.get(url);
+  const result = response.data.results[0];
+  return result ? result.geometry.location : null;
+}
+
 // Landing Page Route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
@@ -59,18 +69,23 @@ app.get("/home", authenticateToken, (req, res) => {
 
 // Signup route
 app.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, location } = req.body;
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const coordinates = await geocodeLocation(location);
+    const locationString = coordinates
+      ? `${coordinates.lat}, ${coordinates.lng}`
+      : location;
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
+        location: locationString,
       },
     });
 
@@ -235,12 +250,27 @@ app.get("/api/user/:id", authenticateToken, async (req, res) => {
   const userId = parseInt(req.params.id);
 
   try {
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { id: userId },
+      include: { interactions: true },
     });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    // If coordinates are missing in the location field, geocode the location
+    if (user.location && !user.location.includes(",")) {
+      const coordinates = await geocodeLocation(user.location);
+      if (coordinates) {
+        const locationString = `${coordinates.lat}, ${coordinates.lng}`;
+        user = await prisma.user.update({
+          where: { id: userId },
+          data: {
+            location: locationString,
+          },
+        });
+      }
     }
 
     res.json(user);
@@ -444,28 +474,15 @@ app.post("/save-categories", async (req, res) => {
 });
 
 // Endpoint to receive user ID and provide recommendations
-app.get("/recommendations/:id", async (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    return res.status(400).send("User ID is required");
-  }
+app.get("/recommendations/:userId", async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
 
   try {
-    const recommendations = await provideRecommendations(parseInt(id));
-
-    // Fetch the full business data for each recommended business
-    const businessPromises = recommendations.map((rec) => {
-      return prisma.business.findUnique({
-        where: { id: parseInt(rec.businessId) },
-      });
-    });
-
-    // Wait for all business data fetch promises to resolve
-    const businesses = await Promise.all(businessPromises);
-    res.json(businesses);
+    const recommendations = await recommendBusinesses(userId);
+    res.status(200).json(recommendations);
   } catch (error) {
-    console.error("Error providing recommendations:", error);
-    res.status(500).send("An error occurred while providing recommendations");
+    console.error("Error fetching recommendations:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
