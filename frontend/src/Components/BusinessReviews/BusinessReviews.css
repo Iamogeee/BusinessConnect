@@ -1,16 +1,28 @@
 .business-reviews {
   padding: 16px;
+  max-height: 100%;
   background-color: #f9f9f9;
   border-radius: 10px;
+
   margin-bottom: 16px;
 }
-
+.review-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.5;
+}
 .business-reviews h2 {
   margin-bottom: 10px;
 }
 
 .review {
+  height: 100%;
   margin-bottom: 10px;
+  overflow-y: scroll;
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
 }

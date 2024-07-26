@@ -32,7 +32,15 @@ function SignUp() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password, location: city }),
+
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          bio: "Write a bio",
+          interests: "What are your interests?",
+        }),
+
       });
 
       if (!response.ok) {

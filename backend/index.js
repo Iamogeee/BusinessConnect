@@ -17,6 +17,7 @@ const fs = require("fs");
 const multer = require("multer");
 const axios = require("axios");
 
+
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
@@ -69,7 +70,8 @@ app.get("/home", authenticateToken, (req, res) => {
 
 // Signup route
 app.post("/signup", async (req, res) => {
-  const { name, email, password, location } = req.body;
+  const { name, email, password, bio, interests } = req.body;
+
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -85,7 +87,8 @@ app.post("/signup", async (req, res) => {
         name,
         email,
         password: hashedPassword,
-        location: locationString,
+        bio,
+        interests,
       },
     });
 
@@ -158,6 +161,20 @@ app.get("/api/businesses", async (req, res) => {
   } catch (error) {
     console.error("Error fetching businesses:", error);
     res.status(500).json({ error: "Failed to fetch businesses" });
+  }
+});
+
+app.get("/api/myreviews/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const reviews = await prisma.review.findMany({
+      where: { userId: parseInt(id) },
+    });
+
+    res.json(reviews);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    res.status(500).json({ error: "Failed to fetch reviews" });
   }
 });
 
@@ -350,7 +367,8 @@ app.get("/api/reviews/:businessId", async (req, res) => {
 
 // Save a review
 app.post("/api/reviews", async (req, res) => {
-  const { businessId, rating, reviewText, name, profilePhoto } = req.body;
+  const { businessId, rating, reviewText, name, profilePhoto, userId } =
+    req.body;
   try {
     const review = await prisma.review.create({
       data: {
@@ -359,6 +377,7 @@ app.post("/api/reviews", async (req, res) => {
         reviewText,
         name,
         profilePhoto,
+        userId,
       },
     });
     res.status(201).json(review);

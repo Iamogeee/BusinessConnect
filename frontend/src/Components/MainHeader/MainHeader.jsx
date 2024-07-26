@@ -4,6 +4,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import FilterButton from "../FilterButton/FilterButton";
 import SideBar from "../SideBar/SideBar";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/BCLogo.png";
 
 const MainHeader = ({ onCategoryChange, userId }) => {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
@@ -41,14 +42,13 @@ const MainHeader = ({ onCategoryChange, userId }) => {
           &#9776;
         </button>
         <Link to="/home" className="logo">
-          Business <span>Connect</span>
+          <img src={Logo} alt="Business Connect Logo" className="logo-image" />
         </Link>
       </div>
       <div className="middle-section">
         <SearchBar onSelect={handleSelectBusiness} userId={userId} />
       </div>
       <div className="right-section">
-        <button className="discover-button">Discover</button>
         <FilterButton
           categories={categories}
           onCategoryChange={handleCategoryChange}

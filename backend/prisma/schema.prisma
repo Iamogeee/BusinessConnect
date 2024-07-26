@@ -78,6 +78,7 @@ model Review {
   reviewText           String
   name                 String    
   profilePhoto         String    @default("")
+  userId               Int?    
 }
 
 model Recommendation {

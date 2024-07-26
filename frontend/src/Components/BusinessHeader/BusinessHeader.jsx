@@ -60,7 +60,7 @@ const BusinessHeader = ({
 
   return (
     <div className="business-header">
-      <button className="carousel-control prev" onClick={goToPrevious}>
+      <button className="carousl-control prev" onClick={goToPrevious}>
         <i className="fas fa-chevron-left"></i>
       </button>
       <div className="business-overlay">
@@ -78,21 +78,21 @@ const BusinessHeader = ({
           </p>
         </div>
       </div>
-      <div className="carousel">
+      <div className="carousl">
         <div
-          className={`carousel-inner ${direction}`}
+          className={`carousl-inner ${direction}`}
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {photos.map((photo, index) => (
             <div
               key={index}
-              className="carousel-item"
+              className="carousl-item"
               style={{ backgroundImage: `url(${photo})` }}
             ></div>
           ))}
         </div>
       </div>
-      <button className="carousel-control next" onClick={goToNext}>
+      <button className="carousl-control next" onClick={goToNext}>
         <i className="fas fa-chevron-right"></i>
       </button>
     </div>

@@ -25,9 +25,9 @@ const BusinessReviews = ({ businessId }) => {
         <p>
           <strong>{reviews[0].name}</strong>
         </p>
-        <p>{reviews[0].reviewText}</p>
-        <p>Rating: {reviews[0].rating}</p>
+        <p className="review-text">{reviews[0].reviewText}</p>
       </div>
+      <p>Rating: {reviews[0].rating}</p>
     </div>
   );
 };

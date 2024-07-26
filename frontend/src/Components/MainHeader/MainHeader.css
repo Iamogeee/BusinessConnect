@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,4 +49,8 @@
   color: #000;
   text-decoration: none;
   margin-left: 10px;
+}
+
+.logo-image {
+  height: 70px;
 }

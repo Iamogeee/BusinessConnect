@@ -1,5 +1,5 @@
 class Cache {
-  constructor(ttl = 3600, maxSize = 100) {
+  constructor(ttl = 3600, maxSize = 1000) {
     this.cache = new Map();
     this.ttl = ttl * 1000; // Convert TTL to milliseconds.
     this.maxSize = maxSize; // Maximum number of items in cache

@@ -1,0 +1,40 @@
+.business-name {
+  color: #333;
+  transition:
+    color 0.3s ease,
+    text-decoration 0.3s ease;
+  cursor: pointer;
+}
+
+.business-name:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+.card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  margin-bottom: 10px;
+}
+
+.card-body {
+  padding: 10px 0;
+}
+
+.shadow {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+  border-radius: 10px;
+}
+
+.p-3 {
+  padding: 1rem;
+}
