@@ -2,10 +2,24 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
+const citiesInCalifornia = [
+  "Los Angeles",
+  "San Diego",
+  "San Jose",
+  "San Francisco",
+  "Fresno",
+  "Sacramento",
+  "Menlo Park",
+  "Palo Alto",
+  "Mountain View",
+  "Sunnyvale",
+];
+
 function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [city, setCity] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -18,7 +32,7 @@ function SignUp() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, location: city }),
       });
 
       if (!response.ok) {
@@ -55,6 +69,7 @@ function SignUp() {
               placeholder="Enter your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
           <div className="input-group">
@@ -66,6 +81,7 @@ function SignUp() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="input-group">
@@ -77,7 +93,25 @@ function SignUp() {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
+          </div>
+          <div className="input-group">
+            <label htmlFor="city">City</label>
+            <select
+              id="city"
+              name="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+            >
+              <option value="">Select your city</option>
+              {citiesInCalifornia.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="signup-button">
             SIGN UP

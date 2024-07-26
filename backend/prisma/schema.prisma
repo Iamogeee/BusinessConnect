@@ -44,7 +44,9 @@ model Business {
   photoReference        String 
   photos                String[]   
   category              String            @default("")   
-  interactions          Interaction[]    
+  interactions          Interaction[]
+  priceLevel            Int?
+  numberOfRatings       Int?    
 }
 
 model Interaction {

@@ -34,8 +34,10 @@ async function processJsonFile() {
           ? business.types[0].trim()
           : "Uncategorized";
         const businessHours = business.opening_hours
-          ? business.opening_hours.weekday_text || ["Unknown"]
-          : ["Unknown"];
+          ? business.opening_hours.weekday_text || ["Not available"]
+          : ["Not available"];
+        const userRatingsTotal = business.user_ratings_total || 0;
+        const priceLevel = business.price_level || 0;
 
         // Fetch additional details from Google Places API
         const placeDetails = await fetchPlaceDetails(business.place_id);
@@ -45,7 +47,9 @@ async function processJsonFile() {
           update: {
             name: placeDetails.name || business.name,
             location,
-            contactInformation: placeDetails.formatted_phone_number || null,
+            contactInformation:
+              placeDetails.formatted_phone_number ||
+              "No phone number available",
             overview: placeDetails.editorial_summary
               ? placeDetails.editorial_summary.overview
               : "",
@@ -56,17 +60,21 @@ async function processJsonFile() {
             businessType,
             photoReference: placeDetails.photos
               ? placeDetails.photos[0].photo_reference
-              : null,
+              : "No photo available",
             photos: placeDetails.photos
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
             category: firstType,
+            priceLevel: placeDetails.price_level || priceLevel,
+            numberOfRatings: userRatingsTotal,
           },
           create: {
             placeId: business.place_id,
             name: placeDetails.name || business.name,
             location,
-            contactInformation: placeDetails.formatted_phone_number || null,
+            contactInformation:
+              placeDetails.formatted_phone_number ||
+              "No phone number available",
             overview: placeDetails.editorial_summary
               ? placeDetails.editorial_summary.overview
               : "",
@@ -77,11 +85,13 @@ async function processJsonFile() {
             businessType,
             photoReference: placeDetails.photos
               ? placeDetails.photos[0].photo_reference
-              : null,
+              : "No photo available",
             photos: placeDetails.photos
               ? placeDetails.photos.map((photo) => photo.photo_reference)
               : [],
             category: firstType,
+            priceLevel: placeDetails.price_level || priceLevel,
+            numberOfRatings: userRatingsTotal,
           },
         });
 
@@ -145,3 +155,5 @@ async function processJsonFile() {
 module.exports = {
   processJsonFile,
 };
+
+processJsonFile();
