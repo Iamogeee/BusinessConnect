@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Modal from "../Modal/Modal";
 import SideBar from "../SideBar/SideBar";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -100,6 +100,10 @@ const ProfilePage = () => {
     setSelectedFile(e.target.files[0]);
   };
 
+  const selectedFileURL = useMemo(() => {
+    return selectedFile ? URL.createObjectURL(selectedFile) : null;
+  }, [selectedFile]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -123,26 +127,25 @@ const ProfilePage = () => {
         body: formData,
       });
 
-      if (response.ok) {
-        const updatedProfile = await response.json();
-        setProfile(updatedProfile);
-        setIsModalOpen(false); // Close the modal on successful update
-        alert("Profile updated successfully");
-      } else {
-        console.error("Failed to update profile");
-        alert("Failed to update profile");
+      if (!response.ok) {
+        throw new Error(`Response failed with status ${response.status}`);
       }
+
+      const updatedProfile = await response.json();
+      setProfile(updatedProfile);
+      setIsModalOpen(false); // Close the modal on successful update
+      alert("Profile updated successfully");
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile");
     }
   };
-
   return (
     <div className="profile-page">
       <button
         className={`sidebar-button-modern ${isSidebarOpen ? "hidden" : "visible"}`}
         onClick={() => setIsSidebarOpen(true)}
+        aria-label="Open Sidebar"
       >
         <i className="fas fa-bars"></i>
       </button>
@@ -160,7 +163,10 @@ const ProfilePage = () => {
         <div className="profile-info">
           <h2>{profile.name}</h2>
           <p>Location: {profile.location || "N/A"}</p>
-          <button onClick={() => setIsModalOpen(true)}>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            aria-label="Edit profile"
+          >
             <i className="fas fa-edit"></i>
           </button>
         </div>
@@ -214,10 +220,10 @@ const ProfilePage = () => {
           <form onSubmit={handleSubmit} className="profile-form">
             <div className="form-group">
               <label>Profile Picture</label>
-              <input type="file" onChange={handleFileChange} />
+              <input type="file" accept="image/*" onChange={handleFileChange} />
               {selectedFile && (
                 <img
-                  src={URL.createObjectURL(selectedFile)}
+                  src={selectedFileURL}
                   alt="Selected"
                   className="selected-profile-picture"
                 />

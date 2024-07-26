@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { Worker } = require("worker_threads");
 
 // Fetch user data including interactions and preferences
 async function fetchUserData(userId) {
@@ -30,23 +31,6 @@ async function fetchUniqueCategories() {
   return categories.map((categoryObj) => categoryObj.category);
 }
 
-// Normalize ratings
-function normalizeRating(rating, min = 1, max = 5) {
-  return (rating - min) / (max - min);
-}
-
-// One-hot encode categories
-function oneHotEncode(categories, allCategories) {
-  return allCategories.map((category) =>
-    categories.includes(category) ? 1 : 0
-  );
-}
-
-// Combine user and business features
-function combineFeatures(userProfileVector, businessFeatureVector) {
-  return [...userProfileVector, ...businessFeatureVector];
-}
-
 // Dot product function
 function dotProduct(a, b) {
   return a.reduce((sum, val, i) => sum + val * b[i], 0);
@@ -72,7 +56,8 @@ async function trainLogisticRegression(
   userData,
   businessData,
   learningRate = 0.01,
-  epochs = 1000
+  epochs = 1000,
+  batchSize = 32
 ) {
   const allCategories = await fetchUniqueCategories();
 

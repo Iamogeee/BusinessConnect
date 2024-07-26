@@ -2,11 +2,14 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const tokenizeAndNormalize = (text) => {
-  // Convert text to lowercase and remove non-alphanumeric characters (except spaces and underscores)
-  const normalizedText = text.toLowerCase().replace(/[^a-z0-9\s_]/g, "");
+  // Convert text to lowercase
+  const normalizedText = text.toLowerCase();
+
+  // Remove punctuation (but keep Unicode characters)
+  const cleanedText = normalizedText.replace(/[^\p{L}\p{N}\s_]/gu, "");
 
   // Split text into words based on spaces
-  let words = normalizedText.split(/\s+/);
+  let words = cleanedText.split(/\s+/);
 
   // Split words based on underscores and flatten the resulting arrays
   let allParts = words
@@ -15,6 +18,9 @@ const tokenizeAndNormalize = (text) => {
 
   // Remove duplicate words
   let result = Array.from(new Set([...allParts]));
+
+  // Sort the tokens using localeCompare
+  result.sort((a, b) => a.localeCompare(b));
 
   return result;
 };
