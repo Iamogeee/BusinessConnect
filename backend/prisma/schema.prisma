@@ -38,7 +38,6 @@ model Business {
   contactInformation    String
   overview              String            @default("")
   businessHours         String[]
-  services              BusinessService[]
   averageRating         Float?
   businessType          String
   photoReference        String 
@@ -64,19 +63,13 @@ model Interaction {
   @@unique([userId, businessId]) 
 }
 
-model Service {
-  id                   Int       @id @default(autoincrement())
-  name                 String    @unique
-  businesses           BusinessService[]
+model SearchHistory {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  query     String
+  timestamp DateTime @default(now())
 }
 
-model BusinessService {
-  businessId           Int
-  serviceId            Int
-  business             Business  @relation(fields: [businessId], references: [id])
-  service              Service   @relation(fields: [serviceId], references: [id])
-  @@id([businessId, serviceId])
-}
 
 model Review {
   id                   Int       @id @default(autoincrement())

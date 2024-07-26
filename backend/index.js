@@ -12,9 +12,9 @@ const { PORT, JWT_SECRET } = require("./config");
 const { recommendBusinesses, handleUserInteraction } = require("./main");
 const { searchBusinesses } = require("./search");
 const { personalizeResults } = require("./personalizeResults");
-const redisCache = require("./redisCache");
-const multer = require("multer");
+const cache = require("./cache");
 const fs = require("fs");
+const multer = require("multer");
 const axios = require("axios");
 
 const prisma = new PrismaClient();
@@ -166,14 +166,14 @@ app.get("/api/search", async (req, res) => {
   const { query, userId } = req.query;
 
   const cacheKey = `search:${userId}:${query}`;
-  const cachedResults = await redisCache.get(cacheKey);
+  const cachedResults = await cache.get(cacheKey);
 
   if (cachedResults) {
     return res.json(cachedResults);
   }
 
   try {
-    const results = await searchBusinesses(query);
+    const results = await searchBusinesses(userId, query);
 
     for (const result of results) {
       result.interactions = await prisma.interaction.findMany({
@@ -186,7 +186,7 @@ app.get("/api/search", async (req, res) => {
 
     const personalizedResults = personalizeResults(results);
 
-    await redisCache.set(cacheKey, personalizedResults);
+    await cache.set(cacheKey, personalizedResults);
 
     res.json(personalizedResults);
   } catch (error) {
