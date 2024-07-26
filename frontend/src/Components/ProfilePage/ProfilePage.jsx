@@ -20,7 +20,7 @@ const ProfilePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const apiKey = import.meta.env.VITE_MAPS_API_KEY;
-  
+
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");

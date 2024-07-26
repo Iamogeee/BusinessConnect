@@ -17,7 +17,6 @@ const fs = require("fs");
 const multer = require("multer");
 const axios = require("axios");
 
-
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
@@ -70,7 +69,7 @@ app.get("/home", authenticateToken, (req, res) => {
 
 // Signup route
 app.post("/signup", async (req, res) => {
-  const { name, email, password, bio, interests } = req.body;
+  const { name, email, password, bio, interests, location } = req.body;
 
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -89,6 +88,7 @@ app.post("/signup", async (req, res) => {
         password: hashedPassword,
         bio,
         interests,
+        location: locationString,
       },
     });
 
