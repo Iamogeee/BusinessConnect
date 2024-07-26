@@ -13,7 +13,7 @@ const MainHeader = ({ onCategoryChange, userId }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await fetch("/api/categories");
+      const response = await fetch("http://localhost:3000/api/categories");
       const data = await response.json();
       setCategories(data);
     };
@@ -24,7 +24,6 @@ const MainHeader = ({ onCategoryChange, userId }) => {
   const handleSelectBusiness = (business) => {
     setSelectedBusiness(business);
   };
-
   const handleCategoryChange = (categoryId) => {
     onCategoryChange(categoryId);
   };

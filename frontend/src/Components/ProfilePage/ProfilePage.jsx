@@ -20,6 +20,8 @@ const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const apiKey = import.meta.env.VITE_MAPS_API_KEY;
+  
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
@@ -64,6 +66,50 @@ const ProfilePage = () => {
 
     fetchReviews();
   }, [profile]);
+
+  useEffect(() => {
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+
+            // Reverse geocoding to get the human-readable address
+            fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                const addressComponents =
+                  data.results[0]?.address_components || [];
+                const city = addressComponents.find((component) =>
+                  component.types.includes("locality")
+                )?.long_name;
+                const state = addressComponents.find((component) =>
+                  component.types.includes("administrative_area_level_1")
+                )?.short_name;
+                const location =
+                  city && state ? `${city}, ${state}` : "Unknown location";
+                setProfile((prevProfile) => ({
+                  ...prevProfile,
+                  location,
+                }));
+              })
+              .catch((error) =>
+                console.error("Error fetching location:", error)
+              );
+          },
+          (error) => {
+            console.error("Error getting geolocation:", error);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    };
+
+    getLocation();
+  }, []);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });

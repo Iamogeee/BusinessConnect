@@ -3,11 +3,17 @@ const prisma = new PrismaClient();
 const cache = require("./cache");
 const { tokenizeAndNormalize, buildInvertedIndex } = require("./invertedIndex");
 
+// Function to search for businesses based on a user's query
 const searchBusinesses = async (userId, query) => {
-  const cacheKey = `search:${query}`;
+  // Generate a cache key based on the user ID and query
+  const cacheKey = `search:${userId}:${query}`;
+
+  // Try to get cached results for this query
   let results = cache.get(cacheKey);
 
+  // If no cached results, perform a search
   if (!results) {
+    // Tokenize and normalize the search query
     const keywords = tokenizeAndNormalize(query);
 
     // Create a map to store the results with their match count
@@ -36,10 +42,13 @@ const searchBusinesses = async (userId, query) => {
       .sort((a, b) => b.matchCount - a.matchCount)
       .map((entry) => entry.business);
 
-    // Cache the search results
-    cache.set(cacheKey, results);
+    // Only cache the search results if there is at least one result
+    if (results.length > 0) {
+      cache.set(cacheKey, results);
+    }
   }
 
+  // Return the search results
   return results;
 };
 
