@@ -52,6 +52,18 @@ const BusinessDetails = () => {
     fetchBusinessData();
   }, [id]);
 
+  useEffect(() => {
+    if (marker && marker.content) {
+      marker.content.addEventListener("mouseenter", () => {
+        setInfoWindowOpen(true);
+      });
+
+      marker.content.addEventListener("mouseleave", () => {
+        setInfoWindowOpen(false);
+      });
+    }
+  }, [marker]);
+
   if (error) {
     return <div>Error loading business details: {error}</div>;
   }
@@ -123,6 +135,7 @@ const BusinessDetails = () => {
           <button
             className="open-review-form-button"
             onClick={handleReviewFormOpen}
+            data-tip="Click to write a review"
           >
             Write a Review
           </button>
@@ -142,7 +155,6 @@ const BusinessDetails = () => {
                     ref={markerRef}
                     position={location}
                     clickable={true}
-                    onClick={() => setInfoWindowOpen(true)}
                   >
                     {infoWindowOpen && (
                       <InfoWindow
@@ -154,12 +166,10 @@ const BusinessDetails = () => {
                           <h3>{business.name}</h3>
                           <p>{business.address}</p>
                           <div>{renderRatingIcons(business.averageRating)}</div>
-
                           <p>Contact: {business.contactInformation}</p>
                         </div>
                       </InfoWindow>
                     )}
-
                     <Pin
                       background={"#FBBC04"}
                       glyphColor={"#000"}
