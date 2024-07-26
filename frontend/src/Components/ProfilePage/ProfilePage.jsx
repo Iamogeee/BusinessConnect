@@ -16,7 +16,6 @@ const ProfilePage = () => {
     profilePicture: "",
   });
   const [selectedFile, setSelectedFile] = useState(null);
-  const [pinnedServices, setPinnedServices] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -38,7 +37,6 @@ const ProfilePage = () => {
         if (response.ok) {
           const data = await response.json();
           setProfile(data);
-          setPinnedServices(data.pinnedServices || []);
         } else {
           console.error("Failed to fetch profile data");
         }
