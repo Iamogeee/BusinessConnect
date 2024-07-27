@@ -11,7 +11,6 @@ const { exec } = require("child_process");
 const { PORT, JWT_SECRET } = require("./config");
 const { recommendBusinesses, handleUserInteraction } = require("./main");
 const { searchBusinesses } = require("./search");
-const { personalizeResults } = require("./personalizeResults");
 const cache = require("./cache");
 const fs = require("fs");
 const multer = require("multer");
@@ -181,35 +180,30 @@ app.get("/api/myreviews/:id", async (req, res) => {
 // Search businesses
 app.get("/api/search", async (req, res) => {
   const { query, userId } = req.query;
-
-  const cacheKey = `search:${userId}:${query}`;
-  const cachedResults = await cache.get(cacheKey);
-
-  if (cachedResults) {
-    return res.json(cachedResults);
+  let results = [];
+  if (!query || !userId) {
+    return res.status(400).json({ error: "Missing query or userId parameter" });
   }
 
   try {
-    const results = await searchBusinesses(userId, query);
-
-    for (const result of results) {
-      result.interactions = await prisma.interaction.findMany({
-        where: {
-          businessId: result.id,
-          userId: parseInt(userId),
-        },
-      });
-    }
-
-    const personalizedResults = personalizeResults(results);
-
-    await cache.set(cacheKey, personalizedResults);
-
-    res.json(personalizedResults);
+    results = await searchBusinesses(parseInt(userId), query);
   } catch (error) {
-    console.error("Error in search endpoint:", error);
     res.status(500).json({ error: "An error occurred while searching" });
   }
+
+  res.json(results);
+});
+
+app.get("/api/cache", (req, res) => {
+  const cacheEntries = Array.from(cache.cache.entries()).map(
+    ([key, [value, expiryTime]]) => ({
+      key,
+      results: value.results.map((business) => business.name), // Only show business names for brevity
+      users: value.users,
+      expiryTime: new Date(expiryTime).toISOString(),
+    })
+  );
+  res.json(cacheEntries);
 });
 
 // Ensure the uploads directory exists
