@@ -3,7 +3,7 @@ import "./BusinessList.css";
 import BusinessCard from "../BusinessCard/BusinessCard";
 import BusinessListSkeleton from "../BusinessListSkeleton/BusinessListSkeleton";
 
-const BusinessList = ({ selectedCategory }) => {
+const BusinessList = ({ apiEndpoint, selectedCategory }) => {
   const [businesses, setBusinesses] = useState([]);
   const [groupedBusinesses, setGroupedBusinesses] = useState({});
   const [loading, setLoading] = useState(true);
@@ -25,23 +25,21 @@ const BusinessList = ({ selectedCategory }) => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/businesses");
+        const response = await fetch(apiEndpoint);
         const data = await response.json();
         setBusinesses(data);
         groupBusinessesByCategory(data);
       } catch (error) {
         console.error("Error fetching businesses:", error);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
 
     fetchBusinesses();
-  }, []);
+  }, [apiEndpoint]);
 
   const handleLike = async (businessId) => {
-    // Logic for tracking likes
-
     try {
       await fetch("http://localhost:3000/interact", {
         method: "POST",
@@ -56,8 +54,6 @@ const BusinessList = ({ selectedCategory }) => {
   };
 
   const handleSave = async (businessId) => {
-    // Logic for tracking saves
-
     try {
       await fetch("http://localhost:3000/interact", {
         method: "POST",
@@ -72,7 +68,6 @@ const BusinessList = ({ selectedCategory }) => {
   };
 
   const handleClick = async (businessId) => {
-    // Logic for tracking buisness views
     try {
       await fetch("http://localhost:3000/interact", {
         method: "POST",

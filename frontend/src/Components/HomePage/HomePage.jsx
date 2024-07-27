@@ -17,17 +17,18 @@ const HomePage = () => {
 
   const userId = user ? user.id : null;
 
-  const handleSelectBusiness = (business) => {
-    setSelectedBusiness(business);
-  };
-
   return (
     <div className="home-page">
       <MainHeader onCategoryChange={setSelectedCategory} userId={userId} />
       <main>
         {user && <h2>Welcome, {user.name}!</h2>}
         <h2>Discover Local Businesses</h2>
-        <BusinessList selectedCategory={selectedCategory} />
+        {userId && (
+          <BusinessList
+            apiEndpoint={`http://localhost:3000/api/businesses`}
+            selectedCategory={selectedCategory}
+          />
+        )}
       </main>
     </div>
   );
