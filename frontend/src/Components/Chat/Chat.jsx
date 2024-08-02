@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Message from "./Message";
 import "./Chat.css";
 
 const Chat = ({ businessId, reviewId, receiverId }) => {
@@ -7,16 +8,13 @@ const Chat = ({ businessId, reviewId, receiverId }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
-  // Fetch messages from the server
   useEffect(() => {
-    const fetchMessages = async () => {
+    async function fetchMessages() {
       try {
         const response = await fetch(
           `http://localhost:3000/api/messages/${receiverId}/${businessId}/${reviewId}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
@@ -29,7 +27,7 @@ const Chat = ({ businessId, reviewId, receiverId }) => {
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
-    };
+    }
 
     fetchMessages();
   }, [businessId, reviewId, receiverId, token]);
@@ -75,19 +73,22 @@ const Chat = ({ businessId, reviewId, receiverId }) => {
             key={index}
             className={`message ${msg.senderId === user.id ? "sent" : "received"}`}
           >
-            <p>
-              <strong>{msg.senderId === user.id ? "You" : "Them"}:</strong>{" "}
-              {msg.text}
-            </p>
+            <Message msg={msg} currentUser={user} token={token} />
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-      />
-      <button onClick={handleSendMessage}>Send</button>
+      {(messages.length > 0 || user.id !== receiverId) && (
+        <div className="chat-input">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button onClick={handleSendMessage} className="send-button">
+            Send
+          </button>
+        </div>
+      )}
     </div>
   );
 };

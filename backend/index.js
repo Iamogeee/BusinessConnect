@@ -168,7 +168,9 @@ app.post("/logout", (req, res) => {
 // Endpoint for fetching businesses
 app.get("/api/businesses", async (req, res) => {
   try {
-    const businesses = await prisma.business.findMany();
+    const businesses = await prisma.business.findMany({
+      include: { interactions: true },
+    });
     res.json(businesses);
   } catch (error) {
     console.error("Error fetching businesses:", error);
@@ -317,6 +319,9 @@ app.get("/api/businesses/:id", async (req, res) => {
   try {
     const business = await prisma.business.findUnique({
       where: { id: parseInt(id) },
+      include: {
+        interactions: true,
+      },
     });
     if (!business) {
       return res.status(404).json({ error: "Business not found" });
@@ -415,12 +420,20 @@ app.get("/api/favorites/:id", async (req, res) => {
       include: { Business: true },
     });
 
+    // Remove duplicates by businessId and include interactions
     const uniqueBusinesses = Array.from(
       new Set(favorites.map((interaction) => interaction.businessId))
     ).map((businessId) => {
-      return favorites.find(
+      const interaction = favorites.find(
         (interaction) => interaction.businessId === businessId
-      ).Business;
+      );
+      return {
+        ...interaction.Business,
+        interaction: {
+          liked: interaction.liked,
+          saved: interaction.saved,
+        },
+      };
     });
 
     res.json(uniqueBusinesses);
@@ -442,8 +455,16 @@ app.get("/api/saved/:id", async (req, res) => {
     const uniqueBusinesses = Array.from(
       new Set(saved.map((interaction) => interaction.businessId))
     ).map((businessId) => {
-      return saved.find((interaction) => interaction.businessId === businessId)
-        .Business;
+      const interaction = saved.find(
+        (interaction) => interaction.businessId === businessId
+      );
+      return {
+        ...interaction.Business,
+        interaction: {
+          liked: interaction.liked,
+          saved: interaction.saved,
+        },
+      };
     });
 
     res.json(uniqueBusinesses);
@@ -490,6 +511,7 @@ app.get("/recommendations/:id", async (req, res) => {
     const businessPromises = recommendations.map((rec) => {
       return prisma.business.findUnique({
         where: { id: parseInt(rec.businessId) },
+        include: { interactions: true },
       });
     });
 
@@ -539,9 +561,8 @@ app.get(
       const messages = await prisma.message.findMany({
         where: {
           OR: [
-            { senderId, receiverId, businessId, reviewId },
+            { receiverId, businessId, reviewId },
             {
-              senderId: receiverId,
               receiverId: senderId,
               businessId,
               reviewId,

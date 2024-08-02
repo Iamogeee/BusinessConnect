@@ -7,6 +7,7 @@ import ReviewsModal from "../ReviewsModal/ReviewsModal";
 import Modal from "../Modal/Modal";
 import ReviewForm from "../ReviewForm/ReviewForm";
 import BusinessHeader from "../BusinessHeader/BusinessHeader";
+import SideBar from "../SideBar/SideBar";
 import {
   APIProvider,
   Map,
@@ -21,6 +22,7 @@ import BusinessDetailsSkeleton from "../BusinessDetailsSkeleton/BusinessDetailsS
 const BusinessDetails = () => {
   const { id } = useParams();
   const [business, setBusiness] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -30,6 +32,8 @@ const BusinessDetails = () => {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
   const [loading, setLoading] = useState(false);
+
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   useEffect(() => {
     // Fetching the details of the selected business from my backend
@@ -102,88 +106,115 @@ const BusinessDetails = () => {
       .map((coord) => parseFloat(coord.trim()));
     return { lat, lng };
   };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const location = business ? parseLocation(business.location) : null;
 
   return (
-    <div className="business-details">
-      {business && (
-        <>
-          <BusinessHeader
-            name={business.name}
-            description={business.overview}
-            photos={business.photos.map(
-              (photo) =>
-                `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo}&key=${apiKey}`
-            )}
-            rating={business.averageRating}
-            types={business.businessType}
-            contact={business.contactInformation}
-          />
+    <>
+      <header className="nav">
+        <div className="left-section">
           <button
-            className="open-review-form-button"
-            onClick={handleReviewFormOpen}
+            className={`sidebar-button" ${isSidebarOpen ? "open" : ""}`}
+            onClick={toggleSidebar}
           >
-            Write a Review
+            &#9776;
           </button>
-          {showReviewForm && (
-            <Modal onClose={handleReviewFormClose}>
-              <ReviewForm
+        </div>
+        <div className="middle-section"></div>
+        <div className="right-section"></div>
+      </header>
+      <div className="business-details">
+        <SideBar
+          userId={userId}
+          isOpen={isSidebarOpen}
+          onClose={toggleSidebar}
+        />
+        {business && (
+          <>
+            <BusinessHeader
+              name={business.name}
+              description={business.overview}
+              photos={business.photos.map(
+                (photo) =>
+                  `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo}&key=${apiKey}`
+              )}
+              rating={business.averageRating}
+              types={business.businessType}
+              contact={business.contactInformation}
+            />
+            <button
+              className="open-review-form-button"
+              onClick={handleReviewFormOpen}
+            >
+              Write a Review
+            </button>
+            {showReviewForm && (
+              <Modal onClose={handleReviewFormClose}>
+                <ReviewForm
+                  businessId={business.id}
+                  onReviewSubmit={handleReviewSubmit}
+                />
+              </Modal>
+            )}
+            <div className="business-main-content">
+              <div className="business-section business-map">
+                <APIProvider apiKey={apiKey}>
+                  <Map defaultZoom={20} defaultCenter={location} mapId={mapId}>
+                    <AdvancedMarker
+                      ref={markerRef}
+                      position={location}
+                      clickable={true}
+                      onClick={() => setInfoWindowOpen(true)}
+                    >
+                      {infoWindowOpen && (
+                        <InfoWindow
+                          anchor={marker}
+                          onCloseClick={() => setInfoWindowOpen(false)}
+                          position={location}
+                        >
+                          <div className="info-window-content">
+                            <h3>{business.name}</h3>
+                            <div>
+                              {renderRatingIcons(business.averageRating)}
+                            </div>
+
+                            <p>Contact: {business.contactInformation}</p>
+                          </div>
+                        </InfoWindow>
+                      )}
+
+                      <Pin
+                        background={"#FBBC04"}
+                        glyphColor={"#000"}
+                        borderColor={"#000"}
+                      />
+                    </AdvancedMarker>
+                  </Map>
+                </APIProvider>
+              </div>
+              <div className="business-section business-reviews">
+                <BusinessReviews businessId={business.id} reviews={reviews} />
+                <button className="open-modal-button" onClick={handleModalOpen}>
+                  See All Reviews
+                </button>
+              </div>
+              <div className="business-section business-hours">
+                <BusinessHours hours={business.businessHours} />
+              </div>
+            </div>
+            {showModal && (
+              <ReviewsModal
                 businessId={business.id}
-                onReviewSubmit={handleReviewSubmit}
+                onClose={handleModalClose}
               />
-            </Modal>
-          )}
-          <div className="business-main-content">
-            <div className="business-section business-map">
-              <APIProvider apiKey={apiKey}>
-                <Map defaultZoom={20} defaultCenter={location} mapId={mapId}>
-                  <AdvancedMarker
-                    ref={markerRef}
-                    position={location}
-                    clickable={true}
-                    onClick={() => setInfoWindowOpen(true)}
-                  >
-                    {infoWindowOpen && (
-                      <InfoWindow
-                        anchor={marker}
-                        onCloseClick={() => setInfoWindowOpen(false)}
-                        position={location}
-                      >
-                        <div className="info-window-content">
-                          <h3>{business.name}</h3>
-                          <div>{renderRatingIcons(business.averageRating)}</div>
-
-                          <p>Contact: {business.contactInformation}</p>
-                        </div>
-                      </InfoWindow>
-                    )}
-
-                    <Pin
-                      background={"#FBBC04"}
-                      glyphColor={"#000"}
-                      borderColor={"#000"}
-                    />
-                  </AdvancedMarker>
-                </Map>
-              </APIProvider>
-            </div>
-            <div className="business-section business-reviews">
-              <BusinessReviews businessId={business.id} reviews={reviews} />
-              <button className="open-modal-button" onClick={handleModalOpen}>
-                See All Reviews
-              </button>
-            </div>
-            <div className="business-section business-hours">
-              <BusinessHours hours={business.businessHours} />
-            </div>
-          </div>
-          {showModal && (
-            <ReviewsModal businessId={business.id} onClose={handleModalClose} />
-          )}
-        </>
-      )}
-    </div>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

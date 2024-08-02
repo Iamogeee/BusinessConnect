@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 
 const FilterButton = ({ onCategoryChange }) => {
   const [categories, setCategories] = useState([]);
-
+  const formatBusinessTypes = (types) => {
+    return types.map((type) =>
+      type.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
+    );
+  };
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch("http://localhost:3000/api/categories");
@@ -19,7 +23,9 @@ const FilterButton = ({ onCategoryChange }) => {
         <option value="">All Categories</option>
         {categories.map((category, index) => (
           <option key={index} value={category}>
-            {category}
+            {category
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
           </option>
         ))}
       </select>

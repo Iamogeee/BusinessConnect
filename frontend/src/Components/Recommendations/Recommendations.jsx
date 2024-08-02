@@ -104,6 +104,12 @@ const Recommendations = () => {
           onLike={handleLike}
           onSave={handleSave}
           onClick={handleClick}
+          like={business.interactions.some(
+            (interaction) => interaction.userId === user.id && interaction.liked
+          )}
+          save={business.interactions.some(
+            (interaction) => interaction.userId === user.id && interaction.saved
+          )}
         />
       ))}
     </div>

@@ -99,6 +99,8 @@ const FavoriteBusinesses = () => {
           business={business}
           apiKey={apiKey}
           onLike={handleLike}
+          like={business.interaction.liked}
+          save={business.interaction.saved}
           onSave={handleSave}
           onClick={handleClick}
         />

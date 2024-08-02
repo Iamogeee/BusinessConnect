@@ -95,6 +95,8 @@ const SavedBusinesses = () => {
           apiKey={apiKey}
           onLike={handleLike}
           onSave={handleSave}
+          like={business.interaction.liked}
+          save={business.interaction.saved}
           onClick={handleClick}
         />
       ))}
