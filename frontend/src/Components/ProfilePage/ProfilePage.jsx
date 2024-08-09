@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./ProfilePage.css";
 import UserReviews from "../UserReviews/UserReviews";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({
@@ -19,6 +20,7 @@ const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [isLocationLoading, setIsLocationLoading] = useState(true);
   const apiKey = import.meta.env.VITE_MAPS_API_KEY;
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const ProfilePage = () => {
 
     fetchProfile();
   }, []);
+
   useEffect(() => {
     const fetchReviews = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -92,22 +95,26 @@ const ProfilePage = () => {
                   ...prevProfile,
                   location,
                 }));
+                setIsLocationLoading(false); // Set loading state to false after fetching location
               })
-              .catch((error) =>
-                console.error("Error fetching location:", error)
-              );
+              .catch((error) => {
+                console.error("Error fetching location:", error);
+                setIsLocationLoading(false); // Set loading state to false on error
+              });
           },
           (error) => {
             console.error("Error getting geolocation:", error);
+            setIsLocationLoading(false); // Set loading state to false on error
           }
         );
       } else {
         console.error("Geolocation is not supported by this browser.");
+        setIsLocationLoading(false); // Set loading state to false if geolocation is not supported
       }
     };
 
     getLocation();
-  }, []);
+  }, [apiKey]);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -161,7 +168,9 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <button
-        className={`sidebar-button-modern ${isSidebarOpen ? "hidden" : "visible"}`}
+        className={`sidebar-button-modern ${
+          isSidebarOpen ? "hidden" : "visible"
+        }`}
         onClick={() => setIsSidebarOpen(true)}
         aria-label="Open Sidebar"
       >
@@ -180,7 +189,15 @@ const ProfilePage = () => {
         </div>
         <div className="profile-info">
           <h2>{profile.name}</h2>
-          {profile.location && <p>Location: {profile.location}</p>}
+          {isLocationLoading ? (
+            <ClipLoader
+              color={"#123abc"}
+              loading={isLocationLoading}
+              size={35}
+            />
+          ) : (
+            profile.location && <p>Location: {profile.location}</p>
+          )}
           <button
             onClick={() => setIsModalOpen(true)}
             aria-label="Edit profile"
@@ -191,19 +208,16 @@ const ProfilePage = () => {
         <Tabs>
           <TabList>
             <Tab>Bio</Tab>
-
             <Tab>Reviews</Tab>
           </TabList>
-
           <TabPanel>
             <div className="profile-bio">
               <h3>Bio</h3>
-              <p>{profile.bio || "N/A"}</p>
+              <p>{profile.bio || "Write a bio..."}</p>
               <h3>Interests</h3>
-              <p>{profile.interests || "N/A"}</p>
+              <p>{profile.interests || "What are your interests?"}</p>
             </div>
           </TabPanel>
-
           <TabPanel>
             <div className="profile-reviews">
               <UserReviews reviews={reviews} />
@@ -211,7 +225,6 @@ const ProfilePage = () => {
           </TabPanel>
         </Tabs>
       </div>
-
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <form onSubmit={handleSubmit} className="profile-form">
@@ -266,7 +279,6 @@ const ProfilePage = () => {
           </form>
         </Modal>
       )}
-
       <SideBar
         userId={profile.id}
         isOpen={isSidebarOpen}

@@ -91,6 +91,20 @@ const BusinessList = ({ apiEndpoint, selectedCategory }) => {
           onLike={handleLike}
           onSave={handleSave}
           onClick={handleClick}
+          like={
+            business.interaction?.liked ??
+            business.interactions.some(
+              (interaction) =>
+                interaction.userId === user.id && interaction.liked
+            )
+          }
+          save={
+            business.interaction?.saved ??
+            business.interactions.some(
+              (interaction) =>
+                interaction.userId === user.id && interaction.saved
+            )
+          }
         />
       ))}
     </div>
@@ -100,7 +114,11 @@ const BusinessList = ({ apiEndpoint, selectedCategory }) => {
     <>
       {Object.keys(groupedBusinesses).map((category) => (
         <div key={category} className="category-group">
-          <h3>{category}</h3>
+          <h3>
+            {category
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          </h3>
           {renderBusinesses(groupedBusinesses[category])}
         </div>
       ))}
@@ -111,7 +129,11 @@ const BusinessList = ({ apiEndpoint, selectedCategory }) => {
     const businessesInCategory = groupedBusinesses[selectedCategory] || [];
     return (
       <div className="category-group">
-        <h3>{selectedCategory}</h3>
+        <h3>
+          {selectedCategory
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (char) => char.toUpperCase())}
+        </h3>
         {renderBusinesses(businessesInCategory)}
       </div>
     );

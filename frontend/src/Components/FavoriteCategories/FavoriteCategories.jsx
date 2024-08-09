@@ -85,7 +85,9 @@ const FavoriteCategories = () => {
             className={`category-button ${selectedCategories.includes(category) ? "selected" : ""}`}
             onClick={() => toggleCategory(category)}
           >
-            {category}
+            {category
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
           </button>
         ))}
       </div>

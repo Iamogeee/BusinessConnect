@@ -15,12 +15,17 @@ const cache = require("./cache");
 const fs = require("fs");
 const multer = require("multer");
 const axios = require("axios");
+const http = require("http");
+const WebSocket = require("ws");
+const { cos } = require("@tensorflow/tfjs");
 
 const prisma = new PrismaClient();
 const saltRounds = 14;
 const secretKey = process.env.JWT_SECRET;
 const app = express();
-const GeoCode_API_KEY = process.env.API_KEY;
+const GeoCode_API_KEY = process.env.GeoCode_API_KEY;
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ port: 3001 });
 
 app.use(cookieParser());
 app.use(express.json());
@@ -55,6 +60,31 @@ async function geocodeLocation(location) {
   const result = response.data.results[0];
   return result ? result.geometry.location : null;
 }
+// WebSocket connection handling
+wss.on("connection", (ws, req) => {
+  const token = new URLSearchParams(req.url.split("?")[1]).get("token");
+  if (!token) {
+    ws.close();
+    return;
+  }
+
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) {
+      ws.close();
+      return;
+    }
+
+    ws.user = user;
+  });
+});
+
+const notifyUser = (userId, message) => {
+  wss.clients.forEach((client) => {
+    if (client.user && client.user.id === userId) {
+      client.send(JSON.stringify(message));
+    }
+  });
+};
 
 // Landing Page Route
 app.get("/", (req, res) => {
@@ -155,7 +185,9 @@ app.post("/logout", (req, res) => {
 // Endpoint for fetching businesses
 app.get("/api/businesses", async (req, res) => {
   try {
-    const businesses = await prisma.business.findMany();
+    const businesses = await prisma.business.findMany({
+      include: { interactions: true },
+    });
     res.json(businesses);
   } catch (error) {
     console.error("Error fetching businesses:", error);
@@ -328,6 +360,9 @@ app.get("/api/businesses/:id", async (req, res) => {
   try {
     const business = await prisma.business.findUnique({
       where: { id: parseInt(id) },
+      include: {
+        interactions: true,
+      },
     });
     if (!business) {
       return res.status(404).json({ error: "Business not found" });
@@ -361,8 +396,9 @@ app.get("/api/reviews/:businessId", async (req, res) => {
 
 // Save a review
 app.post("/api/reviews", async (req, res) => {
-  const { businessId, rating, reviewText, name, profilePhoto, userId } =
+  const { businessId, rating, reviewText, name, userId, profilePhoto } =
     req.body;
+
   try {
     const review = await prisma.review.create({
       data: {
@@ -425,12 +461,20 @@ app.get("/api/favorites/:id", async (req, res) => {
       include: { Business: true },
     });
 
+    // Remove duplicates by businessId and include interactions
     const uniqueBusinesses = Array.from(
       new Set(favorites.map((interaction) => interaction.businessId))
     ).map((businessId) => {
-      return favorites.find(
+      const interaction = favorites.find(
         (interaction) => interaction.businessId === businessId
-      ).Business;
+      );
+      return {
+        ...interaction.Business,
+        interaction: {
+          liked: interaction.liked,
+          saved: interaction.saved,
+        },
+      };
     });
 
     res.json(uniqueBusinesses);
@@ -452,8 +496,16 @@ app.get("/api/saved/:id", async (req, res) => {
     const uniqueBusinesses = Array.from(
       new Set(saved.map((interaction) => interaction.businessId))
     ).map((businessId) => {
-      return saved.find((interaction) => interaction.businessId === businessId)
-        .Business;
+      const interaction = saved.find(
+        (interaction) => interaction.businessId === businessId
+      );
+      return {
+        ...interaction.Business,
+        interaction: {
+          liked: interaction.liked,
+          saved: interaction.saved,
+        },
+      };
     });
 
     res.json(uniqueBusinesses);
@@ -492,12 +544,80 @@ app.get("/recommendations/:userId", async (req, res) => {
 
   try {
     const recommendations = await recommendBusinesses(userId);
-    res.status(200).json(recommendations);
+    // Fetch the full business data for each recommended business
+    const businessPromises = recommendations.map((rec) => {
+      return prisma.business.findUnique({
+        where: { id: parseInt(rec.id) },
+        include: { interactions: true },
+      });
+    });
+
+    // Wait for all business data fetch promises to resolve
+    const businesses = await Promise.all(businessPromises);
+    res.json(businesses);
   } catch (error) {
     console.error("Error fetching recommendations:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Send a message
+app.post("/api/messages", authenticateToken, async (req, res) => {
+  const { text, receiverId, businessId, reviewId } = req.body;
+  const senderId = req.user.id;
+
+  try {
+    const message = await prisma.message.create({
+      data: {
+        text,
+        senderId,
+        receiverId,
+        businessId: parseInt(businessId),
+        reviewId: parseInt(reviewId),
+      },
+    });
+
+    res.status(201).json(message);
+  } catch (error) {
+    console.error("Error sending message:", error);
+    res.status(500).json({ error: "Failed to send message" });
+  }
+});
+
+// Get messages between two users
+app.get(
+  "/api/messages/:receiverId/:businessId/:reviewId",
+  authenticateToken,
+  async (req, res) => {
+    const senderId = req.user.id;
+    const receiverId = parseInt(req.params.receiverId);
+    const businessId = parseInt(req.params.businessId);
+    const reviewId = parseInt(req.params.reviewId);
+
+    try {
+      const messages = await prisma.message.findMany({
+        where: {
+          OR: [
+            { receiverId, businessId, reviewId },
+            {
+              receiverId: senderId,
+              businessId,
+              reviewId,
+            },
+          ],
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+      });
+
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ error: "Failed to fetch messages" });
+    }
+  }
+);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));

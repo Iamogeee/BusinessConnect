@@ -7,7 +7,9 @@ const FilterButton = ({ onCategoryChange, categories }) => {
         <option value="">All Categories</option>
         {categories.map((category, index) => (
           <option key={index} value={category}>
-            {category}
+            {category
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
           </option>
         ))}
       </select>

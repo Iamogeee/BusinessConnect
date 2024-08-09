@@ -1,26 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
-
-const citiesInCalifornia = [
-  "Los Angeles",
-  "San Diego",
-  "San Jose",
-  "San Francisco",
-  "Fresno",
-  "Sacramento",
-  "Menlo Park",
-  "Palo Alto",
-  "Mountain View",
-  "Sunnyvale",
-];
 
 function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [city, setCity] = useState("");
   const [error, setError] = useState("");
+  const [location, setLocation] = useState("");
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -32,7 +19,7 @@ function SignUp() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password, location: city }),
+        body: JSON.stringify({ name, email, password, location }),
       });
 
       if (!response.ok) {
@@ -53,6 +40,22 @@ function SignUp() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation(`${latitude}, ${longitude}`);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   return (
     <div className="signup-wrapper">
@@ -96,23 +99,7 @@ function SignUp() {
               required
             />
           </div>
-          <div className="input-group">
-            <label htmlFor="city">City</label>
-            <select
-              id="city"
-              name="city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              required
-            >
-              <option value="">Select your city</option>
-              {citiesInCalifornia.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
+
           <button type="submit" className="signup-button">
             SIGN UP
           </button>

@@ -3,9 +3,17 @@ import { useNavigate } from "react-router-dom";
 import "./BusinessCard.css";
 import defaultPhoto from "../../assets/businessPlaceholder.jpeg";
 
-const BusinessCard = ({ business, apiKey, onLike, onSave, onClick }) => {
-  const [liked, setLiked] = useState(false);
-  const [saved, setSaved] = useState(false);
+const BusinessCard = ({
+  business,
+  apiKey,
+  onLike,
+  onSave,
+  onClick,
+  like,
+  save,
+}) => {
+  const [liked, setLiked] = useState(like);
+  const [saved, setSaved] = useState(save);
   const navigate = useNavigate();
 
   const handleDetailsClick = () => {
